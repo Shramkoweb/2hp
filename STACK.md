@@ -25,6 +25,7 @@ Status: decided 2026-10-25, nothing installed yet.
 - Install the latest versions. pnpm's release-age gate keeps every package at least 7 days old.
 - `typescript` stays on 6 until `@astrojs/check` and typescript-eslint support TS 7.
 - `@playwright/test` and the Playwright Docker image tag always change together.
+- Updates are manual, with npm-check-updates. It reads `minimumReleaseAge` from `pnpm-workspace.yaml` by itself. `.ncurc.json` rejects `typescript`. There is no update bot.
 
 ## 3. Astro rules
 
