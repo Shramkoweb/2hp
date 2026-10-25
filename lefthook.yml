@@ -1,0 +1,23 @@
+pre-commit:
+  piped: true
+  jobs:
+    - name: prettier
+      glob: "*.{astro,ts,js,mjs,css,json,md,yml,yaml}"
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+    - name: eslint
+      glob: "*.{astro,ts,js,mjs}"
+      run: pnpm exec eslint --fix --max-warnings 0 {staged_files}
+      stage_fixed: true
+    - name: stylelint
+      glob: "*.css"
+      run: pnpm exec stylelint --fix --max-warnings 0 {staged_files}
+      stage_fixed: true
+
+pre-push:
+  piped: true
+  jobs:
+    - name: audit
+      run: pnpm audit --audit-level high
+    - name: check
+      run: pnpm check

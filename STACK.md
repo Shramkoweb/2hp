@@ -6,25 +6,26 @@ Status: decided 2026-10-25, nothing installed yet.
 
 ## 1. Stack
 
-| Area | Pick | Why |
-|---|---|---|
-| Framework | Astro 7, static output | Content site, zero JS by default, `.astro` is close to the reference HTML |
-| Styling | Tailwind v4, CSS-first | `@theme { --*: initial; }` makes default utilities impossible |
-| Language | TypeScript 6 | See section 2 |
-| Runtime | Node 26 LTS | |
-| Package manager | pnpm | Release-age gating and build-script blocking on by default |
-| Lint | ESLint with the Astro and better-tailwindcss plugins | The only linter that checks Tailwind classes inside `.astro` templates against our theme; Biome and Oxlint cannot |
-| Format | Prettier with the Astro and Tailwind plugins | |
-| CSS lint | Stylelint | Bans colour literals outside the theme |
-| Repo hygiene | Knip, lefthook, EditorConfig | |
-| Tests | Playwright only: pixel diffs, aria snapshots, axe | No Storybook, no hosted visual service |
-| Agent docs | Context7, Astro Docs MCP | Tailwind has no MCP or `llms.txt` |
+| Area            | Pick                                                 | Why                                                                                                               |
+| --------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Framework       | Astro 7, static output                               | Content site, zero JS by default, `.astro` is close to the reference HTML                                         |
+| Styling         | Tailwind v4, CSS-first                               | `@theme { --*: initial; }` makes default utilities impossible                                                     |
+| Language        | TypeScript 6                                         | See section 2                                                                                                     |
+| Runtime         | Node 26 LTS                                          |                                                                                                                   |
+| Package manager | pnpm                                                 | Release-age gating and build-script blocking on by default                                                        |
+| Lint            | ESLint with the Astro and better-tailwindcss plugins | The only linter that checks Tailwind classes inside `.astro` templates against our theme; Biome and Oxlint cannot |
+| Format          | Prettier with the Astro and Tailwind plugins         |                                                                                                                   |
+| CSS lint        | Stylelint                                            | Bans colour literals outside the theme                                                                            |
+| Repo hygiene    | Knip, lefthook, EditorConfig                         |                                                                                                                   |
+| Tests           | Playwright only: pixel diffs, aria snapshots, axe    | No Storybook, no hosted visual service                                                                            |
+| Agent docs      | Context7, Astro Docs MCP                             | Tailwind has no MCP or `llms.txt`                                                                                 |
 
 ## 2. Versions
 
 - Install the latest versions. pnpm's release-age gate keeps every package at least 7 days old.
 - `typescript` stays on 6 until `@astrojs/check` and typescript-eslint support TS 7.
 - `@playwright/test` and the Playwright Docker image tag always change together.
+- `lefthook` is pinned to 2.2.1, because 2.2.2 was published by hand without provenance. Move to the next release published by trusted publishing.
 - Updates are manual, with npm-check-updates. It reads `minimumReleaseAge` from `pnpm-workspace.yaml` by itself. `.ncurc.json` rejects `typescript`. There is no update bot.
 
 ## 3. Astro rules
@@ -37,10 +38,15 @@ Status: decided 2026-10-25, nothing installed yet.
 ## 4. Tooling
 
 - **`pnpm check` is the definition of done**, for people, hooks and CI alike.
-  - It runs format check, lint, CSS lint, token lint, typecheck, knip, build and Playwright, in that order, and stops at the first failure.
-  - An agent mode prints one short line per failure, plus diff image paths.
+  - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip, build and Playwright, in that order. It stops at the first failure.
+  - Write a script only when a step needs logic that a chain cannot express.
+- **ESLint is type-aware:** typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`. `.astro` files use `project: true`, because the Astro parser does not support `projectService`.
 - **Every tool ignores `twohour-project/`.**
-- **lefthook:** pre-commit formats and lints staged files; pre-push runs `pnpm check`.
+- **lefthook:**
+  - pre-commit formats and lints the staged files;
+  - pre-push runs `pnpm audit --audit-level high` and then `pnpm check`;
+  - its postinstall script is denied; the `prepare` script installs the hooks instead.
+- **No `eslint-plugin-jsx-a11y`.** It does not support ESLint 10. Accessibility is covered by axe and the aria snapshots.
 
 ## 5. Design system enforcement
 
@@ -52,6 +58,7 @@ Four layers, each catching what the previous one misses:
 4. **A token-lint script:** fails on hex, rgb, hsl or raw `px` outside `theme.css` in any source file, including Markdown.
 
 Port rules:
+
 - **Same tokens, same values.** The 29 tokens from `twohour-project/site/styles.css` keep their values. They are renamed only into Tailwind namespaces (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--ease-*`, `--breakpoint-*`).
 - **Exact breakpoints.** The reference uses `max-width: 700px` and `max-width: 1100px`, which means ≤. Tailwind's `max-*` means `<`. Define exact variants with `@custom-variant`.
 - **The `style` attribute stays allowed.** The name and the charts set `--i` and `--b` per element.
@@ -81,11 +88,13 @@ Port rules:
 ## 7. Agent harness
 
 **Instructions**
+
 - AGENTS.md is the single source. CLAUDE.md imports it and adds only Claude-specific notes.
 - Keep both short. A rule that a hook can enforce goes into a hook, not prose.
 - Knowledge goes in AGENTS.md; procedures go in skills. Agents do not reliably trigger skills on their own.
 
 **Guards**
+
 - **Baselines are human-only.** Agents cannot update snapshots, edit the screenshots folder, or touch `twohour-project/`.
 - **The test harness is protected.** Agents cannot edit the Playwright config or the check scripts.
 - **After every edit**, the file is formatted and linted, and findings go back to the agent as context without ending its turn.
@@ -101,12 +110,14 @@ Port rules:
 **Frame:** OWASP Top 10:2025 A03 (Software Supply Chain Failures) and the OWASP Top 10 for Agentic Applications. The rest of the OWASP web Top 10 targets server code. It applies once the site has server routes.
 
 **Threats, most likely first:**
+
 1. **A malicious npm release.** Examples: the Shai-Hulud worms (2025–2026) and keyv 6.0.0 (Aug 2026). Signed provenance does not mean safe: the malicious TanStack releases carried valid provenance. The release-age cooldown is what stops most of these.
 2. **An agent that installs, runs or persists something:** ad-hoc package runners, edited Claude Code hooks, `.vscode` tasks. Mini Shai-Hulud persisted through exactly these.
 3. **Secrets on the dev machine and in CI.**
 4. **Untrusted content rendered as HTML** (later, with the blog).
 
 **Dependencies**
+
 - A new dependency needs the owner's yes. Before asking, the agent reviews it:
   - is there a platform feature or an existing dependency that does the job;
   - the package's age, maintainers and downloads;
@@ -117,6 +128,7 @@ Port rules:
 - `pnpm audit` at high and critical runs on pre-push and in CI.
 
 **Agents**
+
 - **Forbidden commands:** `npx`, `pnpm dlx`, `curl`, `wget`. Agents cannot read `.env` files.
 - **Owner-only files:** after step 5, agents cannot edit `.claude/settings*`, `.claude/hooks/`, `.vscode/`, the lefthook config or CI workflows. The owner changes these by hand.
 - **Use deny rules and hooks, not ask prompts.** Bypass-permissions mode skips prompts.
@@ -124,6 +136,7 @@ Port rules:
 - **Security review before commit** for any diff that touches dependencies, the lockfile, `.claude/`, hooks or CI.
 
 **Secrets**
+
 - None in the repo.
 - `.env*` files are ignored by git and unreadable to agents.
 - GitHub secret scanning and push protection go on when the remote is set up.
@@ -131,6 +144,7 @@ Port rules:
 **Content:** no `set:html` or `innerHTML` with anything not authored in this repo.
 
 **Later steps:**
+
 - **CI:** actions pinned by commit SHA, read-only workflow permissions by default, no `pull_request_target`.
 - **Deploy:** CSP, Trusted Types and security headers.
 
@@ -150,6 +164,7 @@ Each step is one commit to `main`, made after the owner's review. No step starts
    3. The numbers.
    4. Wins & flops, and Writing.
    5. Follow along and footer. Full pages and the aria snapshot must now match too.
+7. **Retire the sandbox:** remove every `twohour-project` reference from the repo: ignore lists, the tsconfig exclude, agent guards, test configs, this file. `git grep twohour-project` must come back empty.
 
 ## 10. Still to verify
 
