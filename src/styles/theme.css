@@ -1,0 +1,97 @@
+@theme static {
+  --*: initial;
+
+  --font-show: "Oi", "Oi Fallback", "Arial Black", sans-serif;
+  --font-text:
+    "Bricolage", "Bricolage Fallback", system-ui, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
+  --font-hand:
+    "Shantell", "Shantell Fallback", "Segoe Print", "Comic Sans MS", cursive;
+
+  --spacing-pad: clamp(16px, 4vw, 56px);
+  --spacing-nav-h: 64px;
+  --spacing-hero-top: 36px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 40px;
+  --spacing-7: 64px;
+  --spacing-8: 128px;
+  --spacing-col-2: 136px;
+
+  --text-name: min(9.4rem, calc((100vw - 2 * var(--spacing-pad)) / 7.2), 15svh);
+  --text-h2: clamp(2.4rem, 1.4rem + 3vw, 4rem);
+  --text-strap: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
+  --text-h3: 1.75rem;
+  --text-h4: 1.5rem;
+  --text-body: 1.1875rem;
+  --text-small: 1rem;
+  --text-meta: 0.9375rem;
+  --text-note: 1.0625rem;
+
+  --radius-plate: 22px;
+  --radius-btn: 14px;
+  --radius-field: 12px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: linear(
+    0,
+    0.42 9%,
+    0.84 21%,
+    1.02 33%,
+    1.05 41%,
+    1.01 55%,
+    0.99 70%,
+    1
+  );
+}
+
+:root {
+  --white: #fff;
+  --neutral-50: #fbfcff;
+  --neutral-700: #3d4152;
+  --neutral-950: #14161f;
+  --blue-100: #dce6ff;
+  --blue-300: #8eaeff;
+  --blue-500: #4c74f2;
+  --blue-600: #2b55f0;
+  --blue-700: #2546c4;
+
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-950);
+  --muted-foreground: var(--neutral-700);
+  --primary: var(--blue-600);
+  --primary-foreground: var(--white);
+  --accent: var(--blue-100);
+  --ring: var(--blue-600);
+  --chart: var(--blue-500);
+  --pencil: var(--blue-300);
+  --annotation: var(--blue-700);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-ring: var(--ring);
+  --color-chart: var(--chart);
+  --color-pencil: var(--pencil);
+  --color-annotation: var(--annotation);
+}
+
+@media (width <= 700px) {
+  :root {
+    --spacing-nav-h: 56px;
+    --spacing-hero-top: 24px;
+    --spacing-8: 96px;
+  }
+}
+
+@custom-variant max-lg (@media (width <= 1100px));
+@custom-variant max-sm (@media (width <= 700px));
+@custom-variant xl (@media (width >= 1280px));

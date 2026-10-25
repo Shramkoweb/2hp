@@ -22,9 +22,10 @@
     "format:check": "prettier --check --cache --log-level warn .",
     "lint": "eslint --cache --max-warnings 0 .",
     "lint:css": "stylelint --cache --allow-empty-input --max-warnings 0 \"src/**/*.css\"",
+    "lint:tokens": "! grep -rnE --exclude=theme.css \"#[0-9a-fA-F]{3,8}\\b|\\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\(|var\\(--(white|neutral-[0-9]+|blue-[0-9]+)\\)\" src",
     "typecheck": "astro check",
     "knip": "knip --no-progress",
-    "check": "pnpm format:check && pnpm lint && pnpm lint:css && pnpm typecheck && pnpm knip && pnpm build"
+    "check": "pnpm format:check && pnpm lint && pnpm lint:css && pnpm lint:tokens && pnpm typecheck && pnpm knip && pnpm build"
   },
   "dependencies": {
     "astro": "^7.4.0"
@@ -32,14 +33,17 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.3",
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^3.2.1",
+    "eslint-plugin-better-tailwindcss": "^4.9.1",
     "knip": "^6.42.0",
     "lefthook": "2.2.1",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "stylelint": "^17.16.0",
     "stylelint-config-standard": "^40.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.71.2"
   }

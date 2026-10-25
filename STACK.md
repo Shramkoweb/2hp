@@ -6,19 +6,19 @@ Status: decided 2026-10-25, nothing installed yet.
 
 ## 1. Stack
 
-| Area            | Pick                                                 | Why                                                                                                               |
-| --------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Framework       | Astro 7, static output                               | Content site, zero JS by default, `.astro` is close to the reference HTML                                         |
-| Styling         | Tailwind v4, CSS-first                               | `@theme { --*: initial; }` makes default utilities impossible                                                     |
-| Language        | TypeScript 6                                         | See section 2                                                                                                     |
-| Runtime         | Node 26 LTS                                          |                                                                                                                   |
-| Package manager | pnpm                                                 | Release-age gating and build-script blocking on by default                                                        |
-| Lint            | ESLint with the Astro and better-tailwindcss plugins | The only linter that checks Tailwind classes inside `.astro` templates against our theme; Biome and Oxlint cannot |
-| Format          | Prettier with the Astro and Tailwind plugins         |                                                                                                                   |
-| CSS lint        | Stylelint                                            | Bans colour literals outside the theme                                                                            |
-| Repo hygiene    | Knip, lefthook, EditorConfig                         |                                                                                                                   |
-| Tests           | Playwright only: pixel diffs, aria snapshots, axe    | No Storybook, no hosted visual service                                                                            |
-| Agent docs      | Context7, Astro Docs MCP                             | Tailwind has no MCP or `llms.txt`                                                                                 |
+| Area            | Pick                                                  | Why                                                                                                               |
+| --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Framework       | Astro 7, static output                                | Content site, zero JS by default, `.astro` is close to the reference HTML                                         |
+| Styling         | Tailwind v4, CSS-first                                | `@theme { --*: initial; }` makes default utilities impossible                                                     |
+| Language        | TypeScript 6                                          | See section 2                                                                                                     |
+| Runtime         | Node 26 LTS                                           |                                                                                                                   |
+| Package manager | pnpm                                                  | Release-age gating and build-script blocking on by default                                                        |
+| Lint            | ESLint with the Astro and better-tailwindcss plugins  | The only linter that checks Tailwind classes inside `.astro` templates against our theme; Biome and Oxlint cannot |
+| Format          | Prettier with the Astro plugin; class order in ESLint |                                                                                                                   |
+| CSS lint        | Stylelint                                             | Bans colour literals outside the theme                                                                            |
+| Repo hygiene    | Knip, lefthook, EditorConfig                          |                                                                                                                   |
+| Tests           | Playwright only: pixel diffs, aria snapshots, axe     | No Storybook, no hosted visual service                                                                            |
+| Agent docs      | Context7, Astro Docs MCP                              | Tailwind has no MCP or `llms.txt`                                                                                 |
 
 ## 2. Versions
 
@@ -50,17 +50,52 @@ Status: decided 2026-10-25, nothing installed yet.
 
 ## 5. Design system enforcement
 
+**Colours have two tiers, following the shadcn convention:**
+
+- **Primitives** (`--white`, `--neutral-*`, `--blue-*`) live in `:root` and create no classes.
+- **Semantic tokens** (`--background`, `--foreground`, `--muted-foreground`, `--primary`, `--primary-foreground`, `--accent`, `--ring`, `--chart`, `--pencil`, `--annotation`) point at primitives. `@theme inline` turns them into classes such as `bg-primary`.
+- **Components use semantic tokens only:** classes, or `var(--primary)` in component CSS.
+- **A dark theme or a rebrand only changes semantic values.**
+- **Hex stays until the cleanup,** because converting to OKLCH could shift a colour by a rounding step.
+- **`annotation` is not called `note`,** because `text-note` is already the note font size.
+
 Four layers, each catching what the previous one misses:
 
-1. **Tailwind:** `@theme { --*: initial; }`, so `bg-blue-500` does not exist.
-2. **ESLint:** unknown classes are errors. Arbitrary values and `(--var)` shorthands are warnings during the port, because non-token values are parked there until cleanup. After cleanup they become errors.
+1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist, and `p-9` does not exist either, because the spacing scale is named. There is no preflight, so the port matches the reference, which has none.
+2. **ESLint (`better-tailwindcss`):**
+   - Errors: unknown classes, arbitrary values and `(--var)` shorthands.
+   - Also errors, and autofixed: class order, duplicate classes and extra whitespace.
+   - Class order lives in ESLint rather than in a Prettier plugin, because `prettier-plugin-tailwindcss` cannot sort `.astro` with `prettier-plugin-astro` 1.x.
+   - The port (step 6) decides how to hold values that have no token yet.
 3. **Stylelint:** no colour literals outside `src/styles/theme.css`.
-4. **A token-lint script:** fails on hex, rgb, hsl or raw `px` outside `theme.css` in any source file, including Markdown.
+4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown. It fails on:
+   - hex colours and colour functions;
+   - `var()` of a colour primitive.
+
+   A raw `px` ban joins it after the token cleanup.
 
 Port rules:
 
-- **Same tokens, same values.** The 29 tokens from `twohour-project/site/styles.css` keep their values. They are renamed only into Tailwind namespaces (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--ease-*`, `--breakpoint-*`).
-- **Exact breakpoints.** The reference uses `max-width: 700px` and `max-width: 1100px`, which means ≤. Tailwind's `max-*` means `<`. Define exact variants with `@custom-variant`.
+- **Same values, new names.** Every `:root` token from `twohour-project/site/styles.css` keeps its value. The reference's 700px overrides stay as a media query in `theme.css`. The name map:
+
+  | Reference                                                    | Token                                                                                        |
+  | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+  | `--paper`                                                    | `background`                                                                                 |
+  | `--ink`                                                      | `foreground`                                                                                 |
+  | `--ink-2`                                                    | `muted-foreground`                                                                           |
+  | `--accent`                                                   | `primary`, and `ring` for focus outlines                                                     |
+  | `--accent-ink`                                               | `primary-foreground`                                                                         |
+  | `--tint`                                                     | `accent`                                                                                     |
+  | `--chart`                                                    | `chart`                                                                                      |
+  | `--pencil`                                                   | `pencil`                                                                                     |
+  | `--pencil-ink`                                               | `annotation`                                                                                 |
+  | `--f-show`, `--f-text`, `--f-hand`                           | `font-show`, `font-text`, `font-hand`                                                        |
+  | `--pad`, `--nav-h`, `--hero-top`, `--s-1`…`--s-8`, `--col-2` | `spacing-pad`, `spacing-nav-h`, `spacing-hero-top`, `spacing-1`…`spacing-8`, `spacing-col-2` |
+  | `--t-*`                                                      | `text-*`                                                                                     |
+  | `--r-plate`, `--r-btn`, `--r-field`                          | `radius-plate`, `radius-btn`, `radius-field`                                                 |
+  | `--ease-out`, `--spring`                                     | `ease-out`, `ease-spring`                                                                    |
+
+- **Exact breakpoints.** The reference uses `max-width: 700px` and `max-width: 1100px`, which mean ≤, while Tailwind's built-in `max-*` means `<`. `theme.css` defines `max-sm` (≤ 700px), `max-lg` (≤ 1100px) and `xl` (≥ 1280px) with `@custom-variant`.
 - **The `style` attribute stays allowed.** The name and the charts set `--i` and `--b` per element.
 - **JS hooks use `data-*` attributes**, not classes.
 
@@ -80,8 +115,15 @@ Port rules:
   - Windows 150%;
   - reduced motion;
   - forced colors;
-  - states: hover, focus-visible, sound off, the scrolled header, the form after submit;
+  - states: one shot for every state selector in the reference CSS (`:hover`, `:focus-visible`, `[aria-pressed]`, `.scrolled`, `.boing` and so on), derived from `styles.css` rather than picked by hand, so no styled state goes untested; plus the form after submit;
   - one shot per section, so the port can be checked section by section.
+- **Behaviour tests for `main.js`:**
+  - the sound toggle (`aria-pressed`, and the saved choice surviving a reload);
+  - the header's scroll class;
+  - charts drawing when scrolled into view, and skipped under reduced motion;
+  - the plate click;
+  - the mail form status line.
+- **Head snapshot:** `lang`, title, meta description, viewport, font preloads.
 - **Aria snapshots** must match exactly, not as a subset.
 - **axe** checks WCAG 2.2 AA. On the reference it is a report for the owner, not a gate, because the design is frozen.
 
@@ -155,7 +197,7 @@ Each step is one commit to `main`, made after the owner's review. No step starts
 0. **Docs and ignore:** this file, and `.gitignore` with the whole `twohour-project/` ignored.
 1. **Astro foundation:** Node and pnpm pinned, a hardened pnpm config, Astro with a placeholder page. Done when build and typecheck pass.
 2. **Formatting and base lint:** Prettier, ESLint, Stylelint, Knip, EditorConfig, lefthook with `pnpm audit` on pre-push, the first `pnpm check`. Done when it passes and a deliberately broken file fails each tool.
-3. **Tailwind and the theme:** the theme with the 29 tokens, the Tailwind lint rules, the colour bans, token lint. Done when `bg-paper` passes and `bg-blue-500` and `#fff` fail.
+3. **Tailwind and the theme:** the theme with every reference token, the Tailwind lint rules, the colour bans, token lint. Done when `bg-paper` passes and `bg-blue-500` and `#fff` fail.
 4. **Tests and reference baselines:** everything in section 6, against `twohour-project/site/`. Done when three runs in a row show zero diff.
 5. **Agent harness:** everything in section 7, plus the agent rules and the dependency review from section 8. Done when each guard is shown to work, including a blocked `npx` and a blocked edit to `.claude/hooks/`.
 6. **The port, one section per commit.** Each part is done when its shots show zero diff at every width and in every state.
@@ -163,8 +205,15 @@ Each step is one commit to `main`, made after the owner's review. No step starts
    2. Hero.
    3. The numbers.
    4. Wins & flops, and Writing.
-   5. Follow along and footer. Full pages and the aria snapshot must now match too.
+   5. Follow along and footer. Full pages and the aria snapshot must now match too. Then a fresh agent, given only the reference files and the port, lists anything in the reference that no test covers and the port lacks.
 7. **Retire the sandbox:** remove every `twohour-project` reference from the repo: ignore lists, the tsconfig exclude, agent guards, test configs, this file. `git grep twohour-project` must come back empty.
+8. **Token cleanup, one approved decision per commit.**
+   - Inputs:
+     - the arbitrary-value warnings, which list every non-token value;
+     - an audit of the computed styles on the rendered page: values outside tokens, unused tokens, duplicates, near-duplicates (colours within ΔE 3, sizes within 2px).
+   - The owner approves each item. The visual diff of a commit must show that change and nothing else. Baselines are updated only after approval.
+   - Done when there are no arbitrary-value warnings and the rule is an error.
+9. **DESIGN.md:** which token to use when, the components and their states. Only token names, never values.
 
 ## 10. Still to verify
 
