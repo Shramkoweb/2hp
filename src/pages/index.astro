@@ -7,6 +7,8 @@ import SiteHeader from "../components/SiteHeader.astro";
 import Sprite from "../components/Sprite.astro";
 import Wins from "../components/Wins.astro";
 import Writing from "../components/Writing.astro";
+import bricolage from "../assets/fonts/bricolage.woff2?url";
+import oi from "../assets/fonts/oi.woff2?url";
 import "../styles/global.css";
 ---
 
@@ -20,16 +22,10 @@ import "../styles/global.css";
       name="description"
       content="Serhii Shramko, an indie developer in Boston, builds small apps in public and posts the real numbers: users, weekly installs and ratings."
     />
+    <link rel="preload" href={oi} as="font" type="font/woff2" crossorigin />
     <link
       rel="preload"
-      href="/fonts/oi.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/fonts/bricolage.woff2"
+      href={bricolage}
       as="font"
       type="font/woff2"
       crossorigin

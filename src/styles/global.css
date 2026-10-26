@@ -13,13 +13,13 @@
 
 @font-face {
   font-family: Oi;
-  src: url("/fonts/oi.woff2") format("woff2");
+  src: url("../assets/fonts/oi.woff2") format("woff2");
   font-display: swap;
 }
 
 @font-face {
   font-family: Bricolage;
-  src: url("/fonts/bricolage.woff2") format("woff2");
+  src: url("../assets/fonts/bricolage.woff2") format("woff2");
   font-weight: 200 800;
   font-stretch: 75% 100%;
   font-display: swap;
@@ -27,7 +27,7 @@
 
 @font-face {
   font-family: Shantell;
-  src: url("/fonts/shantell.woff2") format("woff2");
+  src: url("../assets/fonts/shantell.woff2") format("woff2");
   font-weight: 300 800;
   font-display: swap;
 }
