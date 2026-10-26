@@ -133,7 +133,7 @@
 
 .others {
   list-style: none;
-  margin: var(--spacing-6) 0 0;
+  margin: calc(var(--spacing) * 10) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;

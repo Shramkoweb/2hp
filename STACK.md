@@ -64,7 +64,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 
 Four layers, each catching what the previous one misses:
 
-1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist, and `p-9` does not exist either, because the spacing scale is named. There is no preflight; `global.css` sets the few base rules the page needs.
+1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist. Spacing is Tailwind's numeric scale on a 4px base (`p-4.5` is 18px); the named spacing tokens are semantic: `pad`, `nav-h`, `hero-top`, `section` and `col-2`. There is no preflight; `global.css` sets the few base rules the page needs.
 2. **ESLint (`better-tailwindcss`):**
    - Errors: unknown classes, arbitrary values and `(--var)` shorthands.
    - Also errors, and autofixed: class order, duplicate classes and extra whitespace.

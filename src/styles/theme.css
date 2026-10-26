@@ -12,17 +12,11 @@
   --font-hand:
     "Shantell", "Shantell Fallback", "Segoe Print", "Comic Sans MS", cursive;
 
+  --spacing: 4px;
   --spacing-pad: clamp(16px, 4vw, 56px);
-  --spacing-nav-h: 64px;
-  --spacing-hero-top: 36px;
-  --spacing-1: 4px;
-  --spacing-2: 8px;
-  --spacing-3: 12px;
-  --spacing-4: 16px;
-  --spacing-5: 24px;
-  --spacing-6: 40px;
-  --spacing-7: 64px;
-  --spacing-8: 128px;
+  --spacing-nav-h: 56px;
+  --spacing-hero-top: 24px;
+  --spacing-section: 96px;
   --spacing-col-2: 136px;
 
   --text-name: min(9.4rem, calc((100vw - 2 * var(--spacing-pad)) / 7.2), 15svh);
@@ -101,10 +95,10 @@
   --color-annotation: var(--annotation);
 }
 
-@media (width < 768px) {
+@media (width >= 768px) {
   :root {
-    --spacing-nav-h: 56px;
-    --spacing-hero-top: 24px;
-    --spacing-8: 96px;
+    --spacing-nav-h: 64px;
+    --spacing-hero-top: 36px;
+    --spacing-section: 128px;
   }
 }

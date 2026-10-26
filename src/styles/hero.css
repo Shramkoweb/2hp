@@ -13,7 +13,7 @@
   grid-column: 1 / -1;
   font: 400 var(--text-name) / 0.92 var(--font-show);
   letter-spacing: -0.01em;
-  margin: 0 0 var(--spacing-6);
+  margin: 0 0 calc(var(--spacing) * 10);
 }
 
 .name .w {
@@ -327,7 +327,7 @@ a.plate:hover {
   }
 
   .copy {
-    margin-bottom: var(--spacing-7);
+    margin-bottom: calc(var(--spacing) * 16);
   }
 
   .shelf {
@@ -345,7 +345,7 @@ a.plate:hover {
   }
 
   .name {
-    margin-bottom: var(--spacing-5);
+    margin-bottom: calc(var(--spacing) * 6);
   }
 
   .strap {
@@ -358,7 +358,7 @@ a.plate:hover {
   }
 
   .copy {
-    margin-bottom: var(--spacing-6);
+    margin-bottom: calc(var(--spacing) * 10);
   }
 
   .shelf {
