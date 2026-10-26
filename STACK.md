@@ -38,7 +38,9 @@ Status: decided 2026-10-25, nothing installed yet.
 ## 4. Tooling
 
 - **`pnpm check` is the definition of done**, for people, hooks and CI alike.
-  - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip, build and Playwright, in that order. It stops at the first failure.
+  - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Playwright joins it in step 6, once there is a port to compare.
+  - ESLint runs without `--cache`, because type-aware results depend on other files and the cache only watches the linted file.
+  - `pnpm test:e2e` runs Playwright in the pinned Docker image. `TARGET=reference` points it at the reference instead of `dist/`.
   - Write a script only when a step needs logic that a chain cannot express.
 - **ESLint is type-aware:** typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`. `.astro` files use `project: true`, because the Astro parser does not support `projectService`.
 - **Every tool ignores `twohour-project/`.**
@@ -95,7 +97,10 @@ Port rules:
   | `--r-plate`, `--r-btn`, `--r-field`                          | `radius-plate`, `radius-btn`, `radius-field`                                                 |
   | `--ease-out`, `--spring`                                     | `ease-out`, `ease-spring`                                                                    |
 
-- **Exact breakpoints.** The reference uses `max-width: 700px` and `max-width: 1100px`, which mean ≤, while Tailwind's built-in `max-*` means `<`. `theme.css` defines `max-sm` (≤ 700px), `max-lg` (≤ 1100px) and `xl` (≥ 1280px) with `@custom-variant`.
+- **Breakpoints (owner's decision, 2026-10-25, from US device data):**
+  - phone below 768 (designed at 390), tablet 768–1023, desktop 1024–1439, wide from 1440;
+  - `theme.css` sets them as `md`, `lg` and `xl` in px; the reference CSS was moved to the same edges (767, 1023, 1440), so `max-md:` and `max-lg:` match it exactly;
+  - the pencil note beside the name shows only on wide screens.
 - **The `style` attribute stays allowed.** The name and the charts set `--i` and `--b` per element.
 - **JS hooks use `data-*` attributes**, not classes.
 
@@ -107,15 +112,16 @@ Port rules:
 - **Determinism:**
   - animations disabled;
   - fonts loaded before the shot;
-  - time frozen;
-  - the `AudioContext` never started;
-  - charts scrolled into view first (an IntersectionObserver draws them).
+  - smooth scrolling switched off, because a scroll still in motion shifts elements by a fraction of a pixel;
+  - clips for hover and press measured before the interaction, because the element moves during it;
+  - charts scrolled into view first, because an IntersectionObserver draws them.
+- **Selectors are roles and accessible names,** not class names, so the same tests run on the reference and on the port.
 - **Coverage:**
-  - full pages at 320, 390, 768, 1280 and 1440;
-  - Windows 150%;
-  - reduced motion;
-  - forced colors;
-  - states: one shot for every state selector in the reference CSS (`:hover`, `:focus-visible`, `[aria-pressed]`, `.scrolled`, `.boing` and so on), derived from `styles.css` rather than picked by hand, so no styled state goes untested; plus the form after submit;
+  - full pages and every section at 390, 768, 1024 and 1440 (one per tier) and 320 (the smallest phone). Tier edges need no widths of their own, because breakpoints live only in the theme and arbitrary variants are lint errors;
+  - Windows 150% at 1280×610;
+  - reduced motion and forced colors at 1440;
+  - states at 1440: one shot for every state selector in the reference CSS (`:hover`, `:active`, `:focus-visible`, `[aria-pressed]`, `.scrolled`), derived from `styles.css` rather than picked by hand; plus the form after submit. `.posts h3 a:hover` has no element yet, because the posts are drafts without links;
+  - the focus order of every focusable element, with a shot of its ring;
   - one shot per section, so the port can be checked section by section.
 - **Behaviour tests for `main.js`:**
   - the sound toggle (`aria-pressed`, and the saved choice surviving a reload);

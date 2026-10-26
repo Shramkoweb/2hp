@@ -1,6 +1,10 @@
 @theme static {
   --*: initial;
 
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
   --font-show: "Oi", "Oi Fallback", "Arial Black", sans-serif;
   --font-text:
     "Bricolage", "Bricolage Fallback", system-ui, "Segoe UI", Roboto,
@@ -84,14 +88,10 @@
   --color-annotation: var(--annotation);
 }
 
-@media (width <= 700px) {
+@media (width < 768px) {
   :root {
     --spacing-nav-h: 56px;
     --spacing-hero-top: 24px;
     --spacing-8: 96px;
   }
 }
-
-@custom-variant max-lg (@media (width <= 1100px));
-@custom-variant max-sm (@media (width <= 700px));
-@custom-variant xl (@media (width >= 1280px));

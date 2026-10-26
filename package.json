@@ -20,11 +20,12 @@
     "preview": "astro preview",
     "format": "prettier --write --cache .",
     "format:check": "prettier --check --cache --log-level warn .",
-    "lint": "eslint --cache --max-warnings 0 .",
+    "lint": "eslint --max-warnings 0 .",
     "lint:css": "stylelint --cache --allow-empty-input --max-warnings 0 \"src/**/*.css\"",
     "lint:tokens": "! grep -rnE --exclude=theme.css \"#[0-9a-fA-F]{3,8}\\b|\\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\(|var\\(--(white|neutral-[0-9]+|blue-[0-9]+)\\)\" src",
     "typecheck": "astro check",
     "knip": "knip --no-progress",
+    "test:e2e": "docker run --rm --platform linux/amd64 --init --ipc=host -v \"$PWD\":/work -w /work -e TARGET mcr.microsoft.com/playwright:v1.64.1-noble node node_modules/@playwright/test/cli.js test",
     "check": "pnpm format:check && pnpm lint && pnpm lint:css && pnpm lint:tokens && pnpm typecheck && pnpm knip && pnpm build"
   },
   "dependencies": {
@@ -32,8 +33,11 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.64.1",
     "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^3.2.1",
     "eslint-plugin-better-tailwindcss": "^4.9.1",

@@ -1,0 +1,18 @@
+{
+  "lang": "en",
+  "title": "TwoHour Project by Serhii Shramko: apps and their real numbers",
+  "description": "Serhii Shramko, an indie developer in Boston, builds small apps in public and posts the real numbers: users, weekly installs and ratings.",
+  "viewport": "width=device-width, initial-scale=1",
+  "preloads": [
+    {
+      "as": "font",
+      "type": "font/woff2",
+      "file": "oi.woff2"
+    },
+    {
+      "as": "font",
+      "type": "font/woff2",
+      "file": "bricolage.woff2"
+    }
+  ]
+}
