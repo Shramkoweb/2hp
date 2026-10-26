@@ -189,6 +189,39 @@ a.plate:hover {
   box-shadow: 7px 7px 0 var(--foreground);
 }
 
+.plate.more {
+  border-style: dashed;
+}
+
+.plate.more span {
+  font: 400 2.75rem / 1 var(--font-show);
+  letter-spacing: 0.02em;
+}
+
+.plate.next {
+  border: 3px dashed var(--pencil);
+  box-shadow: none;
+}
+
+.plate.next span {
+  font: 600 2.5rem / 1 var(--font-hand);
+  color: var(--annotation);
+}
+
+.shelf .all {
+  margin-top: 4px;
+  font-weight: 650;
+  font-size: var(--text-small);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.shelf .soon {
+  margin: 2px 0 0;
+  font: 500 var(--text-note) / 1.3 var(--font-hand);
+  color: var(--annotation);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .name .l::after {
     animation: flood 0.24s var(--ease-out) both;

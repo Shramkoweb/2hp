@@ -5,9 +5,65 @@
   border-top: 2px solid var(--foreground);
 }
 
-.log .empty {
+.log li {
+  display: grid;
+  grid-template-columns:
+    calc(var(--spacing-col-2) - 24px) 28px minmax(0, 1.4fr)
+    minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: start;
   padding-block: 18px;
+  border-bottom: 2px solid var(--foreground);
+}
+
+.log time {
+  padding-top: 3px;
+  font-size: var(--text-meta);
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.log .mk {
+  width: 28px;
+  height: 28px;
+  color: var(--annotation);
+}
+
+.log p {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.log p b {
+  font-weight: 700;
+}
+
+.log .lesson {
+  font: 500 var(--text-small) / 1.4 var(--font-hand);
+  color: var(--annotation);
+}
+
+.log li.empty {
+  display: block;
   font: 500 var(--text-note) / 1.4 var(--font-hand);
   color: var(--annotation);
   border-bottom: 1.5px dashed var(--pencil);
+}
+
+@media (width < 768px) {
+  .log li {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 2px 14px;
+  }
+
+  .log .mk {
+    grid-row: span 3;
+  }
+
+  .log time,
+  .log p {
+    grid-column: 2;
+  }
 }

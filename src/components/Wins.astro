@@ -1,10 +1,55 @@
+---
+import { log } from "../data/log";
+
+const marks = {
+  win: "M4 15c0-7 5-11 10-11s10 4 9.5 10.5S17 24 13 24 4 21 4.5 14.5 8 6 11 5",
+  flop: "M6 6 L22 22 M22 6 L6 22",
+};
+const labels = { win: "Win: ", flop: "Flop: " };
+
+const entries = log
+  .toSorted((a, b) => b.month.localeCompare(a.month))
+  .map((entry) => ({
+    ...entry,
+    date: new Date(`${entry.month}-01T00:00:00Z`).toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC",
+    }),
+  }));
+---
+
 <section class="sec" id="wins" aria-labelledby="wins-h">
   <div class="wrap">
     <h2 id="wins-h">Wins &amp; flops</h2>
     <ol class="log">
-      <li class="empty">
-        No verdicts yet. The first marks go here with the November numbers.
-      </li>
+      {entries.length === 0 ? (
+        <li class="empty">
+          No verdicts yet. The first marks go here with the November numbers.
+        </li>
+      ) : (
+        entries.map((entry) => (
+          <li>
+            <time datetime={entry.month}>{entry.date}</time>
+            <svg
+              class="mk"
+              viewBox="0 0 28 28"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path d={marks[entry.kind]}></path>
+            </svg>
+            <p>
+              <span class="sr-only">{labels[entry.kind]}</span>
+              <b>{entry.lead}</b> {entry.text}
+            </p>
+            {entry.lesson && <p class="lesson">{entry.lesson}</p>}
+          </li>
+        ))
+      )}
     </ol>
   </div>
 </section>

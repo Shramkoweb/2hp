@@ -22,7 +22,7 @@ The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds 
 - JS hooks use `data-*` attributes, not classes. The `style` attribute is for per-element custom properties such as `--i`.
 - No `set:html` or `innerHTML` with anything not authored in this repo.
 - Prettier puts line breaks around `{expressions}` in inline content, and Astro renders that whitespace. Where a text run must stay tight, such as a number followed by `<small>`, put `{/* prettier-ignore */}` above the element, and compare the built HTML with the reference.
-- Tailwind scans every word in `src/`, not just `class` attributes. A class or variable named like a utility, such as `ring`, emits that utility's CSS. After a build, the `utilities` layer in `dist/_astro/*.css` must stay empty until step 8.
+- Tailwind scans every word in `src/`, not just `class` attributes. A class or variable named like a utility, such as `ring`, emits that utility's CSS. After a build, the `utilities` layer in `dist/_astro/*.css` must hold only utilities used on purpose.
 
 ## Guards
 

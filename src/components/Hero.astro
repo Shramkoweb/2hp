@@ -2,6 +2,11 @@
 import { projects } from "../data/projects";
 import ShelfItem from "./ShelfItem.astro";
 
+const total = projects.length;
+const shown = total > 4 ? projects.slice(0, 3) : projects;
+const more = total > 4 ? total - 3 : 0;
+const next = total < 2 ? total + 1 : 0;
+
 const words = ["TwoHour", "Project"].map((word, w, all) => {
   const start = all.slice(0, w).join("").length;
   return Array.from(word).map((ch, i) => ({ ch, i: start + i }));
@@ -41,9 +46,31 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
       </p>
     </div>
     <ul class="shelf" aria-label="My apps">
-      {projects.map((project) => (
+      {shown.map((project) => (
         <ShelfItem {...project} />
       ))}
+      {more > 0 && (
+        <li>
+          <a class="plate more" href="#projects" data-plate>
+            <span>{`+${String(more)}`}</span>
+          </a>
+          <h3>{`${String(more)} more`}</h3>
+          <a class="all" href="#projects">{`All ${String(total)} apps`}</a>
+        </li>
+      )}
+      {next > 0 && (
+        <li>
+          <div class="plate next" data-plate>
+            <span>{`#${String(next)}`}</span>
+          </div>
+          <h3>{next === 1 ? "First app" : "Next app"}</h3>
+          <p class="soon">
+            {next === 1
+              ? "ships soon. Follow along to see it launch."
+              : "in the works"}
+          </p>
+        </li>
+      )}
     </ul>
   </div>
 </section>
