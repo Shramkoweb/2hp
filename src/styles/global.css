@@ -5,6 +5,7 @@
 @import "./layout.css" layer(components);
 @import "./header.css" layer(components);
 @import "./hero.css" layer(components);
+@import "./numbers.css" layer(components);
 
 @font-face {
   font-family: Oi;

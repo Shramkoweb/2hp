@@ -1,0 +1,33 @@
+---
+import type { Project } from "../data/projects";
+import WeeklyChart from "./WeeklyChart.astro";
+
+type Props = Project;
+
+const project = Astro.props;
+const kind = `${project.stores} · since ${project.since}`;
+const users = project.users.toLocaleString("en-US");
+const rating = `users · ${project.rating.toFixed(1)} from ${String(project.ratings)} ratings`;
+---
+
+<article class="proj" id={`p-${project.slug}`}>
+  <div class="plate sm">
+    <img
+      class="logo"
+      src={`/img/${project.slug}.png`}
+      alt=""
+      width="128"
+      height="128"
+    />
+  </div>
+  <div>
+    <h3>{project.name}</h3>
+    <p class="kind">{kind}</p>
+    <p class="what">{project.what}</p>
+  </div>
+  <WeeklyChart name={project.name} installs={project.installs} />
+  <div class="now">
+    <b>{users}</b>
+    <span>{rating}</span>
+  </div>
+</article>

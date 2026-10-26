@@ -10,3 +10,25 @@ svg.defs {
   height: 0;
   overflow: hidden;
 }
+
+.sec {
+  padding-block: 0 var(--spacing-8);
+}
+
+.sec h2 {
+  font: 400 var(--text-h2) / 0.95 var(--font-show);
+  letter-spacing: 0.02em;
+  margin: 0 0 var(--spacing-4);
+}
+
+.sec .intro {
+  margin: 0 0 var(--spacing-6);
+  max-width: 36em;
+  color: var(--muted-foreground);
+}
+
+@media (width < 768px) {
+  .sec h2 {
+    font-size: calc((100vw - 2 * var(--spacing-pad)) / 10.8);
+  }
+}

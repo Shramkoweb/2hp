@@ -1,0 +1,16 @@
+---
+import { count, projects } from "../data/projects";
+import ProjectRow from "./ProjectRow.astro";
+
+const intro = `Users across all stores, counted ${count.on}. Next count: ${count.next}.`;
+---
+
+<section class="sec" id="projects" aria-labelledby="projects-h">
+  <div class="wrap">
+    <h2 id="projects-h">The numbers</h2>
+    <p class="intro">{intro}</p>
+    {projects.map((project) => (
+      <ProjectRow {...project} />
+    ))}
+  </div>
+</section>

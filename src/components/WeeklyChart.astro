@@ -1,0 +1,85 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  name: string;
+  installs: Project["installs"];
+}
+
+const { name, installs } = Astro.props;
+const { weekly } = installs;
+
+const num = (value: number) => String(Number(value.toFixed(1)));
+const day = (offset: number, year = false) => {
+  const date = new Date(`${installs.from}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + offset);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: year ? "numeric" : undefined,
+    timeZone: "UTC",
+  });
+};
+
+const best = Math.max(...weekly);
+const bestIndex = weekly.indexOf(best);
+const last = weekly.at(-1) ?? 0;
+const total = weekly.reduce((sum, value) => sum + value, 0);
+const start = day(0);
+const end = day(weekly.length * 7 - 1, true);
+
+const bars = weekly.map((value, i) => {
+  const height = Number(((value * 92) / best).toFixed(1));
+  return {
+    x: 46.6 + i * 13.6,
+    y: Number((118 - height).toFixed(1)),
+    height,
+    now: i === weekly.length - 1,
+  };
+});
+const lastBar = bars[bars.length - 1] ?? { x: 0, y: 0 };
+const ring = bars[bestIndex]?.x ?? 0;
+
+const label = `${name}: ${installs.store} installs per week, ${start} to ${end}, ${String(total)} in total. Best week ${String(best)} installs, week of ${day(bestIndex * 7)}. Last week ${String(last)}.`;
+const caption = `${installs.store} installs per week, last ${String(weekly.length)} weeks`;
+---
+
+<figure class="chart" data-chart>
+  <svg viewBox="0 0 400 168" role="img" aria-label={label}>
+    {bars.map((bar, i) => (
+      <rect
+        class:list={["bar", { now: bar.now }]}
+        style={`--b:${String(i)}`}
+        x={num(bar.x)}
+        y={num(bar.y)}
+        width="8.4"
+        height={num(bar.height)}
+        rx="1.5"
+      />
+    ))}
+    <path class="base" d="M42 118H386"></path>
+    <text class="v" x="34" y="123" text-anchor="end" set:text="0" />
+    <text
+      class="v ink"
+      x={num(lastBar.x + 4.2)}
+      y={num(lastBar.y - 8)}
+      text-anchor="middle"
+      set:text={String(last)}
+    />
+    <text class="m" x="44" y="162" set:text={start} />
+    <text class="m" x="384" y="162" text-anchor="end" set:text={end} />
+    <g class="ev">
+      <path
+        class="ring"
+        d={`M${num(ring - 5.8)} 28c0-7 5-10 10-10s10 4 9 10-6 9-10 9-10-4-9-10 3-8 6-9`}
+      ></path>
+      <text
+        class="n"
+        x={num(ring + 20.2)}
+        y="20"
+        set:text={`best week: ${String(best)} installs`}
+      />
+    </g>
+  </svg>
+  <figcaption>{caption}</figcaption>
+</figure>
