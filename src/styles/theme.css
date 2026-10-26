@@ -105,11 +105,9 @@
   --radius-field: 12px;
   --radius-focus: 4px;
 
-  --shadow-hard-1: 1px 1px 0 var(--foreground);
+  --shadow-hard-2: 2px 2px 0 var(--foreground);
   --shadow-hard-4: 4px 4px 0 var(--foreground);
-  --shadow-hard-5: 5px 5px 0 var(--foreground);
   --shadow-hard-6: 6px 6px 0 var(--foreground);
-  --shadow-hard-7: 7px 7px 0 var(--foreground);
   --shadow-hard-8: 8px 8px 0 var(--foreground);
 
   --border-width-rule: 1px;
