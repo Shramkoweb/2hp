@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { formatNumber } from "../lib/format";
+import Plate from "./Plate.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -9,17 +10,19 @@ interface Props {
 const { id, data } = Astro.props.project;
 ---
 
-<li>
-  <a class="plate" href={`#p-${id}`} aria-label={data.name} data-plate>
+<li class="flex flex-col items-start">
+  <Plate href={`#p-${id}`} label={data.name} bounce>
     <img
-      class="logo"
+      class="block aspect-square h-auto w-31/50 object-contain"
       src={data.logo.src}
       alt=""
       width={data.logo.width}
       height={data.logo.height}
     />
-  </a>
-  <h3>{data.name}</h3>
+  </Plate>
+  <h3 class="m-0 mt-4.5 text-body/title font-bold tracking-tight md:mt-5.5">
+    {data.name}
+  </h3>
   {/* prettier-ignore */}
-  <p class="num">{formatNumber(data.users)}<small> users</small></p>
+  <p class="m-0 mt-0.5 text-figure whitespace-nowrap tabular-nums">{formatNumber(data.users)}<small class="text-note font-demibold tracking-tight"> users</small></p>
 </li>

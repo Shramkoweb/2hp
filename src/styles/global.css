@@ -2,8 +2,6 @@
 
 @import "tailwindcss/utilities.css" layer(utilities) source("..");
 @import "./theme.css" layer(theme);
-@import "./layout.css" layer(components);
-@import "./hero.css" layer(components);
 @import "./effects.css" layer(components);
 
 @custom-variant scrolled (.scrolled &);
@@ -161,4 +159,8 @@
 
 @utility grid-cols-project-sm {
   grid-template-columns: calc(var(--spacing) * 18) minmax(0, 1fr);
+}
+
+@utility grid-cols-hero {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
 }

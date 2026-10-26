@@ -19,6 +19,8 @@
   --spacing-section: 96px;
   --spacing-col-2: 136px;
   --spacing-chart-inset: 11%;
+  --spacing-aside-x: calc(var(--spacing-pad) + var(--text-display) * 6.1);
+  --spacing-aside-y: calc(var(--spacing-hero-top) + var(--text-display) * 1.18);
 
   --text-name: min(9.4rem, calc((100vw - 2 * var(--spacing-pad)) / 7.2), 15svh);
   --text-h2: clamp(2.4rem, 1.4rem + 3vw, 4rem);
@@ -115,6 +117,7 @@
   --shadow-hard-7: 7px 7px 0 var(--foreground);
   --shadow-hard-8: 8px 8px 0 var(--foreground);
 
+  --border-width-rule: 1px;
   --border-width-hairline: 1.5px;
   --border-width-field: 2.5px;
 

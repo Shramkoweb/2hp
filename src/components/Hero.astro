@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import Plate from "./Plate.astro";
 import ShelfItem from "./ShelfItem.astro";
 
 const projects = (await getCollection("projects")).toSorted(
@@ -17,11 +18,15 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
 });
 ---
 
-<section class="hero" aria-labelledby="name">
-  <div class="wrap">
-    <h1 class="name" id="name" aria-label="TwoHour Project">
+<section aria-labelledby="name">
+  <div class="relative mx-auto grid max-w-page grid-cols-1 items-end gap-x-14 px-pad pt-hero-top pb-24 md:pb-32 lg:grid-cols-hero lg:pb-40">
+    <h1
+      class="name relative z-0 col-span-full m-0 mb-6 font-show text-display md:mb-10"
+      id="name"
+      aria-label="TwoHour Project"
+    >
       {words.map((letters) => (
-        <span class="w" aria-hidden="true">
+        <span class="w relative block whitespace-nowrap" aria-hidden="true">
           {letters.map(({ ch, i }) => (
             <span class="l" data-ch={ch} data-letter style={`--i:${String(i)}`}>
               {ch}
@@ -30,45 +35,79 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
         </span>
       ))}
     </h1>
-    <p class="aside">
-      <svg viewBox="0 0 90 46" aria-hidden="true">
+    <p class="m-0 hidden max-w-aside -rotate-3 pl-23 font-hand text-h4/title font-medium text-balance text-annotation xl:absolute xl:top-aside-y xl:left-aside-x xl:block">
+      <svg
+        class="absolute -top-3.5 left-0 w-21 stroke-annotation"
+        viewBox="0 0 90 46"
+        fill="none"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
         <path d="M86 8 C 64 4, 30 10, 10 34 M4 22 L9 36 L22 32"></path>
       </svg>
       2 extensions so far, 2&nbsp;mobile apps next
     </p>
-    <div class="copy">
-      <p class="strap">Small apps, built in public.</p>
-      <p class="lede">
+    <div class="mb-10 md:mb-16 lg:mb-0">
+      <p class="m-0 mb-3 text-strap text-balance md:mb-4.5">
+        Small apps, built in public.
+      </p>
+      <p class="m-0 mb-5.5 max-w-lede text-note text-pretty text-muted-foreground md:mb-7 md:text-body">
         I'm Serhii Shramko, an indie developer in Boston. For each app I make, I
         post the real numbers: users, weekly installs, ratings.
       </p>
-      <a class="cta" href="https://x.com/twohourproject">
+      <a
+        class="inline-block rounded-btn border-3 border-foreground bg-primary px-6 py-3.75 text-button font-bold text-primary-foreground no-underline shadow-hard-6 transition-lift duration-120 ease-out hover:-translate-0.5 hover:shadow-hard-8 active:translate-1.25 active:shadow-hard-1 forced-colors:border-canvas-text"
+        href="https://x.com/twohourproject"
+      >
         Follow along on X
       </a>
-      <p class="also">
-        <a href="#subscribe">or get the newsletter</a>
+      <p class="m-0 mt-4.5 text-small">
+        <a
+          class="font-semibold decoration-2 underline-offset-4"
+          href="#subscribe"
+        >
+          or get the newsletter
+        </a>
       </p>
     </div>
-    <ul class="shelf" aria-label="My apps">
+    <ul
+      class="m-0 grid max-w-shelf list-none grid-cols-2 gap-x-5 gap-y-8 p-0 md:grid-cols-4 md:gap-8 lg:max-w-none"
+      aria-label="My apps"
+    >
       {shown.map((project) => (
         <ShelfItem project={project} />
       ))}
       {more > 0 && (
-        <li>
-          <a class="plate more" href="#projects" data-plate>
-            <span>{`+${String(more)}`}</span>
+        <li class="flex flex-col items-start">
+          <Plate href="#projects" tone="dashed" bounce>
+            <span class="font-show text-plate/none font-normal tracking-wide">
+              {`+${String(more)}`}
+            </span>
+          </Plate>
+          <h3 class="m-0 mt-4.5 text-body/title font-bold tracking-tight md:mt-5.5">
+            {`${String(more)} more`}
+          </h3>
+          <a
+            class="mt-1 text-small font-demibold decoration-2 underline-offset-4"
+            href="#projects"
+          >
+            {`All ${String(total)} apps`}
           </a>
-          <h3>{`${String(more)} more`}</h3>
-          <a class="all" href="#projects">{`All ${String(total)} apps`}</a>
         </li>
       )}
       {next > 0 && (
-        <li>
-          <div class="plate next" data-plate>
-            <span>{`#${String(next)}`}</span>
-          </div>
-          <h3>{next === 1 ? "First app" : "Next app"}</h3>
-          <p class="soon">
+        <li class="flex flex-col items-start">
+          <Plate tone="pencil" bounce>
+            <span class="font-hand text-numeral/none font-semibold text-annotation">
+              {`#${String(next)}`}
+            </span>
+          </Plate>
+          <h3 class="m-0 mt-4.5 text-body/title font-bold tracking-tight md:mt-5.5">
+            {next === 1 ? "First app" : "Next app"}
+          </h3>
+          <p class="m-0 mt-0.5 font-hand text-note/note font-medium text-annotation">
             {next === 1
               ? "ships soon. Follow along to see it launch."
               : "in the works"}

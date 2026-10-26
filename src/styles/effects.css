@@ -1,4 +1,64 @@
+.name .w::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--spacing) * -2.5);
+  right: 0;
+  top: 0.755em;
+  border-top: var(--border-width-rule) solid var(--pencil);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.name .l {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  transform-origin: 50% 85%;
+}
+
+.name .l::before,
+.name .l::after {
+  content: attr(data-ch);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.name .l::before {
+  color: transparent;
+  -webkit-text-stroke: var(--border-width-hairline) var(--pencil);
+  translate: calc(var(--spacing) * -1) calc(var(--spacing) * -1);
+  filter: url("#graphite");
+
+  @variant max-md {
+    display: none;
+  }
+
+  @variant forced-colors {
+    display: none;
+  }
+}
+
+.name .l::after {
+  color: var(--foreground);
+}
+
+.name .l:hover::after {
+  translate: calc(var(--spacing) * -1) calc(var(--spacing) * -1);
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .name .l::after {
+    animation: flood 0.24s var(--ease-out) both;
+    animation-delay: calc(350ms + var(--i) * 55ms);
+    transition: translate 0.15s var(--ease-out);
+  }
+
+  .name .l {
+    animation: squash 0.46s var(--ease-squash) both;
+    animation-delay: calc(440ms + var(--i) * 55ms);
+  }
+
   .chart.armed .bar {
     transform: scaleY(0);
   }
@@ -17,5 +77,51 @@
   .chart.drawn .ink {
     transition: opacity 0.3s 0.8s;
     opacity: 1;
+  }
+}
+
+@keyframes flood {
+  from {
+    clip-path: inset(110% -12% -30% -12%);
+  }
+
+  to {
+    clip-path: inset(-25% -12% -30% -12%);
+  }
+}
+
+@keyframes squash {
+  0% {
+    transform: none;
+  }
+
+  35% {
+    transform: scale(1.05, 0.9);
+  }
+
+  70% {
+    transform: scale(0.98, 1.06);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+.boing {
+  animation: boing 0.5s var(--ease-spring);
+}
+
+@keyframes boing {
+  0% {
+    scale: 1.12 0.86;
+  }
+
+  45% {
+    scale: 0.94 1.08;
+  }
+
+  100% {
+    scale: 1 1;
   }
 }

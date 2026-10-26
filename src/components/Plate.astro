@@ -1,0 +1,40 @@
+---
+interface Props {
+  href?: string;
+  label?: string;
+  size?: "shelf" | "row";
+  tone?: "solid" | "dashed" | "pencil";
+  bounce?: boolean;
+}
+
+const {
+  href,
+  label,
+  size = "shelf",
+  tone = "solid",
+  bounce = false,
+} = Astro.props;
+const Tag = href ? "a" : "div";
+const shelf = size === "shelf";
+const pencil = tone === "pencil";
+---
+
+<Tag
+  class:list={[
+    "relative grid aspect-square w-full place-items-center border-3 bg-card no-underline transition-lift duration-150 ease-out",
+    shelf
+      ? "max-w-30 rounded-plate md:max-w-35"
+      : "max-w-18 rounded-plate-xs md:max-w-24 md:rounded-plate-sm",
+    pencil
+      ? "border-dashed border-pencil"
+      : "border-foreground forced-colors:border-canvas-text",
+    tone === "dashed" && "border-dashed",
+    !pencil && (shelf ? "shadow-hard-5" : "shadow-hard-4"),
+    href && "hover:-translate-0.5 hover:shadow-hard-7",
+  ]}
+  href={href}
+  aria-label={label}
+  data-plate={bounce ? "" : undefined}
+>
+  <slot />
+</Tag>
