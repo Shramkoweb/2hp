@@ -5,9 +5,7 @@ dist/
 .astro/
 .wrangler/
 
-test-results/
-playwright-report/
-blob-report/
+.playwright/
 coverage/
 
 .eslintcache

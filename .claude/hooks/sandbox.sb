@@ -1,0 +1,18 @@
+(version 1)
+(allow default)
+(deny network*)
+
+(deny file-read*
+  (subpath (string-append (param "HOME") "/.ssh"))
+  (subpath (string-append (param "HOME") "/.aws"))
+  (subpath (string-append (param "HOME") "/.config/gh"))
+  (literal (string-append (param "HOME") "/.docker/config.json")))
+
+(deny file-write*)
+(allow file-write*
+  (regex #"^/dev/(null|tty.*|stdout|stderr|dtracehelper)$")
+  (subpath (param "TMP"))
+  (subpath (string-append (param "ROOT") "/dist"))
+  (subpath (string-append (param "ROOT") "/.astro"))
+  (literal (string-append (param "ROOT") "/.stylelintcache"))
+  (literal (param "FILE")))

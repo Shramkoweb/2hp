@@ -40,7 +40,8 @@ Status: decided 2026-10-25, nothing installed yet.
 - **`pnpm check` is the definition of done**, for people, hooks and CI alike.
   - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Playwright joins it in step 6, once there is a port to compare.
   - ESLint runs without `--cache`, because type-aware results depend on other files and the cache only watches the linted file.
-  - `pnpm test:e2e` runs Playwright in the pinned Docker image. `TARGET=reference` points it at the reference instead of `dist/`.
+  - `pnpm test:e2e` runs Playwright in the pinned Docker image, with no network and the repo mounted read-only; only `.playwright/` (results and report) is writable, so `--update-snapshots` fails. `TARGET=reference` points it at the reference instead of `dist/`.
+  - `pnpm test:e2e:write` is the same run with the repo writable, for the owner's baseline updates: once with `--update-snapshots`, once without to write the aria snapshot that the update skips.
   - Write a script only when a step needs logic that a chain cannot express.
 - **ESLint is type-aware:** typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`. `.astro` files use `project: true`, because the Astro parser does not support `projectService`.
 - **Every tool ignores `twohour-project/`.**
@@ -108,6 +109,7 @@ Port rules:
 
 - **Baselines come from the reference.** Step 4 shoots `twohour-project/site/` and commits the screenshots. The reference is local only, so those baselines are what CI and the port compare against.
 - **Only Docker renders baselines.** Use the Playwright image on amd64; on Apple Silicon, `--platform linux/amd64`. Never commit baselines rendered on macOS.
+- **Baselines are byte-exact.** Prettier ignores `tests/__screenshots__/`: the pre-commit hook once added a final newline to `head.json`, and the test failed against its own baseline.
 - **Exact comparison needs two settings:** `maxDiffPixels: 0` and `threshold: 0`. The per-pixel threshold defaults to 0.2.
 - **Determinism:**
   - animations disabled;
@@ -178,9 +180,18 @@ Port rules:
 **Agents**
 
 - **Forbidden commands:** `npx`, `pnpm dlx`, `curl`, `wget`. Agents cannot read `.env` files.
-- **Owner-only files:** after step 5, agents cannot edit `.claude/settings*`, `.claude/hooks/`, `.vscode/`, the lefthook config or CI workflows. The owner changes these by hand.
+- **Owner-only files:** after step 5, agents cannot edit `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, `package.json`, the lockfile, `node_modules/`, `.pnpmfile.*`, the pnpm, lint, format and TypeScript configs, `lefthook.yml`, `.vscode/`, CI workflows, git hooks or `twohour-project/`. The owner changes these by hand, installs dependencies, and runs `!` commands, which are unsandboxed.
 - **Use deny rules and hooks, not ask prompts.** Bypass-permissions mode skips prompts.
-- **Sandbox:** on, with network allowed only to the npm registry and GitHub.
+- **Sandbox:** on and strict (`allowUnsandboxedCommands: false`, `failIfUnavailable`), with the network allowlist set to the npm registry and GitHub.
+  - Docker cannot run inside it, so `pnpm test:e2e` is the only excluded command. It matches only when it is the whole command, and its read-only mount keeps it from writing what the sandbox would block.
+  - Anything an agent can write and something unsandboxed later executes is an escape. Tested: a `.pnpmfile.mjs` written in the sandbox ran outside it through `pnpm test:e2e`, because pnpm's `verifyDepsBeforeRun` defaults to `install`. So `.pnpmfile.*` and `node_modules/` are write-denied, and agent sessions set `pnpm_config_verify_deps_before_run=error`.
+  - Hooks run unsandboxed and the Stop hook builds agent-written code, so hook tools run under `sandbox-exec` with `.claude/hooks/sandbox.sb`: no network, writes only to `dist/`, `.astro/`, temp and the edited file.
+  - With `node_modules/` read-only, `prettier --cache` silently skips its cache and the Vite dev server cannot run; agents test against `dist/`.
+  - `Read` and `Edit` deny rules also feed the sandbox, so one rule guards the file tools and every Bash process. `Edit` rules cover the Write tool.
+  - In bypass mode, hosts outside the allowlist are allowed unless `sandbox.network.strictAllowlist` is on. A repo cannot set it: it goes in the owner's user settings, and then the user-level `allowedDomains` apply instead of the repo's.
+  - Credential folders (`~/.ssh`, `~/.aws`, `~/.config/gh`, Docker's config) are denied by `Read` rules. The sandbox's own `credentials` key is ignored in repo settings.
+  - Agent sessions set `pnpm_config_pm_on_fail=error`. With the default, pnpm locks its engine store under `~/Library/pnpm` on every run. That store must stay outside the sandbox, because hooks and the owner's terminal run pnpm from it unsandboxed.
+- **Deny rules and hooks hold in bypass mode;** permission prompts and protected-path checks do not. Hook commands run unsandboxed.
 - **Security review before commit** for any diff that touches dependencies, the lockfile, `.claude/`, hooks or CI.
 
 **Secrets**
@@ -223,9 +234,7 @@ Each step is one commit to `main`, made after the owner's review. No step starts
 
 ## 10. Still to verify
 
-- Claude Code sandbox `denyWrite` path syntax, and whether `Edit` deny rules also cover the Write tool.
 - Whether an ESLint `no-restricted-syntax` selector can catch hex literals inside `.astro` attributes.
-- That deny rules and PreToolUse hooks still apply in bypass-permissions mode.
 
 ## Sources
 
@@ -240,4 +249,7 @@ Each step is one commit to `main`, made after the owner's review. No step starts
 - Mini Shai-Hulud: https://www.akamai.com/blog/security-research/mini-shai-hulud-worm-returns-goes-public
 - Playwright snapshots: https://playwright.dev/docs/test-snapshots
 - Claude Code hooks: https://code.claude.com/docs/en/hooks
+- Claude Code sandbox: https://code.claude.com/docs/en/sandboxing
+- Claude Code permissions: https://code.claude.com/docs/en/permissions
+- pnpm `pmOnFail`: https://pnpm.io/settings#pmonfail
 - AGENTS.md vs skills: https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals

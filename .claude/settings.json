@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "pnpm_config_pm_on_fail": "error",
+    "pnpm_config_verify_deps_before_run": "error"
+  },
+  "permissions": {
+    "deny": [
+      "Bash(npx *)",
+      "Bash(pnpx *)",
+      "Bash(npm exec *)",
+      "Bash(pnpm dlx *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(.dev.vars)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.docker/config.json)",
+      "Edit(/.claude/**)",
+      "Edit(/.mcp.json)",
+      "Edit(/.git/hooks/**)",
+      "Edit(/.git/config)",
+      "Edit(/.vscode/**)",
+      "Edit(/.github/workflows/**)",
+      "Edit(/lefthook.yml)",
+      "Edit(/twohour-project/**)",
+      "Edit(/tests/**)",
+      "Edit(/playwright.config.ts)",
+      "Edit(/package.json)",
+      "Edit(/node_modules/**)",
+      "Edit(/.pnpmfile.cjs)",
+      "Edit(/.pnpmfile.mjs)",
+      "Edit(/pnpm-lock.yaml)",
+      "Edit(/pnpm-workspace.yaml)",
+      "Edit(/.npmrc)",
+      "Edit(/.nvmrc)",
+      "Edit(/.ncurc.json)",
+      "Edit(/.editorconfig)",
+      "Edit(/.prettierrc.json)",
+      "Edit(/.prettierignore)",
+      "Edit(/eslint.config.js)",
+      "Edit(/stylelint.config.mjs)",
+      "Edit(/knip.json)",
+      "Edit(/tsconfig.json)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": ["pnpm test:e2e *"],
+    "network": {
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "github.com",
+        "*.github.com",
+        "*.githubusercontent.com"
+      ]
+    }
+  },
+  "enabledMcpjsonServers": ["astro-docs"],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/hooks/lint-file.sh\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check-before-stop.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}

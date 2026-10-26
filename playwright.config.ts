@@ -5,12 +5,16 @@ const visual = /visual\.spec\.ts/;
 
 export default defineConfig({
   testDir: "tests",
+  outputDir: ".playwright/results",
   snapshotPathTemplate:
     "{testDir}/__screenshots__/{testFilePath}/{projectName}/{arg}{ext}",
   fullyParallel: true,
   workers: "100%",
   forbidOnly: true,
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [
+    ["list"],
+    ["html", { open: "never", outputFolder: ".playwright/report" }],
+  ],
   expect: {
     toHaveScreenshot: {
       maxDiffPixels: 0,
