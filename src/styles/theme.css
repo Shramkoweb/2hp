@@ -22,8 +22,9 @@
   --spacing-aside-x: calc(var(--spacing-pad) + var(--text-display) * 6.1);
   --spacing-aside-y: calc(var(--spacing-hero-top) + var(--text-display) * 1.18);
 
-  --text-strap: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
+  --text-plate: 2.75rem;
   --text-h4: 1.5rem;
+  --text-lead: 1.3125rem;
   --text-body: 1.1875rem;
   --text-small: 1.0625rem;
   --text-meta: 0.9375rem;
@@ -40,6 +41,7 @@
   --text-section--line-height: 0.92;
   --text-section--letter-spacing: 0.02em;
   --text-section--font-weight: 400;
+  --text-strap: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
   --text-strap--line-height: 1.1;
   --text-strap--letter-spacing: -0.02em;
   --text-strap--font-weight: 700;
@@ -66,8 +68,6 @@
   --text-signoff--line-height: 1.1;
   --text-signoff--letter-spacing: -0.03em;
   --text-signoff--font-weight: 800;
-  --text-plate: 2.75rem;
-  --text-lead: 1.3125rem;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;

@@ -76,7 +76,7 @@
 
   .chart.drawn .ev,
   .chart.drawn .ink {
-    transition: opacity var(--transition-duration-slow) 0.8s;
+    transition: opacity var(--transition-duration-slow) 800ms;
     opacity: 1;
   }
 }
