@@ -1,6 +1,6 @@
 # 2hp: frontend stack
 
-Status: steps 0 to 8 done; step 9 next.
+Status: steps 0 to 9 done.
 
 The approved design was a static page in a local sandbox, now outside the repo. The port matched it pixel for pixel; the committed baselines are its record.
 

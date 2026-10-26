@@ -1,6 +1,6 @@
 # 2hp
 
-The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds the decisions, their reasons and the step plan.
+The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds the decisions, their reasons and the step plan. `DESIGN.md` says which token to use when, and the components and their states.
 
 The baselines in `tests/__screenshots__/` are the record of the approved page.
 
