@@ -69,7 +69,7 @@
   fill: var(--foreground);
 }
 
-.chart .ring {
+.chart .best {
   fill: none;
   stroke: var(--annotation);
   stroke-width: 2;
