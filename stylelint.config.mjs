@@ -4,13 +4,7 @@ export default {
     "at-rule-no-unknown": [
       true,
       {
-        ignoreAtRules: [
-          "theme",
-          "custom-variant",
-          "utility",
-          "variant",
-          "source",
-        ],
+        ignoreAtRules: ["theme", "custom-variant", "utility", "variant"],
       },
     ],
     "import-notation": "string",
@@ -41,7 +35,6 @@ export default {
         "unit-disallowed-list": null,
         "media-feature-name-disallowed-list": null,
         "color-no-hex": null,
-        "color-named": null,
         "function-disallowed-list": null,
       },
     },
