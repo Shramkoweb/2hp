@@ -1,6 +1,6 @@
 # 2hp: frontend stack
 
-Status: decided 2026-10-25, nothing installed yet.
+Status: steps 0 to 7 done; step 8 next.
 
 The approved design was a static page in a local sandbox, now outside the repo. The port matched it pixel for pixel; the committed baselines are its record.
 
@@ -8,7 +8,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 
 | Area            | Pick                                                  | Why                                                                                                               |
 | --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Framework       | Astro 7, static output                                | Content site, zero JS by default, `.astro` is close to the reference HTML                                         |
+| Framework       | Astro 7, static output                                | Content site, zero JS by default, `.astro` is plain HTML with components                                          |
 | Styling         | Tailwind v4, CSS-first                                | `@theme { --*: initial; }` makes default utilities impossible                                                     |
 | Language        | TypeScript 6                                          | See section 2                                                                                                     |
 | Runtime         | Node 26 LTS                                           |                                                                                                                   |
@@ -31,14 +31,14 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 ## 3. Astro rules
 
 - **Plain by default.** Use `.astro` and a plain `<script>`. React islands only for a component that holds state across interactions. No second island framework.
-- **`compressHTML: true`.** Astro 7 defaults to `'jsx'`, which drops the space between inline elements on separate lines. The port would no longer match the reference.
+- **`compressHTML: true`.** Astro 7 defaults to `'jsx'`, which drops the space between inline elements on separate lines, such as the one before the link in "or email me at".
 - **Strict HTML.** The Astro 7 compiler does not repair HTML: an unclosed tag is a build error.
-- **No Fonts API.** It generates its own fallbacks. The woff2 files and `@font-face` rules move over unchanged.
+- **No Fonts API.** The woff2 files and the hand-tuned fallback `@font-face` rules are used as they are.
 
 ## 4. Tooling
 
 - **`pnpm check` is the definition of done**, for people, hooks and CI alike.
-  - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Playwright joins it in step 6, once there is a port to compare.
+  - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Playwright stays outside it, because Docker cannot run in the agent sandbox; run `pnpm test:e2e` after `pnpm build`.
   - ESLint runs without `--cache`, because type-aware results depend on other files and the cache only watches the linted file.
   - `pnpm test:e2e` runs Playwright in the pinned Docker image, with no network and the repo mounted read-only; only `.playwright/` (results and report) is writable, so `--update-snapshots` fails.
   - `pnpm test:e2e:write` is the same run with the repo writable, for the owner's baseline updates: once with `--update-snapshots`, once without to write the aria snapshot that the update skips.
@@ -55,7 +55,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 **Colours have two tiers, following the shadcn convention:**
 
 - **Primitives** (`--white`, `--neutral-*`, `--blue-*`) live in `:root` and create no classes.
-- **Semantic tokens** (`--background`, `--foreground`, `--muted-foreground`, `--primary`, `--primary-foreground`, `--accent`, `--ring`, `--chart`, `--pencil`, `--annotation`) point at primitives. `@theme inline` turns them into classes such as `bg-primary`.
+- **Semantic tokens** (`--background`, `--foreground`, `--foreground-hover`, `--muted-foreground`, `--inverse-foreground`, `--placeholder`, `--card`, `--border`, `--primary`, `--primary-foreground`, `--accent`, `--ring`, `--chart`, `--pencil`, `--annotation`) point at primitives. `@theme inline` turns them into classes such as `bg-primary`.
 - **Components use semantic tokens only:** classes, or `var(--primary)` in component CSS.
 - **A dark theme or a rebrand only changes semantic values.**
 - **Hex stays until the cleanup,** because converting to OKLCH could shift a colour by a rounding step.
@@ -63,43 +63,24 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 
 Four layers, each catching what the previous one misses:
 
-1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist, and `p-9` does not exist either, because the spacing scale is named. There is no preflight, so the port matches the reference, which has none.
+1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist, and `p-9` does not exist either, because the spacing scale is named. There is no preflight; `global.css` sets the few base rules the page needs.
 2. **ESLint (`better-tailwindcss`):**
    - Errors: unknown classes, arbitrary values and `(--var)` shorthands.
    - Also errors, and autofixed: class order, duplicate classes and extra whitespace.
    - Class order lives in ESLint rather than in a Prettier plugin, because `prettier-plugin-tailwindcss` cannot sort `.astro` with `prettier-plugin-astro` 1.x.
-   - **Values with no token yet stay in component CSS** (owner's decision, 2026-10-26). The reference rules move to one file per section in `src/styles/`, imported into `global.css` in the `components` layer, with tokens through `var()` where the reference used one and the reference value where it did not. ESLint's `detectComponentClasses` knows these classes, so a class that exists nowhere is still an error. Not in an Astro `<style>`: ESLint cannot see those classes. No arbitrary classes and no stopgap tokens. Step 8 turns the rules into utility classes, one approved token at a time.
+   - **Section CSS is a leftover of the port** (owner's decision for the port, 2026-10-26). The old page's rules sit in one file per section in `src/styles/`, imported into `global.css` in the `components` layer. ESLint's `detectComponentClasses` knows these classes, so a class that exists nowhere is still an error. Not in an Astro `<style>`: ESLint cannot see those classes. No arbitrary classes. Step 8 replaces the rules with utilities and deletes the files.
 3. **Stylelint:** no colour literals outside `src/styles/theme.css`.
 4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown. It fails on:
    - hex colours and colour functions;
    - `var()` of a colour primitive.
 
-   A raw `px` ban joins it after the token cleanup.
+   Stylelint bans `px` and `rem` outside `theme.css` at the end of step 8.
 
-Port rules:
-
-- **Same values, new names.** Every `:root` token from the reference stylesheet keeps its value. The reference's 700px overrides stay as a media query in `theme.css`. The name map:
-
-  | Reference                                                    | Token                                                                                        |
-  | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-  | `--paper`                                                    | `background`                                                                                 |
-  | `--ink`                                                      | `foreground`                                                                                 |
-  | `--ink-2`                                                    | `muted-foreground`                                                                           |
-  | `--accent`                                                   | `primary`, and `ring` for focus outlines                                                     |
-  | `--accent-ink`                                               | `primary-foreground`                                                                         |
-  | `--tint`                                                     | `accent`                                                                                     |
-  | `--chart`                                                    | `chart`                                                                                      |
-  | `--pencil`                                                   | `pencil`                                                                                     |
-  | `--pencil-ink`                                               | `annotation`                                                                                 |
-  | `--f-show`, `--f-text`, `--f-hand`                           | `font-show`, `font-text`, `font-hand`                                                        |
-  | `--pad`, `--nav-h`, `--hero-top`, `--s-1`…`--s-8`, `--col-2` | `spacing-pad`, `spacing-nav-h`, `spacing-hero-top`, `spacing-1`…`spacing-8`, `spacing-col-2` |
-  | `--t-*`                                                      | `text-*`                                                                                     |
-  | `--r-plate`, `--r-btn`, `--r-field`                          | `radius-plate`, `radius-btn`, `radius-field`                                                 |
-  | `--ease-out`, `--spring`                                     | `ease-out`, `ease-spring`                                                                    |
+Rules:
 
 - **Breakpoints (owner's decision, 2026-10-25, from US device data):**
   - phone below 768 (designed at 390), tablet 768–1023, desktop 1024–1439, wide from 1440;
-  - `theme.css` sets them as `md`, `lg` and `xl` in px; the reference CSS was moved to the same edges (767, 1023, 1440), so `max-md:` and `max-lg:` match it exactly;
+  - `theme.css` sets them as `md`, `lg` and `xl` in px; everything else reaches them only through Tailwind variants, mobile-first (step 8 moves the section CSS there);
   - the pencil note beside the name shows only on wide screens.
 - **The `style` attribute stays allowed.** The name and the charts set `--i` and `--b` per element.
 - **JS hooks use `data-*` attributes**, not classes.
@@ -116,16 +97,16 @@ Port rules:
   - smooth scrolling switched off, because a scroll still in motion shifts elements by a fraction of a pixel;
   - clips for hover and press measured before the interaction, because the element moves during it;
   - charts scrolled into view first, because an IntersectionObserver draws them.
-- **Selectors are roles and accessible names,** not class names, so the same tests run on the reference and on the port.
+- **Selectors are roles and accessible names,** not class names, so markup and styling refactors do not break the tests.
 - **Coverage:**
   - full pages and every section at 390, 768, 1024 and 1440 (one per tier) and 320 (the smallest phone). Tier edges need no widths of their own, because breakpoints live only in the theme and arbitrary variants are lint errors;
   - full pages and every section in Firefox and WebKit at 390 and 1440. Their baselines were rendered from the port, not the reference, and checked by eye against Chromium (2026-10-26). WebKit uses Desktop Safari, so it shoots at device scale 2;
   - Windows 150% at 1280×610;
   - reduced motion and forced colors at 1440;
-  - states at 1440: one shot for every state selector in the reference CSS (`:hover`, `:active`, `:focus-visible`, `[aria-pressed]`, `.scrolled`), derived from `styles.css` rather than picked by hand; plus the form after submit. `.posts h3 a:hover` has no element yet, because the posts are drafts without links;
+  - states at 1440: one shot for every state selector in the CSS (`:hover`, `:active`, `:focus-visible`, `[aria-pressed]`, `.scrolled`); plus the form after submit. `.posts h3 a:hover` has no element yet, because the posts are drafts without links;
   - the focus order of every focusable element, with a shot of its ring;
-  - one shot per section, so the port can be checked section by section.
-- **Behaviour tests for `main.js`:**
+  - one shot per section, so a change can be checked section by section.
+- **Behaviour tests for `main.ts`:**
   - the sound toggle (`aria-pressed`, and the saved choice surviving a reload);
   - the header's scroll class;
   - charts drawing when scrolled into view, and skipped under reduced motion;
@@ -146,7 +127,7 @@ Port rules:
 **Guards**
 
 - **Baselines are human-only.** Agents cannot update snapshots or edit the screenshots folder.
-- **The test harness is protected.** Agents cannot edit the Playwright config or the check scripts.
+- **The test harness is protected.** Agents cannot edit the Playwright config or the tests.
 - **After every edit**, the file is formatted and linted, and findings go back to the agent as context without ending its turn.
 - **Before the agent stops**, `pnpm check` runs and blocks the stop on failure, at most 3 times so a stuck agent can still report.
 - **Security guards:** see section 8.
@@ -218,23 +199,18 @@ Each step is one commit to `main`, made after the owner's review. No step starts
 4. **Tests and reference baselines:** everything in section 6, against the reference page. Done when three runs in a row show zero diff.
 5. **Agent harness:** everything in section 7, plus the agent rules and the dependency review from section 8. Done when each guard is shown to work, including a blocked `npx` and a blocked edit to `.claude/hooks/`.
 6. **The port, one section per commit.** Each part is done when its shots show zero diff at every width and in every state.
-   1. Layout, fonts, SVG sprite, header, sound toggle, `main.js`.
+   1. Layout, fonts, SVG sprite, header, sound toggle, `main.ts`.
    2. Hero.
    3. The numbers.
    4. Wins & flops, and Writing.
    5. Follow along and footer. Full pages and the aria snapshot must now match too. Then a fresh agent, given only the reference files and the port, lists anything in the reference that no test covers and the port lacks.
 7. **Retire the sandbox:** the owner moved it out of the repo (2026-10-26). Every reference to it goes: ignore lists, the tsconfig exclude, the agent guard, the tests' reference mode, the port skill and these docs. Baselines change only from the port. Done when `git grep` finds neither the sandbox's folder name nor the reference-mode variable, and the suite is green.
-8. **Token cleanup, one approved decision per commit.**
-   - Inputs:
-     - the arbitrary-value warnings, which list every non-token value;
-     - an audit of the computed styles on the rendered page: values outside tokens, unused tokens, duplicates, near-duplicates (colours within ΔE 3, sizes within 2px).
-   - The owner approves each item. The visual diff of a commit must show that change and nothing else. Baselines are updated only after approval.
-   - Done when there are no arbitrary-value warnings and the rule is an error.
+8. **Token cleanup: end the port's styling.**
+   - Goal: every visual value comes from a theme token, as a utility in the markup or through `var()` in one small CSS file for effects only CSS can express (the name's letter layers, chart text, keyframes). Breakpoints only as theme variants, mobile-first. A repeated pattern exists once, as a token or an `@utility`.
+   - Order: work that changes no pixel first (dead code, the theme layer, breakpoint variants, values that already equal a token, shared utilities, then each section converted and its CSS file deleted); value changes after.
+   - Each value change is one owner-approved commit. Its visual diff must show that change and nothing else. Baselines are updated only after approval.
+   - Done when `src/styles/` holds only `theme.css`, `global.css` and the effects file; Stylelint bans `px` and `rem` outside `theme.css`; no `@media (width …)` exists outside `theme.css`; the `utilities` layer holds only classes used on purpose; and the suite is green three times in a row.
 9. **DESIGN.md:** which token to use when, the components and their states. Only token names, never values.
-
-## 10. Still to verify
-
-- Whether an ESLint `no-restricted-syntax` selector can catch hex literals inside `.astro` attributes.
 
 ## Sources
 
