@@ -98,13 +98,9 @@
   --container-lede: 30em;
   --container-aside: 15em;
 
-  --radius-plate: 22px;
-  --radius-plate-sm: 18px;
   --radius-plate-xs: 16px;
-  --radius-btn: 14px;
   --radius-field: 12px;
   --radius-focus: 4px;
-  --radius-rule: 1px;
 
   --shadow-hard-1: 1px 1px 0 var(--foreground);
   --shadow-hard-4: 4px 4px 0 var(--foreground);
@@ -136,6 +132,8 @@
 }
 
 :root {
+  --radius: 10px;
+
   /* oklch(100% 0 0) shifts text antialiasing in browsers, so white stays hex. */
   --white: #fff;
   --neutral-50: oklch(99.1% 0.004 271.4deg);
@@ -168,6 +166,10 @@
 }
 
 @theme inline {
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted-foreground: var(--muted-foreground);
