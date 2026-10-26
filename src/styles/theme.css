@@ -37,7 +37,7 @@
   --text-display--line-height: 0.92;
   --text-display--letter-spacing: -0.01em;
   --text-display--font-weight: 400;
-  --text-section: calc((100vw - 2 * var(--spacing-pad)) / 10.8);
+  --text-section: max(1.625rem, calc((100vw - 2 * var(--spacing-pad)) / 10.8));
   --text-section--line-height: 0.95;
   --text-section--letter-spacing: 0.02em;
   --text-section--font-weight: 400;
@@ -60,7 +60,10 @@
   --text-figure--line-height: 1.1;
   --text-figure--letter-spacing: -0.025em;
   --text-figure--font-weight: 800;
-  --text-signoff: min(5rem, calc((100vw - 2 * var(--spacing-pad)) / 9.8));
+  --text-signoff: max(
+    1.75rem,
+    min(5rem, calc((100vw - 2 * var(--spacing-pad)) / 9.8))
+  );
   --text-signoff--line-height: 1.05;
   --text-signoff--letter-spacing: -0.035em;
   --text-signoff--font-weight: 800;
