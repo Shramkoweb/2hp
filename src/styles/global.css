@@ -6,7 +6,6 @@
 @import "./header.css" layer(components);
 @import "./hero.css" layer(components);
 @import "./numbers.css" layer(components);
-@import "./follow.css" layer(components);
 
 @custom-variant scrolled (.scrolled &);
 
@@ -130,4 +129,20 @@
 
 @utility grid-cols-entry-sm {
   grid-template-columns: calc(var(--spacing) * 7) minmax(0, 1fr);
+}
+
+@utility grid-cols-fill-auto {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+@utility transition-lift {
+  transition-property: translate, box-shadow;
+  transition-timing-function: var(--tw-ease, ease);
+  transition-duration: var(--tw-duration, 0s);
+}
+
+@utility transition-background {
+  transition-property: background-color;
+  transition-timing-function: var(--tw-ease, ease);
+  transition-duration: var(--tw-duration, 0s);
 }
