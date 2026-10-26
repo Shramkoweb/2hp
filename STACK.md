@@ -1,6 +1,6 @@
 # 2hp: frontend stack
 
-Status: steps 0 to 7 done; step 8's conversion is done, its value merges wait for the owner.
+Status: steps 0 to 8 done; step 9 next.
 
 The approved design was a static page in a local sandbox, now outside the repo. The port matched it pixel for pixel; the committed baselines are its record.
 
@@ -60,12 +60,14 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 - **Components use semantic tokens only:** classes, or `var(--primary)` in component CSS.
 - **A dark theme or a rebrand only changes semantic values.**
 - **Fit-to-width text keeps a rem floor.** A size from `vw` alone ignores browser zoom (WCAG 1.4.4, failure F94); the floor sits just below the smallest size the formula gives at 320px, so it only acts when the reader zooms.
+- **The scales follow the 2026 research** (Tailwind v4, shadcn, Radix, Material 3, Carbon, Primer): type 15/17/19/21/24/28px plus fluid display roles that carry their own line height, tracking and weight; line heights 0.92/1/1.1/1.2/1.35/1.55; tracking −0.01/−0.02/−0.03em (+0.02 for Oi); weights 400–800 in steps of 100; radii from one `--radius`; borders 1/2/3px; durations 150/200/300/500ms.
+- **Hard shadows keep their footprint.** An element's translate plus its shadow offset equals the resting offset: hover −2 + 8 = 6, press +4 + 2 = 6.
 - **Primitives are OKLCH.** Each converts back to its original hex exactly, and the suite showed no diff. White stays hex: `oklch(100% 0 0)` shifts text antialiasing.
 - **`annotation` is not called `note`,** because `text-note` is already the note font size.
 
 Four layers, each catching what the previous one misses:
 
-1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist. Spacing is Tailwind's numeric scale on a 4px base (`p-4.5` is 18px); the named spacing tokens are semantic: `pad`, `nav-h`, `hero-top`, `section` and `col-2`. There is no preflight; `global.css` sets the few base rules the page needs.
+1. **Tailwind:** `@theme static { --*: initial; }`, and only `tailwindcss/utilities.css` is imported, scanning `src/` only. Default classes such as `bg-blue-500` do not exist. Spacing is Tailwind's numeric scale on a 4px base: whole steps, plus 0.5 and 1.5 (2px and 6px) for optical nudges. The named spacing tokens are semantic: `pad`, `nav-h`, `hero-top`, `section`, `col-2`, `chart-inset` and the aside anchors. There is no preflight; `global.css` sets the few base rules the page needs.
 2. **ESLint (`better-tailwindcss`):**
    - Errors: unknown classes, arbitrary values and `(--var)` shorthands.
    - Also errors, and autofixed: class order, duplicate classes and extra whitespace.
@@ -74,7 +76,8 @@ Four layers, each catching what the previous one misses:
 3. **Stylelint:** no colour literals, no `px` or `rem` and no width media queries outside `src/styles/theme.css`; breakpoints elsewhere are `@variant md` and friends.
 4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown. It fails on:
    - hex colours and colour functions;
-   - `var()` of a colour primitive.
+   - `var()` of a colour primitive;
+   - spacing steps other than whole numbers, 0.5 and 1.5.
 
 Rules:
 
