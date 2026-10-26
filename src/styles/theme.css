@@ -136,18 +136,19 @@
 }
 
 :root {
+  /* oklch(100% 0 0) shifts text antialiasing in browsers, so white stays hex. */
   --white: #fff;
-  --neutral-50: #fbfcff;
-  --neutral-200: #d5dae8;
-  --neutral-500: #6a6f82;
-  --neutral-700: #3d4152;
-  --neutral-800: #2c2f3d;
-  --neutral-950: #14161f;
-  --blue-100: #dce6ff;
-  --blue-300: #8eaeff;
-  --blue-500: #4c74f2;
-  --blue-600: #2b55f0;
-  --blue-700: #2546c4;
+  --neutral-50: oklch(99.1% 0.004 271.4deg);
+  --neutral-200: oklch(88.9% 0.02 270.2deg);
+  --neutral-500: oklch(54.4% 0.03 273.7deg);
+  --neutral-700: oklch(37.9% 0.03 274.6deg);
+  --neutral-800: oklch(30.8% 0.026 275.4deg);
+  --neutral-950: oklch(20.2% 0.018 274.9deg);
+  --blue-100: oklch(92.5% 0.036 268.3deg);
+  --blue-300: oklch(75.9% 0.122 267.1deg);
+  --blue-500: oklch(59.9% 0.194 267.1deg);
+  --blue-600: oklch(52.7% 0.236 266.1deg);
+  --blue-700: oklch(45.8% 0.199 266.5deg);
 
   --background: var(--neutral-50);
   --foreground: var(--neutral-950);

@@ -59,7 +59,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 - **Semantic tokens** (`--background`, `--foreground`, `--foreground-hover`, `--muted-foreground`, `--inverse-foreground`, `--placeholder`, `--card`, `--border`, `--primary`, `--primary-foreground`, `--accent`, `--ring`, `--chart`, `--pencil`, `--annotation`) point at primitives. `@theme inline` turns them into classes such as `bg-primary`.
 - **Components use semantic tokens only:** classes, or `var(--primary)` in component CSS.
 - **A dark theme or a rebrand only changes semantic values.**
-- **Hex stays until the cleanup,** because converting to OKLCH could shift a colour by a rounding step.
+- **Primitives are OKLCH.** Each converts back to its original hex exactly, and the suite showed no diff. White stays hex: `oklch(100% 0 0)` shifts text antialiasing.
 - **`annotation` is not called `note`,** because `text-note` is already the note font size.
 
 Four layers, each catching what the previous one misses:
