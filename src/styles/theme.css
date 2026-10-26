@@ -141,7 +141,6 @@
 :root {
   --radius: 10px;
 
-  /* oklch(100% 0 0) shifts text antialiasing in browsers, so white stays hex. */
   --white: #fff;
   --neutral-50: oklch(99.1% 0.004 271.4deg);
   --neutral-200: oklch(88.9% 0.02 270.2deg);

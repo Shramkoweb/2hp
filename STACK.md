@@ -44,7 +44,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
   - `pnpm test:e2e` runs Playwright in the pinned Docker image, with no network and the repo mounted read-only; only `.playwright/` (results and report) is writable, so `--update-snapshots` fails.
   - `pnpm test:e2e:write` is the same run with the repo writable, for the owner's baseline updates: once with `--update-snapshots`, once without to write the aria snapshot that the update skips.
   - Write a script only when a step needs logic that a chain cannot express.
-- **ESLint is type-aware:** typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`. `.astro` files use `project: true`, because the Astro parser does not support `projectService`.
+- **ESLint is type-aware:** typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`. `.astro` files use `project: true`, because the Astro parser does not support `projectService`. `src/jsx.d.ts` narrows Astro's `JSX.Element` to `HTMLElement`: with Astro's `HTMLElement | any`, the typed rules read JSX inside `.astro` maps as an error type.
 - **lefthook:**
   - pre-commit formats and lints the staged files;
   - pre-push runs `pnpm audit --audit-level high` and then `pnpm check`;
