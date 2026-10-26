@@ -42,11 +42,11 @@
   --text-section--font-weight: 400;
   --text-strap--line-height: 1.1;
   --text-strap--letter-spacing: -0.02em;
-  --text-strap--font-weight: 750;
+  --text-strap--font-weight: 700;
   --text-title: 1.75rem;
   --text-title--line-height: 1.1;
   --text-title--letter-spacing: -0.02em;
-  --text-title--font-weight: 750;
+  --text-title--font-weight: 700;
   --text-stat: 1.75rem;
   --text-stat--line-height: 1.1;
   --text-stat--letter-spacing: -0.03em;
@@ -57,14 +57,14 @@
   --text-handle--font-weight: 800;
   --text-figure: clamp(1.5rem, 2.2vw, 2rem);
   --text-figure--line-height: 1.1;
-  --text-figure--letter-spacing: -0.025em;
+  --text-figure--letter-spacing: -0.03em;
   --text-figure--font-weight: 800;
   --text-signoff: max(
     1.75rem,
     min(5rem, calc((100vw - 2 * var(--spacing-pad)) / 9.8))
   );
   --text-signoff--line-height: 1.1;
-  --text-signoff--letter-spacing: -0.035em;
+  --text-signoff--letter-spacing: -0.03em;
   --text-signoff--font-weight: 800;
   --text-plate: 2.75rem;
   --text-lead: 1.3125rem;
@@ -72,9 +72,7 @@
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
-  --font-weight-demibold: 650;
   --font-weight-bold: 700;
-  --font-weight-heavy: 750;
   --font-weight-extrabold: 800;
 
   --leading-none: 1;
@@ -83,7 +81,6 @@
   --leading-body: 1.55;
 
   --tracking-tight: -0.01em;
-  --tracking-snug: -0.015em;
   --tracking-heading: -0.02em;
   --tracking-wide: 0.02em;
 

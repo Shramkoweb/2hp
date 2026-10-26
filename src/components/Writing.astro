@@ -20,7 +20,9 @@ const posts = (await getCollection("posts")).toSorted(
             draft
           </span>
         )}
-        <h3 class="m-0 text-h4/title font-bold tracking-snug">{data.title}</h3>
+        <h3 class="m-0 text-h4/title font-bold tracking-heading">
+          {data.title}
+        </h3>
       </li>
     ))}
   </ol>
