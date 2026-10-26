@@ -1,7 +1,7 @@
 .name .w::before {
   content: "";
   position: absolute;
-  left: calc(var(--spacing) * -2.5);
+  left: calc(var(--spacing) * -2);
   right: 0;
   top: 0.755em;
   border-top: var(--border-width-rule) solid var(--pencil);
