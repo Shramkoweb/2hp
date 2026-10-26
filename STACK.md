@@ -72,11 +72,12 @@ Four layers, each catching what the previous one misses:
    - Also errors, and autofixed: class order, duplicate classes and extra whitespace.
    - Class order lives in ESLint rather than in a Prettier plugin, because `prettier-plugin-tailwindcss` cannot sort `.astro` with `prettier-plugin-astro` 1.x.
    - **Styles live in three files.** `theme.css` holds every token and is the only place for literal values. `global.css` holds the fonts, the base rules, the `scrolled` variant and the `@utility` patterns Tailwind has no utility for (grid templates, a one-sided dashed border, transitions). `effects.css` holds what utilities cannot express: the name's letter layers, the chart's draw-in and the keyframes; its classes stay in the markup as hooks, and ESLint's `detectComponentClasses` keeps them known. Everything else is utilities in the markup. Not in an Astro `<style>`: ESLint cannot see those classes.
-3. **Stylelint:** no colour literals, no `px` or `rem` and no width media queries outside `src/styles/theme.css`; breakpoints elsewhere are `@variant md` and friends.
-4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown. It fails on:
+3. **Stylelint:** no colour literals, no `px` or `rem` and no width media queries outside `src/styles/theme.css`; breakpoints elsewhere are `@variant md` and friends. In `theme.css`, no token in `--fill-*`, `--stroke-*` (except `--stroke-width-*`) or `--*-color-*`: Tailwind reads those as colours, so a width there turns `stroke-x` into an invalid `stroke`.
+4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown, and a name check on `theme.css`. It fails on:
    - hex colours and colour functions;
    - `var()` of a colour primitive;
-   - spacing steps other than whole numbers, 0.5 and 1.5.
+   - spacing steps other than whole numbers, 0.5 and 1.5;
+   - a size or width in `theme.css` (`--text-*`, `--border-width-*`, `--outline-width-*`, `--stroke-width-*`) named like a colour: `text-x`, `border-x`, `outline-x` and `stroke-x` resolve to the colour, and the size becomes unreachable.
 
 Rules:
 

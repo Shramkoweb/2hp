@@ -22,7 +22,7 @@
     "format:check": "prettier --check --cache --log-level warn .",
     "lint": "eslint --max-warnings 0 .",
     "lint:css": "stylelint --cache --max-warnings 0 \"src/**/*.css\"",
-    "lint:tokens": "! grep -rInE --exclude=theme.css \"#[0-9a-fA-F]{3,8}\\b|\\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\(|var\\(--(white|neutral-[0-9]+|blue-[0-9]+)\\)|[a-z]-([2-9]|[1-9][0-9]+)\\.5\\b|[a-z]-[0-9]+\\.(25|75)\\b\" src",
+    "lint:tokens": "! grep -rInE --exclude=theme.css \"#[0-9a-fA-F]{3,8}\\b|\\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\(|var\\(--(white|neutral-[0-9]+|blue-[0-9]+)\\)|[a-z]-([2-9]|[1-9][0-9]+)\\.5\\b|[a-z]-[0-9]+\\.(25|75)\\b\" src && ! sed -nE 's/^ *--(color|text|border-width|outline-width|stroke-width)-([a-z0-9-]+):.*/\\1 \\2/p' src/styles/theme.css | sort -u | cut -d' ' -f2 | sort | uniq -d | grep .",
     "typecheck": "astro check",
     "knip": "knip --no-progress",
     "test:e2e": "docker run --rm --platform linux/amd64 --init --ipc=host --network none -v \"$PWD\":/work:ro -v \"$PWD/.playwright\":/work/.playwright -w /work mcr.microsoft.com/playwright:v1.64.1-noble node node_modules/@playwright/test/cli.js test",

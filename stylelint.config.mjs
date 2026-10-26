@@ -31,7 +31,13 @@ export default {
     {
       files: ["src/styles/theme.css"],
       rules: {
-        "custom-property-pattern": null,
+        "custom-property-pattern": [
+          "^(?!fill-|stroke-(?!width-)|[a-z-]+-color-)",
+          {
+            message:
+              "Tailwind reads --fill-*, --stroke-* and --*-color-* as colours; colours live in --color-*",
+          },
+        ],
         "unit-disallowed-list": null,
         "media-feature-name-disallowed-list": null,
         "color-no-hex": null,
