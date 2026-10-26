@@ -23,7 +23,7 @@ The baselines in `tests/__screenshots__/` are the record of the approved page.
 - No `set:html` or `innerHTML` with anything not authored in this repo.
 - Prettier puts line breaks around `{expressions}` in inline content, and Astro renders that whitespace. Where a text run must stay tight, such as a number followed by `<small>`, put `{/* prettier-ignore */}` above the element, and check the built HTML.
 - Tailwind scans every word in `src/`, not just `class` attributes. A class or variable named like a utility, such as `ring`, emits that utility's CSS. After a build, the `utilities` layer in `dist/_astro/*.css` must hold only utilities used on purpose.
-- A `--text-*` size and a `--color-*` with the same name clash: `text-chart` resolves to the colour. Give sizes names that no colour uses.
+- A `--text-*` size and a `--color-*` with the same name clash: `text-chart` resolves to the colour. Give sizes names that no colour uses. `--stroke-*` is itself a colour namespace, so a stroke width goes in `--stroke-width-*`.
 
 ## Guards
 
