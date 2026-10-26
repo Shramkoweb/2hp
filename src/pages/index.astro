@@ -1,4 +1,6 @@
 ---
+import SiteHeader from "../components/SiteHeader.astro";
+import Sprite from "../components/Sprite.astro";
 import "../styles/global.css";
 ---
 
@@ -7,7 +9,35 @@ import "../styles/global.css";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TwoHour Project</title>
+    <title>TwoHour Project by Serhii Shramko: apps and their real numbers</title>
+    <meta
+      name="description"
+      content="Serhii Shramko, an indie developer in Boston, builds small apps in public and posts the real numbers: users, weekly installs and ratings."
+    />
+    <link
+      rel="preload"
+      href="/fonts/oi.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/bricolage.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
-  <body></body>
+  <body>
+    <Sprite />
+    <SiteHeader />
+    <main id="top"></main>
+    <script>
+      import "../scripts/main.ts";
+    </script>
+  </body>
 </html>

@@ -2,3 +2,96 @@
 
 @import "tailwindcss/utilities.css" layer(utilities) source("..");
 @import "./theme.css";
+@import "./layout.css" layer(components);
+@import "./header.css" layer(components);
+
+@font-face {
+  font-family: Oi;
+  src: url("/fonts/oi.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Bricolage;
+  src: url("/fonts/bricolage.woff2") format("woff2");
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Shantell;
+  src: url("/fonts/shantell.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oi Fallback";
+  src:
+    local("Arial"), local("Liberation Sans"), local("Arimo"), local("Helvetica");
+  size-adjust: 167.94%;
+  ascent-override: 63.71%;
+  descent-override: 30.37%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Bricolage Fallback";
+  src:
+    local("Arial"), local("Liberation Sans"), local("Arimo"), local("Helvetica");
+  size-adjust: 102.6%;
+  ascent-override: 90.64%;
+  descent-override: 26.32%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Shantell Fallback";
+  src:
+    local("Arial"), local("Liberation Sans"), local("Arimo"), local("Helvetica");
+  size-adjust: 108.82%;
+  ascent-override: 93.73%;
+  descent-override: 29.41%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--spacing-nav-h) + 16px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font: 400 var(--text-body) / 1.55 var(--font-text);
+    font-optical-sizing: auto;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
