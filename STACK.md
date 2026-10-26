@@ -119,6 +119,7 @@ Port rules:
 - **Selectors are roles and accessible names,** not class names, so the same tests run on the reference and on the port.
 - **Coverage:**
   - full pages and every section at 390, 768, 1024 and 1440 (one per tier) and 320 (the smallest phone). Tier edges need no widths of their own, because breakpoints live only in the theme and arbitrary variants are lint errors;
+  - full pages and every section in Firefox and WebKit at 390 and 1440. Their baselines were rendered from the port, not the reference, and checked by eye against Chromium (2026-10-26). WebKit uses Desktop Safari, so it shoots at device scale 2;
   - Windows 150% at 1280×610;
   - reduced motion and forced colors at 1440;
   - states at 1440: one shot for every state selector in the reference CSS (`:hover`, `:active`, `:focus-visible`, `[aria-pressed]`, `.scrolled`), derived from `styles.css` rather than picked by hand; plus the form after submit. `.posts h3 a:hover` has no element yet, because the posts are drafts without links;

@@ -32,6 +32,18 @@ export default defineConfig({
       testMatch: visual,
       use: { ...chrome, viewport: { width, height: 900 } },
     })),
+    ...(["firefox", "webkit"] as const).flatMap((engine) =>
+      [390, 1440].map((width) => ({
+        name: `${engine}-w${String(width)}`,
+        testMatch: visual,
+        use: {
+          ...devices[
+            engine === "firefox" ? "Desktop Firefox" : "Desktop Safari"
+          ],
+          viewport: { width, height: 900 },
+        },
+      })),
+    ),
     {
       name: "win150",
       testMatch: visual,
