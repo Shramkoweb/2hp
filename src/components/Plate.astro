@@ -29,7 +29,7 @@ const pencil = tone === "pencil";
       ? "border-dashed border-pencil"
       : "border-foreground forced-colors:border-canvas-text",
     tone === "dashed" && "border-dashed",
-    !pencil && (shelf ? "shadow-hard-4" : "shadow-hard-4"),
+    !pencil && "shadow-hard-4",
     href && "hover:-translate-0.5 hover:shadow-hard-6",
   ]}
   href={href}
