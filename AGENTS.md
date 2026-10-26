@@ -27,7 +27,7 @@ The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds 
 These are enforced by `.claude/settings.json` and the sandbox. When one blocks you, ask the owner; do not look for a way around it.
 
 - Baselines (`tests/__screenshots__/`) are human-only. `pnpm test:e2e` mounts the repo read-only, so `--update-snapshots` fails. If a baseline needs to change, explain why and give the owner the commands: `TARGET=reference pnpm test:e2e:write --update-snapshots`, then `TARGET=reference pnpm test:e2e:write` to write the aria snapshot that the update skips, then three green runs.
-- Owner-only files: `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, `package.json`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, the lint, format and TypeScript configs, `lefthook.yml`, `.vscode/`, CI workflows, git hooks and `twohour-project/`.
+- Owner-only files: `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, `.npmrc`, `lefthook.yml`, `.vscode/`, CI workflows, git hooks and `twohour-project/`. Lint, format and TypeScript configs and `package.json` are open, but a change that weakens a check needs the owner's yes.
 - No `npx`, `pnpm dlx`, `curl` or `wget`. Use project scripts and `pnpm exec`.
 - `.env` files and credential folders are unreadable.
 

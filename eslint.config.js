@@ -19,7 +19,12 @@ export default defineConfig([
   },
   tailwind.configs.correctness,
   {
-    settings: { "better-tailwindcss": { entryPoint: "src/styles/global.css" } },
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "src/styles/global.css",
+        detectComponentClasses: true,
+      },
+    },
     rules: {
       "better-tailwindcss/enforce-consistent-class-order": "error",
       "better-tailwindcss/enforce-canonical-classes": "error",

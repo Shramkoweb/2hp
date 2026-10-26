@@ -12,7 +12,7 @@ case "$file" in
     out+=$(run eslint --fix --max-warnings 0 --no-warn-ignored "$file")
     ;;
   "$CLAUDE_PROJECT_DIR"/src/*.css)
-    out+=$(run stylelint --fix --max-warnings 0 "$file")
+    out+=$(run stylelint --max-warnings 0 "$file")
     ;;
 esac
 

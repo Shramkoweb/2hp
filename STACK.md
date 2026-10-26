@@ -69,7 +69,7 @@ Four layers, each catching what the previous one misses:
    - Errors: unknown classes, arbitrary values and `(--var)` shorthands.
    - Also errors, and autofixed: class order, duplicate classes and extra whitespace.
    - Class order lives in ESLint rather than in a Prettier plugin, because `prettier-plugin-tailwindcss` cannot sort `.astro` with `prettier-plugin-astro` 1.x.
-   - The port (step 6) decides how to hold values that have no token yet.
+   - **Values with no token yet stay in component CSS** (owner's decision, 2026-10-26). The reference rules move to one file per section in `src/styles/`, imported into `global.css` in the `components` layer, with tokens through `var()` where the reference used one and the reference value where it did not. ESLint's `detectComponentClasses` knows these classes, so a class that exists nowhere is still an error. Not in an Astro `<style>`: ESLint cannot see those classes. No arbitrary classes and no stopgap tokens. Step 8 turns the rules into utility classes, one approved token at a time.
 3. **Stylelint:** no colour literals outside `src/styles/theme.css`.
 4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown. It fails on:
    - hex colours and colour functions;
@@ -180,7 +180,7 @@ Port rules:
 **Agents**
 
 - **Forbidden commands:** `npx`, `pnpm dlx`, `curl`, `wget`. Agents cannot read `.env` files.
-- **Owner-only files:** after step 5, agents cannot edit `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, `package.json`, the lockfile, `node_modules/`, `.pnpmfile.*`, the pnpm, lint, format and TypeScript configs, `lefthook.yml`, `.vscode/`, CI workflows, git hooks or `twohour-project/`. The owner changes these by hand, installs dependencies, and runs `!` commands, which are unsandboxed.
+- **Owner-only files:** after step 5, agents cannot edit `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, `.npmrc`, `lefthook.yml`, `.vscode/`, CI workflows, git hooks or `twohour-project/`. Lint, format and TypeScript configs and `package.json` were opened to agents on 2026-10-26 (owner's decision): locking them cost more than it protected, since every change shows in review and installs still fail in the sandbox. The owner changes these by hand, installs dependencies, and runs `!` commands, which are unsandboxed.
 - **Use deny rules and hooks, not ask prompts.** Bypass-permissions mode skips prompts.
 - **Sandbox:** on and strict (`allowUnsandboxedCommands: false`, `failIfUnavailable`), with the network allowlist set to the npm registry and GitHub.
   - Docker cannot run inside it, so `pnpm test:e2e` is the only excluded command. It matches only when it is the whole command, and its read-only mount keeps it from writing what the sandbox would block.

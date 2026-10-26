@@ -29,22 +29,12 @@
       "Edit(/twohour-project/**)",
       "Edit(/tests/**)",
       "Edit(/playwright.config.ts)",
-      "Edit(/package.json)",
       "Edit(/node_modules/**)",
       "Edit(/.pnpmfile.cjs)",
       "Edit(/.pnpmfile.mjs)",
       "Edit(/pnpm-lock.yaml)",
       "Edit(/pnpm-workspace.yaml)",
-      "Edit(/.npmrc)",
-      "Edit(/.nvmrc)",
-      "Edit(/.ncurc.json)",
-      "Edit(/.editorconfig)",
-      "Edit(/.prettierrc.json)",
-      "Edit(/.prettierignore)",
-      "Edit(/eslint.config.js)",
-      "Edit(/stylelint.config.mjs)",
-      "Edit(/knip.json)",
-      "Edit(/tsconfig.json)"
+      "Edit(/.npmrc)"
     ]
   },
   "sandbox": {
