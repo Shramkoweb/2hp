@@ -49,13 +49,13 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .name .l::after {
-    animation: flood 0.24s var(--ease-out) both;
+    animation: flood var(--transition-duration-base) var(--ease-out) both;
     animation-delay: calc(350ms + var(--i) * 55ms);
-    transition: translate 0.15s var(--ease-out);
+    transition: translate var(--transition-duration-fast) var(--ease-out);
   }
 
   .name .l {
-    animation: squash 0.46s var(--ease-squash) both;
+    animation: squash var(--transition-duration-spring) var(--ease-out) both;
     animation-delay: calc(440ms + var(--i) * 55ms);
   }
 
@@ -69,13 +69,14 @@
   }
 
   .chart.drawn .bar {
-    transition: transform 0.5s var(--ease-spring) calc(var(--b) * 28ms);
+    transition: transform var(--transition-duration-spring) var(--ease-spring)
+      calc(var(--b) * 28ms);
     transform: none;
   }
 
   .chart.drawn .ev,
   .chart.drawn .ink {
-    transition: opacity 0.3s 0.8s;
+    transition: opacity var(--transition-duration-slow) 0.8s;
     opacity: 1;
   }
 }
@@ -109,7 +110,7 @@
 }
 
 .boing {
-  animation: boing 0.5s var(--ease-spring);
+  animation: boing var(--transition-duration-spring) var(--ease-spring);
 }
 
 @keyframes boing {

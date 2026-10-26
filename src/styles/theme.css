@@ -117,8 +117,12 @@
   --color-canvas-text: CanvasText;
   --color-link-text: LinkText;
 
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 200ms;
+  --transition-duration-slow: 300ms;
+  --transition-duration-spring: 500ms;
+
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-squash: cubic-bezier(0.3, 0.7, 0.4, 1);
   --ease-spring: linear(
     0,
     0.42 9%,
