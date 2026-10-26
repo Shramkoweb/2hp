@@ -22,10 +22,7 @@
   --spacing-aside-x: calc(var(--spacing-pad) + var(--text-display) * 6.1);
   --spacing-aside-y: calc(var(--spacing-hero-top) + var(--text-display) * 1.18);
 
-  --text-name: min(9.4rem, calc((100vw - 2 * var(--spacing-pad)) / 7.2), 15svh);
-  --text-h2: clamp(2.4rem, 1.4rem + 3vw, 4rem);
   --text-strap: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
-  --text-h3: 1.75rem;
   --text-h4: 1.5rem;
   --text-body: 1.1875rem;
   --text-small: 1rem;
@@ -88,7 +85,6 @@
   --leading-relaxed: 1.4;
   --leading-text: 1.5;
   --leading-body: 1.55;
-  --leading-normal: normal;
 
   --tracking-tight: -0.01em;
   --tracking-snug: -0.015em;
@@ -118,6 +114,7 @@
   --shadow-hard-8: 8px 8px 0 var(--foreground);
 
   --border-width-rule: 1px;
+  --outline-width-focus: 3px;
   --border-width-hairline: 1.5px;
   --border-width-field: 2.5px;
 

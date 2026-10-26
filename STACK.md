@@ -1,6 +1,6 @@
 # 2hp: frontend stack
 
-Status: steps 0 to 7 done; step 8 next.
+Status: steps 0 to 7 done; step 8's conversion is done, its value merges wait for the owner.
 
 The approved design was a static page in a local sandbox, now outside the repo. The port matched it pixel for pixel; the committed baselines are its record.
 
@@ -69,19 +69,17 @@ Four layers, each catching what the previous one misses:
    - Errors: unknown classes, arbitrary values and `(--var)` shorthands.
    - Also errors, and autofixed: class order, duplicate classes and extra whitespace.
    - Class order lives in ESLint rather than in a Prettier plugin, because `prettier-plugin-tailwindcss` cannot sort `.astro` with `prettier-plugin-astro` 1.x.
-   - **Section CSS is a leftover of the port** (owner's decision for the port, 2026-10-26). The old page's rules sit in one file per section in `src/styles/`, imported into `global.css` in the `components` layer. ESLint's `detectComponentClasses` knows these classes, so a class that exists nowhere is still an error. Not in an Astro `<style>`: ESLint cannot see those classes. No arbitrary classes. Step 8 replaces the rules with utilities and deletes the files.
-3. **Stylelint:** no colour literals outside `src/styles/theme.css`.
+   - **Styles live in three files.** `theme.css` holds every token and is the only place for literal values. `global.css` holds the fonts, the base rules, the `scrolled` variant and the `@utility` patterns Tailwind has no utility for (grid templates, one-sided hairline borders, transitions). `effects.css` holds what utilities cannot express: the name's letter layers, the chart's draw-in and the keyframes; its classes stay in the markup as hooks, and ESLint's `detectComponentClasses` keeps them known. Everything else is utilities in the markup. Not in an Astro `<style>`: ESLint cannot see those classes.
+3. **Stylelint:** no colour literals, no `px` or `rem` and no width media queries outside `src/styles/theme.css`; breakpoints elsewhere are `@variant md` and friends.
 4. **`pnpm lint:tokens`:** a `grep` over every file under `src/` outside `theme.css`, including templates and Markdown. It fails on:
    - hex colours and colour functions;
    - `var()` of a colour primitive.
-
-   Stylelint bans `px` and `rem` outside `theme.css` at the end of step 8.
 
 Rules:
 
 - **Breakpoints (owner's decision, 2026-10-25, from US device data):**
   - phone below 768 (designed at 390), tablet 768–1023, desktop 1024–1439, wide from 1440;
-  - `theme.css` sets them as `md`, `lg` and `xl` in px; everything else reaches them only through Tailwind variants, mobile-first (step 8 moves the section CSS there);
+  - `theme.css` sets them as `md`, `lg` and `xl` in px; everything else reaches them only through Tailwind variants, mobile-first;
   - the pencil note beside the name shows only on wide screens.
 - **The `style` attribute stays allowed.** The name and the charts set `--i` and `--b` per element.
 - **JS hooks use `data-*` attributes**, not classes.
