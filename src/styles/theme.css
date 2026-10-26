@@ -25,9 +25,8 @@
   --text-strap: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
   --text-h4: 1.5rem;
   --text-body: 1.1875rem;
-  --text-small: 1rem;
+  --text-small: 1.0625rem;
   --text-meta: 0.9375rem;
-  --text-note: 1.0625rem;
 
   --text-display: min(
     9.4rem,
@@ -52,7 +51,7 @@
   --text-stat--line-height: 1.05;
   --text-stat--letter-spacing: -0.03em;
   --text-stat--font-weight: 800;
-  --text-handle: 1.3125rem;
+  --text-handle: var(--text-lead);
   --text-handle--line-height: 1.05;
   --text-handle--letter-spacing: -0.03em;
   --text-handle--font-weight: 800;
@@ -68,10 +67,7 @@
   --text-signoff--letter-spacing: -0.035em;
   --text-signoff--font-weight: 800;
   --text-plate: 2.75rem;
-  --text-numeral: 2.5rem;
-  --text-lead: 1.375rem;
-  --text-button: 1.125rem;
-  --text-axis: 0.875rem;
+  --text-lead: 1.3125rem;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
