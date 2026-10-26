@@ -26,7 +26,6 @@
       "Edit(/.vscode/**)",
       "Edit(/.github/workflows/**)",
       "Edit(/lefthook.yml)",
-      "Edit(/twohour-project/**)",
       "Edit(/tests/**)",
       "Edit(/playwright.config.ts)",
       "Edit(/node_modules/**)",

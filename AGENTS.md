@@ -2,7 +2,7 @@
 
 The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds the decisions, their reasons and the step plan.
 
-`twohour-project/` is the owner's local design sandbox, ignored by git and read-only for agents. `twohour-project/site/` is the approved page that the port must match pixel for pixel.
+The baselines in `tests/__screenshots__/` are the record of the approved page.
 
 ## Workflow
 
@@ -21,15 +21,15 @@ The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds 
 - Colours come from semantic tokens only (`bg-primary`, `var(--primary)`); never primitives or literals. No arbitrary values (`p-[13px]`, `(--x)`). The lint errors on these are the design system working, not obstacles.
 - JS hooks use `data-*` attributes, not classes. The `style` attribute is for per-element custom properties such as `--i`.
 - No `set:html` or `innerHTML` with anything not authored in this repo.
-- Prettier puts line breaks around `{expressions}` in inline content, and Astro renders that whitespace. Where a text run must stay tight, such as a number followed by `<small>`, put `{/* prettier-ignore */}` above the element, and compare the built HTML with the reference.
+- Prettier puts line breaks around `{expressions}` in inline content, and Astro renders that whitespace. Where a text run must stay tight, such as a number followed by `<small>`, put `{/* prettier-ignore */}` above the element, and check the built HTML.
 - Tailwind scans every word in `src/`, not just `class` attributes. A class or variable named like a utility, such as `ring`, emits that utility's CSS. After a build, the `utilities` layer in `dist/_astro/*.css` must hold only utilities used on purpose.
 
 ## Guards
 
 These are enforced by `.claude/settings.json` and the sandbox. When one blocks you, ask the owner; do not look for a way around it.
 
-- Baselines (`tests/__screenshots__/`) are human-only. `pnpm test:e2e` mounts the repo read-only, so `--update-snapshots` fails. If a baseline needs to change, explain why and give the owner the commands: `TARGET=reference pnpm test:e2e:write --update-snapshots`, then `TARGET=reference pnpm test:e2e:write` to write the aria snapshot that the update skips, then three green runs.
-- Owner-only files: `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, `.npmrc`, `lefthook.yml`, `.vscode/`, CI workflows, git hooks and `twohour-project/`. Lint, format and TypeScript configs and `package.json` are open, but a change that weakens a check needs the owner's yes.
+- Baselines (`tests/__screenshots__/`) are human-only. `pnpm test:e2e` mounts the repo read-only, so `--update-snapshots` fails. If a baseline needs to change, explain why and give the owner the commands: `pnpm build`, then `pnpm test:e2e:write --update-snapshots`, then `pnpm test:e2e:write` to write the aria snapshot that the update skips, then three green runs.
+- Owner-only files: `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, `.npmrc`, `lefthook.yml`, `.vscode/`, CI workflows and git hooks. Lint, format and TypeScript configs and `package.json` are open, but a change that weakens a check needs the owner's yes.
 - No `npx`, `pnpm dlx`, `curl` or `wget`. Use project scripts and `pnpm exec`.
 - `.env` files and credential folders are unreadable.
 

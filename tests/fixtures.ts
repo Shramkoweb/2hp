@@ -5,10 +5,8 @@ import {
   type Page,
 } from "@playwright/test";
 import path from "node:path";
-import process from "node:process";
 
-const root =
-  process.env.TARGET === "reference" ? "twohour-project/site" : "dist";
+const root = "dist";
 
 export const test = base.extend({
   context: async ({ context }, use) => {

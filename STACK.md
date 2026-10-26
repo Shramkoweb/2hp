@@ -2,7 +2,7 @@
 
 Status: decided 2026-10-25, nothing installed yet.
 
-`twohour-project/` is a local design sandbox, git-ignored. `twohour-project/site/` is the approved page and the read-only reference for the port. `twohour-project/DESIGN-SYSTEM-PLAN.md` details the port.
+The approved design was a static page in a local sandbox, now outside the repo. The port matched it pixel for pixel; the committed baselines are its record.
 
 ## 1. Stack
 
@@ -40,11 +40,10 @@ Status: decided 2026-10-25, nothing installed yet.
 - **`pnpm check` is the definition of done**, for people, hooks and CI alike.
   - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Playwright joins it in step 6, once there is a port to compare.
   - ESLint runs without `--cache`, because type-aware results depend on other files and the cache only watches the linted file.
-  - `pnpm test:e2e` runs Playwright in the pinned Docker image, with no network and the repo mounted read-only; only `.playwright/` (results and report) is writable, so `--update-snapshots` fails. `TARGET=reference` points it at the reference instead of `dist/`.
+  - `pnpm test:e2e` runs Playwright in the pinned Docker image, with no network and the repo mounted read-only; only `.playwright/` (results and report) is writable, so `--update-snapshots` fails.
   - `pnpm test:e2e:write` is the same run with the repo writable, for the owner's baseline updates: once with `--update-snapshots`, once without to write the aria snapshot that the update skips.
   - Write a script only when a step needs logic that a chain cannot express.
 - **ESLint is type-aware:** typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`. `.astro` files use `project: true`, because the Astro parser does not support `projectService`.
-- **Every tool ignores `twohour-project/`.**
 - **lefthook:**
   - pre-commit formats and lints the staged files;
   - pre-push runs `pnpm audit --audit-level high` and then `pnpm check`;
@@ -79,7 +78,7 @@ Four layers, each catching what the previous one misses:
 
 Port rules:
 
-- **Same values, new names.** Every `:root` token from `twohour-project/site/styles.css` keeps its value. The reference's 700px overrides stay as a media query in `theme.css`. The name map:
+- **Same values, new names.** Every `:root` token from the reference stylesheet keeps its value. The reference's 700px overrides stay as a media query in `theme.css`. The name map:
 
   | Reference                                                    | Token                                                                                        |
   | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
@@ -107,7 +106,7 @@ Port rules:
 
 ## 6. Tests
 
-- **Baselines come from the reference.** Step 4 shoots `twohour-project/site/` and commits the screenshots. The reference is local only, so those baselines are what CI and the port compare against.
+- **Baselines came from the reference.** Step 4 shot the reference page and committed the screenshots. Since step 7 the port is the source of truth: baselines change only from `dist/`, after the owner approves the change.
 - **Only Docker renders baselines.** Use the Playwright image on amd64; on Apple Silicon, `--platform linux/amd64`. Never commit baselines rendered on macOS.
 - **Baselines are byte-exact.** Prettier ignores `tests/__screenshots__/`: the pre-commit hook once added a final newline to `head.json`, and the test failed against its own baseline.
 - **Exact comparison needs two settings:** `maxDiffPixels: 0` and `threshold: 0`. The per-pixel threshold defaults to 0.2.
@@ -145,13 +144,13 @@ Port rules:
 
 **Guards**
 
-- **Baselines are human-only.** Agents cannot update snapshots, edit the screenshots folder, or touch `twohour-project/`.
+- **Baselines are human-only.** Agents cannot update snapshots or edit the screenshots folder.
 - **The test harness is protected.** Agents cannot edit the Playwright config or the check scripts.
 - **After every edit**, the file is formatted and linted, and findings go back to the agent as context without ending its turn.
 - **Before the agent stops**, `pnpm check` runs and blocks the stop on failure, at most 3 times so a stuck agent can still report.
 - **Security guards:** see section 8.
 
-**Skills for the port:** one for the reference → port → diff loop, and one for running the diffs and reporting evidence.
+**Skills:** one for running the diffs and reporting evidence. The port skill was removed in step 7.
 
 **MCP:** Astro Docs only. Playwright runs as its CLI.
 
@@ -180,7 +179,7 @@ Port rules:
 **Agents**
 
 - **Forbidden commands:** `npx`, `pnpm dlx`, `curl`, `wget`. Agents cannot read `.env` files.
-- **Owner-only files:** after step 5, agents cannot edit `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, `.npmrc`, `lefthook.yml`, `.vscode/`, CI workflows, git hooks or `twohour-project/`. Lint, format and TypeScript configs and `package.json` were opened to agents on 2026-10-26 (owner's decision): locking them cost more than it protected, since every change shows in review and installs still fail in the sandbox. The owner changes these by hand, installs dependencies, and runs `!` commands, which are unsandboxed.
+- **Owner-only files:** after step 5, agents cannot edit `.claude/`, `.mcp.json`, `tests/`, `playwright.config.ts`, the lockfile, `node_modules/`, `.pnpmfile.*`, `pnpm-workspace.yaml`, `.npmrc`, `lefthook.yml`, `.vscode/`, CI workflows or git hooks. Lint, format and TypeScript configs and `package.json` were opened to agents on 2026-10-26 (owner's decision): locking them cost more than it protected, since every change shows in review and installs still fail in the sandbox. The owner changes these by hand, installs dependencies, and runs `!` commands, which are unsandboxed.
 - **Use deny rules and hooks, not ask prompts.** Bypass-permissions mode skips prompts.
 - **Sandbox:** on and strict (`allowUnsandboxedCommands: false`, `failIfUnavailable`), with the network allowlist set to the npm registry and GitHub.
   - Docker cannot run inside it, so `pnpm test:e2e` is the only excluded command. It matches only when it is the whole command, and its read-only mount keeps it from writing what the sandbox would block.
@@ -211,11 +210,11 @@ Port rules:
 
 Each step is one commit to `main`, made after the owner's review. No step starts before the previous one is committed.
 
-0. **Docs and ignore:** this file, and `.gitignore` with the whole `twohour-project/` ignored.
+0. **Docs and ignore:** this file, and `.gitignore` with the design sandbox ignored.
 1. **Astro foundation:** Node and pnpm pinned, a hardened pnpm config, Astro with a placeholder page. Done when build and typecheck pass.
 2. **Formatting and base lint:** Prettier, ESLint, Stylelint, Knip, EditorConfig, lefthook with `pnpm audit` on pre-push, the first `pnpm check`. Done when it passes and a deliberately broken file fails each tool.
 3. **Tailwind and the theme:** the theme with every reference token, the Tailwind lint rules, the colour bans, token lint. Done when `bg-paper` passes and `bg-blue-500` and `#fff` fail.
-4. **Tests and reference baselines:** everything in section 6, against `twohour-project/site/`. Done when three runs in a row show zero diff.
+4. **Tests and reference baselines:** everything in section 6, against the reference page. Done when three runs in a row show zero diff.
 5. **Agent harness:** everything in section 7, plus the agent rules and the dependency review from section 8. Done when each guard is shown to work, including a blocked `npx` and a blocked edit to `.claude/hooks/`.
 6. **The port, one section per commit.** Each part is done when its shots show zero diff at every width and in every state.
    1. Layout, fonts, SVG sprite, header, sound toggle, `main.js`.
@@ -223,7 +222,7 @@ Each step is one commit to `main`, made after the owner's review. No step starts
    3. The numbers.
    4. Wins & flops, and Writing.
    5. Follow along and footer. Full pages and the aria snapshot must now match too. Then a fresh agent, given only the reference files and the port, lists anything in the reference that no test covers and the port lacks.
-7. **Retire the sandbox:** remove every `twohour-project` reference from the repo: ignore lists, the tsconfig exclude, agent guards, test configs, this file. `git grep twohour-project` must come back empty.
+7. **Retire the sandbox:** the owner moved it out of the repo (2026-10-26). Every reference to it goes: ignore lists, the tsconfig exclude, the agent guard, the tests' reference mode, the port skill and these docs. Baselines change only from the port. Done when `git grep` finds neither the sandbox's folder name nor the reference-mode variable, and the suite is green.
 8. **Token cleanup, one approved decision per commit.**
    - Inputs:
      - the arbitrary-value warnings, which list every non-token value;

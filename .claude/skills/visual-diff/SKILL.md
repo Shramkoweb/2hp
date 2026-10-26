@@ -9,4 +9,4 @@ description: Run the Playwright suite against the build and report the evidence 
    - the command and the passed, failed and skipped counts;
    - for each failure: the project, the test, the differing pixel count, the three image paths and what visibly differs;
    - any test skipped that was not skipped before.
-4. Never change a baseline or a test to make a diff go away. If a baseline looks wrong, say why and hand the owner the commands: `TARGET=reference pnpm test:e2e:write --update-snapshots`, then `TARGET=reference pnpm test:e2e:write` to write the aria snapshot, then three green runs.
+4. Never change a baseline or a test to make a diff go away. If a baseline looks wrong, say why and hand the owner the commands: `pnpm test:e2e:write --update-snapshots`, then `pnpm test:e2e:write` to write the aria snapshot, then three green runs.
