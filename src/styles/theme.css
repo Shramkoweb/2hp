@@ -29,11 +29,99 @@
   --text-meta: 0.9375rem;
   --text-note: 1.0625rem;
 
+  --text-display: min(
+    9.4rem,
+    calc((100vw - 2 * var(--spacing-pad)) / 7.2),
+    15svh
+  );
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.01em;
+  --text-display--font-weight: 400;
+  --text-section: calc((100vw - 2 * var(--spacing-pad)) / 10.8);
+  --text-section--line-height: 0.95;
+  --text-section--letter-spacing: 0.02em;
+  --text-section--font-weight: 400;
+  --text-strap--line-height: 1.12;
+  --text-strap--letter-spacing: -0.02em;
+  --text-strap--font-weight: 750;
+  --text-title: 1.75rem;
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.02em;
+  --text-title--font-weight: 750;
+  --text-stat: 1.75rem;
+  --text-stat--line-height: 1.05;
+  --text-stat--letter-spacing: -0.03em;
+  --text-stat--font-weight: 800;
+  --text-handle: 1.3125rem;
+  --text-handle--line-height: 1.05;
+  --text-handle--letter-spacing: -0.03em;
+  --text-handle--font-weight: 800;
+  --text-figure: clamp(1.5rem, 2.2vw, 2rem);
+  --text-figure--line-height: 1.1;
+  --text-figure--letter-spacing: -0.025em;
+  --text-figure--font-weight: 800;
+  --text-signoff: min(5rem, calc((100vw - 2 * var(--spacing-pad)) / 9.8));
+  --text-signoff--line-height: 1.05;
+  --text-signoff--letter-spacing: -0.035em;
+  --text-signoff--font-weight: 800;
+  --text-plate: 2.75rem;
+  --text-numeral: 2.5rem;
+  --text-lead: 1.375rem;
+  --text-button: 1.125rem;
+  --text-chart: 0.875rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-demibold: 650;
+  --font-weight-bold: 700;
+  --font-weight-heavy: 750;
+  --font-weight-extrabold: 800;
+
+  --leading-none: 1;
+  --leading-title: 1.2;
+  --leading-note: 1.3;
+  --leading-hint: 1.35;
+  --leading-relaxed: 1.4;
+  --leading-text: 1.5;
+  --leading-body: 1.55;
+  --leading-normal: normal;
+
+  --tracking-tight: -0.01em;
+  --tracking-snug: -0.015em;
+  --tracking-heading: -0.02em;
+  --tracking-wide: 0.02em;
+
+  --container-page: 1360px;
+  --container-shelf: 720px;
+  --container-intro: 36em;
+  --container-what: 32em;
+  --container-lede: 30em;
+  --container-aside: 15em;
+
   --radius-plate: 22px;
+  --radius-plate-sm: 18px;
+  --radius-plate-xs: 16px;
   --radius-btn: 14px;
   --radius-field: 12px;
+  --radius-focus: 4px;
+  --radius-rule: 1px;
+
+  --shadow-hard-1: 1px 1px 0 var(--foreground);
+  --shadow-hard-4: 4px 4px 0 var(--foreground);
+  --shadow-hard-5: 5px 5px 0 var(--foreground);
+  --shadow-hard-6: 6px 6px 0 var(--foreground);
+  --shadow-hard-7: 7px 7px 0 var(--foreground);
+  --shadow-hard-8: 8px 8px 0 var(--foreground);
+
+  --border-width-hairline: 1.5px;
+  --border-width-field: 2.5px;
+
+  --color-canvas-text: CanvasText;
+  --color-link-text: LinkText;
 
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-squash: cubic-bezier(0.3, 0.7, 0.4, 1);
   --ease-spring: linear(
     0,
     0.42 9%,
@@ -100,5 +188,6 @@
     --spacing-nav-h: 64px;
     --spacing-hero-top: 36px;
     --spacing-section: 128px;
+    --text-section: clamp(2.4rem, 1.4rem + 3vw, 4rem);
   }
 }

@@ -6,10 +6,32 @@
 @import "./header.css" layer(components);
 @import "./hero.css" layer(components);
 @import "./numbers.css" layer(components);
-@import "./wins.css" layer(components);
-@import "./writing.css" layer(components);
 @import "./follow.css" layer(components);
 @import "./footer.css" layer(components);
+
+@custom-variant scrolled (.scrolled &);
+
+@utility border-t-hairline {
+  border-top-width: var(--border-width-hairline);
+  border-top-style: solid;
+}
+
+@utility border-b-hairline-dashed {
+  border-bottom-width: var(--border-width-hairline);
+  border-bottom-style: dashed;
+}
+
+@utility border-field {
+  border-width: var(--border-width-field);
+  border-style: solid;
+}
+
+@utility grid-cols-post {
+  grid-template-columns: calc(var(--spacing-col-2) - var(--spacing) * 6) minmax(
+      0,
+      1fr
+    );
+}
 
 @font-face {
   font-family: Oi;
@@ -99,4 +121,14 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
+}
+
+@utility grid-cols-entry {
+  grid-template-columns:
+    calc(var(--spacing-col-2) - var(--spacing) * 6) calc(var(--spacing) * 7)
+    minmax(0, 1.4fr) minmax(0, 1fr);
+}
+
+@utility grid-cols-entry-sm {
+  grid-template-columns: calc(var(--spacing) * 7) minmax(0, 1fr);
 }

@@ -1,0 +1,26 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  intro?: string;
+  last?: boolean;
+}
+
+const { id, title, intro, last = false } = Astro.props;
+---
+
+<section
+  class={last ? "pb-18" : "pb-section"}
+  id={id}
+  aria-labelledby={`${id}-h`}
+>
+  <div class="mx-auto max-w-page px-pad">
+    <h2 class="m-0 mb-4 font-show text-section" id={`${id}-h`}>
+      {title}
+    </h2>
+    {intro && (
+      <p class="m-0 mb-10 max-w-intro text-muted-foreground">{intro}</p>
+    )}
+    <slot />
+  </div>
+</section>

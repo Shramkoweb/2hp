@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { formatMonth } from "../lib/format";
+import Section from "./Section.astro";
 
 const labels = { win: "Win: ", flop: "Flop: " };
 
@@ -9,31 +10,38 @@ const entries = (await getCollection("log")).toSorted((a, b) =>
 );
 ---
 
-<section class="sec" id="wins" aria-labelledby="wins-h">
-  <div class="wrap">
-    <h2 id="wins-h">Wins &amp; flops</h2>
-    <ol class="log">
-      {entries.length === 0 ? (
-        <li class="empty">
-          No verdicts yet. The first marks go here with the November numbers.
-        </li>
-      ) : (
-        entries.map(({ data: entry }) => (
-          <li>
-            <time datetime={entry.month}>
-              {formatMonth(new Date(entry.month))}
-            </time>
-            <svg class="mk" aria-hidden="true">
-              <use href={`#mk-${entry.kind}`}></use>
-            </svg>
-            <p>
-              <span class="sr-only">{labels[entry.kind]}</span>
-              <b>{entry.lead}</b> {entry.text}
+<Section id="wins" title="Wins & flops">
+  <ol class="m-0 list-none border-t-2 border-foreground p-0">
+    {entries.length === 0 ? (
+      <li class="block border-b-hairline-dashed border-pencil py-4.5 font-hand text-note/relaxed font-medium text-annotation">
+        No verdicts yet. The first marks go here with the November numbers.
+      </li>
+    ) : (
+      entries.map(({ data: entry }) => (
+        <li class="grid grid-cols-entry-sm items-start gap-x-3.5 gap-y-0.5 border-b-2 border-foreground py-4.5 md:grid-cols-entry md:gap-x-6 md:gap-y-0">
+          <time
+            class="col-start-2 pt-0.75 text-meta text-muted-foreground tabular-nums md:col-auto"
+            datetime={entry.month}
+          >
+            {formatMonth(new Date(entry.month))}
+          </time>
+          <svg
+            class="row-span-3 size-7 text-annotation md:row-auto"
+            aria-hidden="true"
+          >
+            <use href={`#mk-${entry.kind}`}></use>
+          </svg>
+          <p class="col-start-2 m-0 text-small/text text-pretty md:col-auto">
+            <span class="sr-only">{labels[entry.kind]}</span>
+            <b class="font-bold">{entry.lead}</b> {entry.text}
+          </p>
+          {entry.lesson && (
+            <p class="col-start-2 m-0 font-hand text-small/relaxed font-medium text-pretty text-annotation md:col-auto">
+              {entry.lesson}
             </p>
-            {entry.lesson && <p class="lesson">{entry.lesson}</p>}
-          </li>
-        ))
-      )}
-    </ol>
-  </div>
-</section>
+          )}
+        </li>
+      ))
+    )}
+  </ol>
+</Section>
