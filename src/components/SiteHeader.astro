@@ -1,42 +1,64 @@
-<header class="nav">
-  <div class="wrap">
-    <a class="mark" href="#top">
+<header class="sticky top-0 z-20 border-b-2 border-transparent bg-background transition-colors duration-200 ease-out scrolled:border-foreground">
+  <div class="mx-auto flex min-h-nav-h max-w-page items-center gap-3 px-pad md:gap-10">
+    <a
+      class="text-note/none font-extrabold tracking-heading whitespace-nowrap no-underline md:text-body"
+      href="#top"
+    >
       TwoHour Project
     </a>
-    <nav aria-label="Main">
-      <ul>
+    <nav class="hidden md:block" aria-label="Main">
+      <ul class="m-0 flex list-none gap-7 p-0 text-note font-semibold">
         <li>
-          <a href="#projects">Projects</a>
+          <a
+            class="inline-block py-2 no-underline hover:underline hover:decoration-3 hover:underline-offset-6"
+            href="#projects"
+          >
+            Projects
+          </a>
         </li>
         <li>
-          <a href="#writing">Writing</a>
+          <a
+            class="inline-block py-2 no-underline hover:underline hover:decoration-3 hover:underline-offset-6"
+            href="#writing"
+          >
+            Writing
+          </a>
         </li>
       </ul>
     </nav>
-    <div class="tools">
+    <div class="ml-auto flex items-center gap-1">
       <a
-        class="icon"
+        class="grid size-9 place-items-center rounded-btn border border-transparent bg-transparent p-0 text-foreground transition-background duration-150 ease-out hover:bg-accent md:size-10"
         href="https://x.com/twohourproject"
         aria-label="X: @twohourproject"
         title="X: @twohourproject"
       >
-        <svg aria-hidden="true">
+        <svg class="size-5 forced-colors:text-link-text" aria-hidden="true">
           <use href="#i-x"></use>
         </svg>
       </a>
-      <span class="sep" aria-hidden="true"></span>
+      <span
+        class="mx-1 h-5.5 w-0.5 rounded-rule bg-foreground opacity-20 md:mx-2"
+        aria-hidden="true"
+      ></span>
       <button
-        class="icon sound"
+        class="group grid size-9 cursor-pointer place-items-center rounded-btn border border-transparent bg-transparent p-0 text-foreground transition-background duration-150 ease-out not-aria-pressed:text-muted-foreground hover:bg-accent md:size-10"
         type="button"
         aria-pressed="true"
         aria-label="Sound"
         title="Sound on"
         data-sound
       >
-        <svg class="on" aria-hidden="true">
+        <svg
+          class="size-5 group-not-aria-pressed:hidden forced-colors:text-link-text"
+          aria-hidden="true"
+        >
           <use href="#i-sound-on"></use>
         </svg>
-        <svg class="off" aria-hidden="true">
+        <svg
+          class="hidden size-5 group-not-aria-pressed:block forced-colors:text-link-text"
+          aria-hidden="true"
+        >
           <use href="#i-sound-off"></use>
         </svg>
       </button>

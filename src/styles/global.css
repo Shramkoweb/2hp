@@ -3,7 +3,6 @@
 @import "tailwindcss/utilities.css" layer(utilities) source("..");
 @import "./theme.css" layer(theme);
 @import "./layout.css" layer(components);
-@import "./header.css" layer(components);
 @import "./hero.css" layer(components);
 @import "./effects.css" layer(components);
 
