@@ -43,6 +43,7 @@
     "allowUnsandboxedCommands": false,
     "excludedCommands": ["pnpm test:e2e *"],
     "network": {
+      "allowLocalBinding": true,
       "allowedDomains": [
         "registry.npmjs.org",
         "github.com",
