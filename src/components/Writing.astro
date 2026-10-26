@@ -1,0 +1,26 @@
+---
+const drafts = [
+  "Shipping one extension to Chrome, Edge and Firefox",
+  "Where the Udemy Reset Progress users came from",
+  "What half a year of install charts looks like",
+  "Going from browser extensions to mobile apps",
+];
+---
+
+<section class="sec" id="writing" aria-labelledby="writing-h">
+  <div class="wrap">
+    <h2 id="writing-h">Writing</h2>
+    <p class="intro">
+      I'm writing these now. The first one goes up in November, with the new
+      numbers.
+    </p>
+    <ol class="posts">
+      {drafts.map((title) => (
+        <li>
+          <span class="draft">draft</span>
+          <h3>{title}</h3>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
