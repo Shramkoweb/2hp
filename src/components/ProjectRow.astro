@@ -1,33 +1,35 @@
 ---
-import type { Project } from "../data/projects";
+import type { CollectionEntry } from "astro:content";
+import { formatList, formatMonth, formatNumber } from "../lib/format";
 import WeeklyChart from "./WeeklyChart.astro";
 
-type Props = Project;
+interface Props {
+  project: CollectionEntry<"projects">;
+}
 
-const project = Astro.props;
-const kind = `${project.stores} · since ${project.since}`;
-const users = project.users.toLocaleString("en-US");
-const rating = `users · ${project.rating.toFixed(1)} from ${String(project.ratings)} ratings`;
+const { id, data } = Astro.props.project;
+const kind = `${formatList(data.stores)} · since ${formatMonth(data.since)}`;
+const rating = `users · ${data.rating.toFixed(1)} from ${String(data.ratings)} ratings`;
 ---
 
-<article class="proj" id={`p-${project.slug}`}>
+<article class="proj" id={`p-${id}`}>
   <div class="plate sm">
     <img
       class="logo"
-      src={`/img/${project.slug}.png`}
+      src={data.logo.src}
       alt=""
-      width="128"
-      height="128"
+      width={data.logo.width}
+      height={data.logo.height}
     />
   </div>
   <div>
-    <h3>{project.name}</h3>
+    <h3>{data.name}</h3>
     <p class="kind">{kind}</p>
-    <p class="what">{project.what}</p>
+    <p class="what">{data.what}</p>
   </div>
-  <WeeklyChart name={project.name} installs={project.installs} />
+  <WeeklyChart name={data.name} installs={data.installs} />
   <div class="now">
-    <b>{users}</b>
+    <b>{formatNumber(data.users)}</b>
     <span>{rating}</span>
   </div>
 </article>

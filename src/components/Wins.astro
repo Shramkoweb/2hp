@@ -1,18 +1,12 @@
 ---
-import { log } from "../data/log";
+import { getCollection } from "astro:content";
+import { formatMonth } from "../lib/format";
 
 const labels = { win: "Win: ", flop: "Flop: " };
 
-const entries = log
-  .toSorted((a, b) => b.month.localeCompare(a.month))
-  .map((entry) => ({
-    ...entry,
-    date: new Date(`${entry.month}-01T00:00:00Z`).toLocaleDateString("en-US", {
-      month: "short",
-      year: "numeric",
-      timeZone: "UTC",
-    }),
-  }));
+const entries = (await getCollection("log")).toSorted((a, b) =>
+  b.data.month.localeCompare(a.data.month),
+);
 ---
 
 <section class="sec" id="wins" aria-labelledby="wins-h">
@@ -24,9 +18,11 @@ const entries = log
           No verdicts yet. The first marks go here with the November numbers.
         </li>
       ) : (
-        entries.map((entry) => (
+        entries.map(({ data: entry }) => (
           <li>
-            <time datetime={entry.month}>{entry.date}</time>
+            <time datetime={entry.month}>
+              {formatMonth(new Date(entry.month))}
+            </time>
             <svg class="mk" aria-hidden="true">
               <use href={`#mk-${entry.kind}`}></use>
             </svg>

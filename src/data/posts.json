@@ -1,0 +1,26 @@
+[
+  {
+    "id": "one-extension-three-stores",
+    "order": 1,
+    "title": "Shipping one extension to Chrome, Edge and Firefox",
+    "draft": true
+  },
+  {
+    "id": "where-the-users-came-from",
+    "order": 2,
+    "title": "Where the Udemy Reset Progress users came from",
+    "draft": true
+  },
+  {
+    "id": "half-a-year-of-install-charts",
+    "order": 3,
+    "title": "What half a year of install charts looks like",
+    "draft": true
+  },
+  {
+    "id": "from-extensions-to-mobile-apps",
+    "order": 4,
+    "title": "Going from browser extensions to mobile apps",
+    "draft": true
+  }
+]

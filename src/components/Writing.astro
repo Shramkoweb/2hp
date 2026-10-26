@@ -1,10 +1,9 @@
 ---
-const drafts = [
-  "Shipping one extension to Chrome, Edge and Firefox",
-  "Where the Udemy Reset Progress users came from",
-  "What half a year of install charts looks like",
-  "Going from browser extensions to mobile apps",
-];
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("posts")).toSorted(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <section class="sec" id="writing" aria-labelledby="writing-h">
@@ -15,10 +14,10 @@ const drafts = [
       numbers.
     </p>
     <ol class="posts">
-      {drafts.map((title) => (
+      {posts.map(({ data }) => (
         <li>
-          <span class="draft">draft</span>
-          <h3>{title}</h3>
+          {data.draft && <span class="draft">draft</span>}
+          <h3>{data.title}</h3>
         </li>
       ))}
     </ol>

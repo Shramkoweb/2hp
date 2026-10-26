@@ -1,32 +1,28 @@
 ---
-import type { Project } from "../data/projects";
+import type { CollectionEntry } from "astro:content";
+import { formatDate, formatDay } from "../lib/format";
 
 interface Props {
   name: string;
-  installs: Project["installs"];
+  installs: CollectionEntry<"projects">["data"]["installs"];
 }
 
 const { name, installs } = Astro.props;
 const { weekly } = installs;
 
 const num = (value: number) => String(Number(value.toFixed(1)));
-const day = (offset: number, year = false) => {
-  const date = new Date(`${installs.from}T00:00:00Z`);
+const week = (offset: number) => {
+  const date = new Date(installs.from);
   date.setUTCDate(date.getUTCDate() + offset);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: year ? "numeric" : undefined,
-    timeZone: "UTC",
-  });
+  return date;
 };
 
 const best = Math.max(...weekly);
 const bestIndex = weekly.indexOf(best);
 const last = weekly.at(-1) ?? 0;
 const total = weekly.reduce((sum, value) => sum + value, 0);
-const start = day(0);
-const end = day(weekly.length * 7 - 1, true);
+const start = formatDay(week(0));
+const end = formatDate(week(weekly.length * 7 - 1));
 
 const bars = weekly.map((value, i) => {
   const height = Number(((value * 92) / best).toFixed(1));
@@ -40,7 +36,7 @@ const bars = weekly.map((value, i) => {
 const lastBar = bars[bars.length - 1] ?? { x: 0, y: 0 };
 const bestX = bars[bestIndex]?.x ?? 0;
 
-const label = `${name}: ${installs.store} installs per week, ${start} to ${end}, ${String(total)} in total. Best week ${String(best)} installs, week of ${day(bestIndex * 7)}. Last week ${String(last)}.`;
+const label = `${name}: ${installs.store} installs per week, ${start} to ${end}, ${String(total)} in total. Best week ${String(best)} installs, week of ${formatDay(week(bestIndex * 7))}. Last week ${String(last)}.`;
 const caption = `${installs.store} installs per week, last ${String(weekly.length)} weeks`;
 ---
 

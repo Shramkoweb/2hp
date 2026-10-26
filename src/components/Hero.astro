@@ -1,6 +1,10 @@
 ---
-import { projects } from "../data/projects";
+import { getCollection } from "astro:content";
 import ShelfItem from "./ShelfItem.astro";
+
+const projects = (await getCollection("projects")).toSorted(
+  (a, b) => a.data.order - b.data.order,
+);
 
 const total = projects.length;
 const shown = total > 4 ? projects.slice(0, 3) : projects;
@@ -47,7 +51,7 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
     </div>
     <ul class="shelf" aria-label="My apps">
       {shown.map((project) => (
-        <ShelfItem {...project} />
+        <ShelfItem project={project} />
       ))}
       {more > 0 && (
         <li>

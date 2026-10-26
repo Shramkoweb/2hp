@@ -34,6 +34,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 - **`compressHTML: true`.** Astro 7 defaults to `'jsx'`, which drops the space between inline elements on separate lines, such as the one before the link in "or email me at".
 - **Strict HTML.** The Astro 7 compiler does not repair HTML: an unclosed tag is a build error.
 - **No Fonts API.** The woff2 files and the hand-tuned fallback `@font-face` rules are used as they are.
+- **Content lives in collections.** Projects, the ledger and the posts are `file()` collections in `src/content.config.ts`, with Zod schemas and logos through `image()`. Dates are ISO and are formatted only in `src/lib/format.ts`. Order is an explicit `order` field, because `getCollection` sorts by id.
 
 ## 4. Tooling
 
@@ -167,7 +168,7 @@ Rules:
   - Docker cannot run inside it, so `pnpm test:e2e` is the only excluded command. It matches only when it is the whole command, and its read-only mount keeps it from writing what the sandbox would block.
   - Anything an agent can write and something unsandboxed later executes is an escape. Tested: a `.pnpmfile.mjs` written in the sandbox ran outside it through `pnpm test:e2e`, because pnpm's `verifyDepsBeforeRun` defaults to `install`. So `.pnpmfile.*` and `node_modules/` are write-denied, and agent sessions set `pnpm_config_verify_deps_before_run=error`.
   - Hooks run unsandboxed and the Stop hook builds agent-written code, so hook tools run under `sandbox-exec` with `.claude/hooks/sandbox.sb`: no network, writes only to `dist/`, `.astro/`, temp and the edited file.
-  - With `node_modules/` read-only, `prettier --cache` silently skips its cache and the Vite dev server cannot run; agents test against `dist/`.
+  - With `node_modules/` read-only, `prettier --cache` silently skips its cache and the Vite dev server cannot run; agents test against `dist/`. Astro's `cacheDir` is `.astro/cache`, because the content layer writes its data store there.
   - `Read` and `Edit` deny rules also feed the sandbox, so one rule guards the file tools and every Bash process. `Edit` rules cover the Write tool.
   - In bypass mode, hosts outside the allowlist are allowed unless `sandbox.network.strictAllowlist` is on. A repo cannot set it: it goes in the owner's user settings, and then the user-level `allowedDomains` apply instead of the repo's.
   - Credential folders (`~/.ssh`, `~/.aws`, `~/.config/gh`, Docker's config) are denied by `Read` rules. The sandbox's own `credentials` key is ignored in repo settings.
