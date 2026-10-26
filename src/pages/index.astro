@@ -1,4 +1,5 @@
 ---
+import Hero from "../components/Hero.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import Sprite from "../components/Sprite.astro";
 import "../styles/global.css";
@@ -35,7 +36,9 @@ import "../styles/global.css";
   <body>
     <Sprite />
     <SiteHeader />
-    <main id="top"></main>
+    <main id="top">
+      <Hero />
+    </main>
     <script>
       import "../scripts/main.ts";
     </script>

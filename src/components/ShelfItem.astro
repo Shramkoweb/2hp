@@ -1,0 +1,30 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  users: number;
+}
+
+const project = Astro.props;
+const users = project.users.toLocaleString("en-US");
+---
+
+<li>
+  <a
+    class="plate"
+    href={`#p-${project.slug}`}
+    aria-label={project.name}
+    data-plate
+  >
+    <img
+      class="logo"
+      src={`/img/${project.slug}.png`}
+      alt=""
+      width="128"
+      height="128"
+    />
+  </a>
+  <h3>{project.name}</h3>
+  {/* prettier-ignore */}
+  <p class="num">{users}<small> users</small></p>
+</li>

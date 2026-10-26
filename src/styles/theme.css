@@ -69,6 +69,7 @@
   --primary: var(--blue-600);
   --primary-foreground: var(--white);
   --accent: var(--blue-100);
+  --card: var(--white);
   --ring: var(--blue-600);
   --chart: var(--blue-500);
   --pencil: var(--blue-300);
@@ -82,6 +83,7 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-card: var(--card);
   --color-ring: var(--ring);
   --color-chart: var(--chart);
   --color-pencil: var(--pencil);

@@ -1,0 +1,49 @@
+---
+import { projects } from "../data/projects";
+import ShelfItem from "./ShelfItem.astro";
+
+const words = ["TwoHour", "Project"].map((word, w, all) => {
+  const start = all.slice(0, w).join("").length;
+  return Array.from(word).map((ch, i) => ({ ch, i: start + i }));
+});
+---
+
+<section class="hero" aria-labelledby="name">
+  <div class="wrap">
+    <h1 class="name" id="name" aria-label="TwoHour Project">
+      {words.map((letters) => (
+        <span class="w" aria-hidden="true">
+          {letters.map(({ ch, i }) => (
+            <span class="l" data-ch={ch} data-letter style={`--i:${String(i)}`}>
+              {ch}
+            </span>
+          ))}
+        </span>
+      ))}
+    </h1>
+    <p class="aside">
+      <svg viewBox="0 0 90 46" aria-hidden="true">
+        <path d="M86 8 C 64 4, 30 10, 10 34 M4 22 L9 36 L22 32"></path>
+      </svg>
+      2 extensions so far, 2&nbsp;mobile apps next
+    </p>
+    <div class="copy">
+      <p class="strap">Small apps, built in public.</p>
+      <p class="lede">
+        I'm Serhii Shramko, an indie developer in Boston. For each app I make, I
+        post the real numbers: users, weekly installs, ratings.
+      </p>
+      <a class="cta" href="https://x.com/twohourproject">
+        Follow along on X
+      </a>
+      <p class="also">
+        <a href="#subscribe">or get the newsletter</a>
+      </p>
+    </div>
+    <ul class="shelf" aria-label="My apps">
+      {projects.map((project) => (
+        <ShelfItem {...project} />
+      ))}
+    </ul>
+  </div>
+</section>

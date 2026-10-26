@@ -21,6 +21,7 @@ The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds 
 - Colours come from semantic tokens only (`bg-primary`, `var(--primary)`); never primitives or literals. No arbitrary values (`p-[13px]`, `(--x)`). The lint errors on these are the design system working, not obstacles.
 - JS hooks use `data-*` attributes, not classes. The `style` attribute is for per-element custom properties such as `--i`.
 - No `set:html` or `innerHTML` with anything not authored in this repo.
+- Prettier puts line breaks around `{expressions}` in inline content, and Astro renders that whitespace. Where a text run must stay tight, such as a number followed by `<small>`, put `{/* prettier-ignore */}` above the element, and compare the built HTML with the reference.
 
 ## Guards
 
