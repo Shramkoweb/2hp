@@ -7,7 +7,6 @@
 @import "./hero.css" layer(components);
 @import "./numbers.css" layer(components);
 @import "./follow.css" layer(components);
-@import "./footer.css" layer(components);
 
 @custom-variant scrolled (.scrolled &);
 

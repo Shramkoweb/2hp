@@ -1,34 +1,51 @@
-<footer class="foot">
-  <div class="wrap">
-    <p class="lead">My DMs on X are open. Tell me what you're building.</p>
-    {/* prettier-ignore */}
-    <a class="big" href="https://x.com/twohourproject" translate="no"><span>@twohourproject</span></a>
-    <p class="or">
-      or email me at
-      <a href="mailto:serhii@twohourproject.com">serhii@twohourproject.com</a>
+<footer class="border-t-3 border-foreground">
+  <div class="mx-auto max-w-page px-pad pt-14 pb-8">
+    <p class="m-0 mb-1.5 font-hand text-lead/hint font-medium text-annotation">
+      My DMs on X are open. Tell me what you're building.
     </p>
-    <div class="bottom">
+    {/* prettier-ignore */}
+    <a class="inline-block max-w-full text-signoff text-foreground no-underline hover:underline hover:decoration-4 hover:underline-offset-8" href="https://x.com/twohourproject" translate="no"><span class="wrap-anywhere">@twohourproject</span></a>
+    <p class="m-0 mt-3.5 text-note text-muted-foreground">
+      or email me at
+      <a
+        class="font-demibold text-foreground underline-offset-3"
+        href="mailto:serhii@twohourproject.com"
+      >
+        serhii@twohourproject.com
+      </a>
+    </p>
+    <div class="mt-14 flex flex-col flex-wrap items-start justify-between gap-x-6 gap-y-3 border-t-hairline border-border pt-4 text-meta text-muted-foreground md:flex-row md:items-center">
       <span>
-        <b>Serhii Shramko</b> · Boston, MA
+        <b class="font-bold text-foreground">Serhii Shramko</b> · Boston, MA
       </span>
-      <span class="icons">
+      <span class="flex gap-1">
         <a
+          class="grid size-10 place-items-center rounded-btn text-foreground hover:bg-accent"
           href="https://t.me/twohourproject"
           aria-label="Telegram, in Ukrainian"
         >
-          <svg aria-hidden="true">
+          <svg class="size-5" aria-hidden="true">
             <use href="#i-telegram"></use>
           </svg>
         </a>
-        <a href="https://github.com/shramkoweb" aria-label="GitHub">
-          <svg aria-hidden="true">
+        <a
+          class="grid size-10 place-items-center rounded-btn text-foreground hover:bg-accent"
+          href="https://github.com/shramkoweb"
+          aria-label="GitHub"
+        >
+          <svg class="size-5" aria-hidden="true">
             <use href="#i-github"></use>
           </svg>
         </a>
       </span>
       <span>
         I write about frontend at
-        <a href="https://shramko.dev/blog">shramko.dev</a>
+        <a
+          class="text-foreground underline-offset-3"
+          href="https://shramko.dev/blog"
+        >
+          shramko.dev
+        </a>
       </span>
       <span>© 2026 TwoHour Project</span>
     </div>
