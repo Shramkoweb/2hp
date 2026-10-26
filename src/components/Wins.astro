@@ -13,7 +13,7 @@ const entries = (await getCollection("log")).toSorted((a, b) =>
 <Section id="wins" title="Wins & flops">
   <ol class="m-0 list-none border-t-2 border-foreground p-0">
     {entries.length === 0 ? (
-      <li class="block border-b-dashed border-pencil py-4 font-hand text-small/relaxed font-medium text-annotation">
+      <li class="block border-b-dashed border-pencil py-4 font-hand text-small/hand font-medium text-annotation">
         No verdicts yet. The first marks go here with the November numbers.
       </li>
     ) : (
@@ -31,12 +31,12 @@ const entries = (await getCollection("log")).toSorted((a, b) =>
           >
             <use href={`#mk-${entry.kind}`}></use>
           </svg>
-          <p class="col-start-2 m-0 text-small/text text-pretty md:col-auto">
+          <p class="col-start-2 m-0 text-small/body text-pretty md:col-auto">
             <span class="sr-only">{labels[entry.kind]}</span>
             <b class="font-bold">{entry.lead}</b> {entry.text}
           </p>
           {entry.lesson && (
-            <p class="col-start-2 m-0 font-hand text-small/relaxed font-medium text-pretty text-annotation md:col-auto">
+            <p class="col-start-2 m-0 font-hand text-small/hand font-medium text-pretty text-annotation md:col-auto">
               {entry.lesson}
             </p>
           )}
