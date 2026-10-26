@@ -1,0 +1,21 @@
+@media (prefers-reduced-motion: no-preference) {
+  .chart.armed .bar {
+    transform: scaleY(0);
+  }
+
+  .chart.armed .ev,
+  .chart.armed .ink {
+    opacity: 0;
+  }
+
+  .chart.drawn .bar {
+    transition: transform 0.5s var(--ease-spring) calc(var(--b) * 28ms);
+    transform: none;
+  }
+
+  .chart.drawn .ev,
+  .chart.drawn .ink {
+    transition: opacity 0.3s 0.8s;
+    opacity: 1;
+  }
+}

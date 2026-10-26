@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { count } from "../data/count";
 import { formatDate, formatDay } from "../lib/format";
 import ProjectRow from "./ProjectRow.astro";
+import Section from "./Section.astro";
 
 const projects = (await getCollection("projects")).toSorted(
   (a, b) => a.data.order - b.data.order,
@@ -10,12 +11,8 @@ const projects = (await getCollection("projects")).toSorted(
 const intro = `Users across all stores, counted ${formatDate(count.counted)}. Next count: ${formatDay(count.next)}.`;
 ---
 
-<section class="sec" id="projects" aria-labelledby="projects-h">
-  <div class="wrap">
-    <h2 id="projects-h">The numbers</h2>
-    <p class="intro">{intro}</p>
-    {projects.map((project) => (
-      <ProjectRow project={project} />
-    ))}
-  </div>
-</section>
+<Section id="projects" title="The numbers" intro={intro}>
+  {projects.map((project) => (
+    <ProjectRow project={project} />
+  ))}
+</Section>

@@ -18,6 +18,7 @@
   --spacing-hero-top: 24px;
   --spacing-section: 96px;
   --spacing-col-2: 136px;
+  --spacing-chart-inset: 11%;
 
   --text-name: min(9.4rem, calc((100vw - 2 * var(--spacing-pad)) / 7.2), 15svh);
   --text-h2: clamp(2.4rem, 1.4rem + 3vw, 4rem);
@@ -68,7 +69,7 @@
   --text-numeral: 2.5rem;
   --text-lead: 1.375rem;
   --text-button: 1.125rem;
-  --text-chart: 0.875rem;
+  --text-axis: 0.875rem;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;

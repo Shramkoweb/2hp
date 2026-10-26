@@ -374,3 +374,16 @@ a.plate:hover {
     margin-top: 18px;
   }
 }
+
+.plate.sm {
+  max-width: 96px;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 var(--foreground);
+}
+
+@media (width < 768px) {
+  .plate.sm {
+    max-width: 72px;
+    border-radius: 16px;
+  }
+}
