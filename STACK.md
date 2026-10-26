@@ -111,9 +111,9 @@ Rules:
   - charts drawing when scrolled into view, and skipped under reduced motion;
   - the plate click;
   - the mail form status line.
-- **Head snapshot:** `lang`, title, meta description, viewport, font preloads.
+- **Head snapshot:** `lang`, title, meta description, viewport, font preloads (file names without the build hash).
 - **Aria snapshots** must match exactly, not as a subset.
-- **axe** checks WCAG 2.2 AA. On the reference it is a report for the owner, not a gate, because the design is frozen.
+- **axe** checks WCAG 2.2 AA and fails on any violation; the report is attached to the run.
 
 ## 7. Agent harness
 

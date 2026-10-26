@@ -18,7 +18,10 @@ test("head", async ({ page }) => {
     ].map((link) => ({
       as: link.as,
       type: link.type,
-      file: link.href.split("/").pop(),
+      file: link.href
+        .split("/")
+        .pop()
+        ?.replace(/\.[\w-]{8}(?=\.woff2$)/, ""),
     })),
   }));
   expect(JSON.stringify(head, null, 2)).toMatchSnapshot("head.json");
@@ -115,7 +118,7 @@ test.describe("reduced motion", () => {
   });
 });
 
-test("axe report", async ({ page }, testInfo) => {
+test("axe finds no WCAG 2.2 AA violations", async ({ page }, testInfo) => {
   await open(page);
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
@@ -123,4 +126,5 @@ test("axe report", async ({ page }, testInfo) => {
   const report = testInfo.outputPath("axe.json");
   await writeFile(report, JSON.stringify(results.violations, null, 2));
   await testInfo.attach("axe.json", { path: report });
+  expect(results.violations).toEqual([]);
 });
