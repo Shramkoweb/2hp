@@ -2,8 +2,5 @@ minimumReleaseAge: 10080
 trustPolicy: no-downgrade
 blockExoticSubdeps: true
 strictDepBuilds: true
-trustPolicyExclude:
-  # Temporary: drop after updating @astrojs/check to >=0.9.11 (uses chokidar ^5), installable from 2026-10-26 14:11 UTC.
-  - chokidar@4.0.3
 allowBuilds:
   lefthook: false
