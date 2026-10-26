@@ -6,19 +6,9 @@
 
 @custom-variant scrolled (.scrolled &);
 
-@utility border-t-hairline {
-  border-top-width: var(--border-width-hairline);
-  border-top-style: solid;
-}
-
-@utility border-b-hairline-dashed {
-  border-bottom-width: var(--border-width-hairline);
+@utility border-b-dashed {
+  border-bottom-width: var(--border-width-rule);
   border-bottom-style: dashed;
-}
-
-@utility border-field {
-  border-width: var(--border-width-field);
-  border-style: solid;
 }
 
 @utility grid-cols-post {
@@ -113,8 +103,8 @@
 
   :focus-visible {
     outline: var(--outline-width-focus) solid var(--ring);
-    outline-offset: calc(var(--spacing) * 0.75);
-    border-radius: var(--radius-focus);
+    outline-offset: var(--outline-offset-focus);
+    border-radius: var(--radius-sm);
   }
 }
 

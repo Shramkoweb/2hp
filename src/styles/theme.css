@@ -101,10 +101,6 @@
   --container-lede: 30em;
   --container-aside: 15em;
 
-  --radius-plate-xs: 16px;
-  --radius-field: 12px;
-  --radius-focus: 4px;
-
   --shadow-hard-2: 2px 2px 0 var(--foreground);
   --shadow-hard-4: 4px 4px 0 var(--foreground);
   --shadow-hard-6: 6px 6px 0 var(--foreground);
@@ -112,8 +108,8 @@
 
   --border-width-rule: 1px;
   --outline-width-focus: 3px;
-  --border-width-hairline: 1.5px;
-  --border-width-field: 2.5px;
+  --stroke-pencil: 1.5px;
+  --outline-offset-focus: 3px;
 
   --color-canvas-text: CanvasText;
   --color-link-text: LinkText;
@@ -170,6 +166,7 @@
 }
 
 @theme inline {
+  --radius-sm: calc(var(--radius) * 0.6);
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);

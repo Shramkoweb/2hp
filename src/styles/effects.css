@@ -26,7 +26,7 @@
 
 .name .l::before {
   color: transparent;
-  -webkit-text-stroke: var(--border-width-hairline) var(--pencil);
+  -webkit-text-stroke: var(--stroke-pencil) var(--pencil);
   translate: calc(var(--spacing) * -1) calc(var(--spacing) * -1);
   filter: url("#graphite");
 
