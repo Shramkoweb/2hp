@@ -87,11 +87,6 @@ const blip = () => {
 const boing = () => {
   tone("sine", 140, 520, 0.42, 0.13, 0, 40);
 };
-const wahwah = () => {
-  tone("sawtooth", 233, 220, 0.3, 0.035);
-  tone("sawtooth", 220, 207, 0.3, 0.035, 0.32);
-  tone("sawtooth", 207, 160, 0.7, 0.035, 0.64, 6);
-};
 
 const soundButton = document.querySelector<HTMLButtonElement>("[data-sound]");
 const paintSound = () => {
@@ -125,8 +120,7 @@ const retrigger = (element: HTMLElement, name: string) => {
 for (const plate of document.querySelectorAll<HTMLElement>("[data-plate]")) {
   plate.addEventListener("click", () => {
     if (!reduce) retrigger(plate, "boing");
-    if (plate.dataset.plate === "rip") wahwah();
-    else boing();
+    boing();
   });
 }
 
@@ -135,7 +129,7 @@ onScroll();
 addEventListener("scroll", onScroll, { passive: true });
 
 const charts = document.querySelectorAll("[data-chart]");
-if (!reduce && "IntersectionObserver" in window) {
+if (!reduce) {
   for (const chart of charts) chart.classList.add("armed");
   const io = new IntersectionObserver(
     (entries) => {

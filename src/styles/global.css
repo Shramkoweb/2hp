@@ -88,7 +88,6 @@
     background: var(--background);
     color: var(--foreground);
     font: 400 var(--text-body) / 1.55 var(--font-text);
-    font-optical-sizing: auto;
   }
 
   a {

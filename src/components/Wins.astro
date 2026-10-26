@@ -1,10 +1,6 @@
 ---
 import { log } from "../data/log";
 
-const marks = {
-  win: "M4 15c0-7 5-11 10-11s10 4 9.5 10.5S17 24 13 24 4 21 4.5 14.5 8 6 11 5",
-  flop: "M6 6 L22 22 M22 6 L6 22",
-};
 const labels = { win: "Win: ", flop: "Flop: " };
 
 const entries = log
@@ -31,16 +27,8 @@ const entries = log
         entries.map((entry) => (
           <li>
             <time datetime={entry.month}>{entry.date}</time>
-            <svg
-              class="mk"
-              viewBox="0 0 28 28"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              aria-hidden="true"
-            >
-              <path d={marks[entry.kind]}></path>
+            <svg class="mk" aria-hidden="true">
+              <use href={`#mk-${entry.kind}`}></use>
             </svg>
             <p>
               <span class="sr-only">{labels[entry.kind]}</span>

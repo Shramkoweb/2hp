@@ -21,7 +21,7 @@
     "format": "prettier --write --cache .",
     "format:check": "prettier --check --cache --log-level warn .",
     "lint": "eslint --max-warnings 0 .",
-    "lint:css": "stylelint --cache --allow-empty-input --max-warnings 0 \"src/**/*.css\"",
+    "lint:css": "stylelint --cache --max-warnings 0 \"src/**/*.css\"",
     "lint:tokens": "! grep -rnE --exclude=theme.css \"#[0-9a-fA-F]{3,8}\\b|\\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\\(|var\\(--(white|neutral-[0-9]+|blue-[0-9]+)\\)\" src",
     "typecheck": "astro check",
     "knip": "knip --no-progress",

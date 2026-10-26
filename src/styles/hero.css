@@ -264,7 +264,7 @@ a.plate:hover {
 }
 
 .boing {
-  animation: boing 0.5s var(--ease-spring) !important;
+  animation: boing 0.5s var(--ease-spring);
 }
 
 @keyframes boing {

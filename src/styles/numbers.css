@@ -123,22 +123,22 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .chart.armed .bar {
+  .chart.armed .bar {
     transform: scaleY(0);
   }
 
-  .js .chart.armed .ev,
-  .js .chart.armed text.ink {
+  .chart.armed .ev,
+  .chart.armed text.ink {
     opacity: 0;
   }
 
-  .js .chart.drawn .bar {
+  .chart.drawn .bar {
     transition: transform 0.5s var(--ease-spring) calc(var(--b) * 28ms);
     transform: none;
   }
 
-  .js .chart.drawn .ev,
-  .js .chart.drawn text.ink {
+  .chart.drawn .ev,
+  .chart.drawn text.ink {
     transition: opacity 0.3s 0.8s;
     opacity: 1;
   }
