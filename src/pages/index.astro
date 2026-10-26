@@ -1,6 +1,8 @@
 ---
+import Follow from "../components/Follow.astro";
 import Hero from "../components/Hero.astro";
 import Numbers from "../components/Numbers.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import Sprite from "../components/Sprite.astro";
 import Wins from "../components/Wins.astro";
@@ -44,7 +46,9 @@ import "../styles/global.css";
       <Numbers />
       <Wins />
       <Writing />
+      <Follow />
     </main>
+    <SiteFooter />
     <script>
       import "../scripts/main.ts";
     </script>

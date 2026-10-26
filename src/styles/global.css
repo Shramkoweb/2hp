@@ -8,6 +8,8 @@
 @import "./numbers.css" layer(components);
 @import "./wins.css" layer(components);
 @import "./writing.css" layer(components);
+@import "./follow.css" layer(components);
+@import "./footer.css" layer(components);
 
 @font-face {
   font-family: Oi;

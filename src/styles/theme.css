@@ -55,7 +55,10 @@
 :root {
   --white: #fff;
   --neutral-50: #fbfcff;
+  --neutral-200: #d5dae8;
+  --neutral-500: #6a6f82;
   --neutral-700: #3d4152;
+  --neutral-800: #2c2f3d;
   --neutral-950: #14161f;
   --blue-100: #dce6ff;
   --blue-300: #8eaeff;
@@ -66,6 +69,10 @@
   --background: var(--neutral-50);
   --foreground: var(--neutral-950);
   --muted-foreground: var(--neutral-700);
+  --foreground-hover: var(--neutral-800);
+  --inverse-foreground: var(--white);
+  --placeholder: var(--neutral-500);
+  --border: var(--neutral-200);
   --primary: var(--blue-600);
   --primary-foreground: var(--white);
   --accent: var(--blue-100);
@@ -80,6 +87,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted-foreground: var(--muted-foreground);
+  --color-foreground-hover: var(--foreground-hover);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-placeholder: var(--placeholder);
+  --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
