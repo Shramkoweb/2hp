@@ -1,12 +1,12 @@
 # 2hp
 
-The TwoHour Project site: Astro 7, static output, Tailwind v4. `STACK.md` holds the decisions, their reasons and the step plan. `DESIGN.md` says which token to use when, and the components and their states.
+The TwoHour Project site: Astro 7, static output, Tailwind v4, served by a Cloudflare Worker with static assets. `DESIGN.md` says which token to use when, and the components and their states.
 
 The baselines in `tests/__screenshots__/` are the record of the approved page.
 
 ## Workflow
 
-- Work one step of `STACK.md` at a time. Stop when it is done, report what changed and how you verified it, and wait for the owner's review. Commit only after their ok, directly to `main`, as `pnpm check && git commit`. The owner pushes.
+- Work on one task at a time. Stop when it is done, report what changed and how you verified it, and wait for the owner's review. Commit only after their ok, directly to `main`, as `pnpm check && git commit`. The owner pushes.
 - Commit subjects are plain imperative sentences, such as "Add the agent harness".
 - When something is unclear, ask instead of guessing.
 

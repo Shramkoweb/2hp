@@ -1,6 +1,6 @@
 # Design
 
-Which token to use when, and the components with their states. Values live only in `src/styles/theme.css`; the rules that keep them there are in `STACK.md` section 5.
+Which token to use when, and the components with their states. Values live only in `src/styles/theme.css`; ESLint, Stylelint and `pnpm lint:tokens` keep them there.
 
 ## Colour
 
