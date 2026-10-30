@@ -1,6 +1,6 @@
 # 2hp: frontend stack
 
-Status: steps 0 to 9 done.
+Status: steps 0 to 10 done; step 11 in progress.
 
 The approved design was a static page in a local sandbox, now outside the repo. The port matched it pixel for pixel; the committed baselines are its record.
 
@@ -19,7 +19,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 | Repo hygiene    | Knip, lefthook, EditorConfig                          |                                                                                                                   |
 | Tests           | Playwright only: pixel diffs, aria snapshots, axe     | No Storybook, no hosted visual service                                                                            |
 | Agent docs      | Context7, Astro Docs MCP                              | Tailwind has no MCP or `llms.txt`                                                                                 |
-| CI              | GitHub Actions                                        | One workflow, so the deploy waits for `pnpm check` and the Playwright suite                                       |
+| CI              | GitHub Actions                                        | One workflow, so the deploy waits for `pnpm check`; the Playwright suite runs locally                             |
 | Hosting         | Cloudflare, a Worker with static assets only          | The domain is already there; `_headers` sets CSP and security headers without a Worker script                     |
 
 ## 2. Versions
@@ -220,8 +220,8 @@ Each step is one commit to `main`, made after the owner's review. No step starts
    - Each value change is one owner-approved commit. Its visual diff must show that change and nothing else. Baselines are updated only after approval.
    - Done when `src/styles/` holds only `theme.css`, `global.css` and the effects file; Stylelint bans `px` and `rem` outside `theme.css`; no `@media (width …)` exists outside `theme.css`; the `utilities` layer holds only classes used on purpose; and the suite is green three times in a row.
 9. **DESIGN.md:** which token to use when, the components and their states. Only token names, never values.
-10. **CI:** one GitHub Actions workflow on pushes and pull requests: an install from the frozen lockfile, `pnpm audit` at high, `pnpm check`, then `pnpm test:e2e` as it runs locally. Done when the push of this step runs green and a deliberately broken commit on a branch runs red.
-11. **Deploy:** `dist/` served on `twohourproject.com` by a Worker with static assets only. A deploy job in the CI workflow runs on `main` only after check and e2e pass. Headers come from `_headers` in `public/`. `wrangler` needs the dependency review and the owner's yes; the owner creates the Worker, the token and the environment secret. Done when the domain serves the build, a red run deploys nothing, and the live page logs no CSP violation.
+10. **CI:** one GitHub Actions workflow on pushes and pull requests: an install from the frozen lockfile, `pnpm audit` at high, `pnpm check`, then `pnpm test:e2e` as it runs locally. Done when the push of this step runs green and a deliberately broken commit on a branch runs red. The owner took `pnpm test:e2e` out of CI on 2026-10-30: the suite runs locally, before a push.
+11. **Deploy:** `dist/` served on `twohourproject.com` by a Worker with static assets only. A deploy job in the CI workflow runs on `main` only after check passes. Headers come from `_headers` in `public/`. `wrangler` needs the dependency review and the owner's yes; the owner creates the Worker, the token and the environment secret. Done when the domain serves the build, a red run deploys nothing, and the live page logs no CSP violation.
 
 ## Sources
 
