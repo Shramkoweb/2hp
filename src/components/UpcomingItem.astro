@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Plate from "./Plate.astro";
+
+interface Props {
+  app: CollectionEntry<"upcoming">;
+}
+
+const { data } = Astro.props.app;
+---
+
+<li class="flex flex-col items-start">
+  <Plate tone="pencil" bounce>
+    <img
+      class="block aspect-square h-auto w-31/50 object-contain"
+      src={data.logo.src}
+      alt=""
+      width={data.logo.width}
+      height={data.logo.height}
+    />
+  </Plate>
+  <p class="m-0 mt-5 text-body/heading font-bold tracking-tight">{data.name}</p>
+  <p class="m-0 mt-0.5 font-hand text-small/hand font-medium text-annotation">
+    {data.note}
+  </p>
+</li>

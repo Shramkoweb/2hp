@@ -37,7 +37,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 - **`compressHTML: true`.** Astro 7 defaults to `'jsx'`, which drops the space between inline elements on separate lines, such as the one before the link in "or email me at".
 - **Strict HTML.** The Astro 7 compiler does not repair HTML: an unclosed tag is a build error.
 - **No Fonts API.** The woff2 files and the hand-tuned fallback `@font-face` rules are used as they are. Fonts and logos live in `src/assets/`, so their URLs carry a content hash and can be cached as immutable.
-- **Content lives in collections.** Projects, the ledger and the posts are `file()` collections in `src/content.config.ts`, with Zod schemas and logos through `image()`. Dates are ISO and are formatted only in `src/lib/format.ts`. Order is an explicit `order` field, because `getCollection` sorts by id.
+- **Content lives in collections.** Projects, upcoming apps, the ledger and the posts are `file()` collections in `src/content.config.ts`, with Zod schemas and logos through `image()`. Dates are ISO and are formatted only in `src/lib/format.ts`. Order is an explicit `order` field, because `getCollection` sorts by id.
 
 ## 4. Tooling
 

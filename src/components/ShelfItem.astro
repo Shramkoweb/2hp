@@ -20,9 +20,7 @@ const { id, data } = Astro.props.project;
       height={data.logo.height}
     />
   </Plate>
-  <h3 class="m-0 mt-5 text-body/heading font-bold tracking-tight">
-    {data.name}
-  </h3>
+  <p class="m-0 mt-5 text-body/heading font-bold tracking-tight">{data.name}</p>
   {/* prettier-ignore */}
   <p class="m-0 mt-0.5 text-figure whitespace-nowrap tabular-nums">{formatNumber(data.users)}<small class="text-small font-semibold tracking-tight"> users</small></p>
 </li>

@@ -113,7 +113,9 @@ Mobile first: write the phone layout bare, then add `md:`, `lg:` and `xl:`. `max
 - The name: `.name`, then `.w` per word (with its pencil guideline), then `.l` per letter (`data-ch`, `data-letter`, `--i`). On load the letters flood in and squash. On hover the ink layer lifts off its pencil outline, with a tick when sound is on. The pencil layer hides below `md` and in forced colours.
 - The aside note shows on `xl` only.
 - The main button is `primary` with the lift.
-- The shelf shows up to four apps. With more than four it shows three and a dashed `+N` plate; with fewer than two it adds a pencil `#N` plate for the next app.
+- The shelf shows up to four apps. With more than four it shows three and a dashed `+N` plate. Upcoming apps fill the free slots after the shipped ones: a pencil plate with the icon, the name and a hand note in `annotation`, no numbers. With fewer than two apps and none upcoming it adds a pencil `#N` plate for the next app.
+- Shelf names are paragraphs, not headings: each app's heading is its row in the numbers, so the outline goes from the `h1` straight to the section `h2`s.
+- An upcoming app stays out of the numbers. When it ships, its entry moves from `upcoming.json` to `projects.json` with real figures.
 
 **Plate** (`size`: shelf or row; `tone`: solid, dashed or pencil; `href`; `label`; `bounce`)
 

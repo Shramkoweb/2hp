@@ -23,6 +23,17 @@ const projects = defineCollection({
     }),
 });
 
+const upcoming = defineCollection({
+  loader: file("src/data/upcoming.json"),
+  schema: ({ image }) =>
+    z.object({
+      order: z.int().positive(),
+      name: z.string(),
+      logo: image(),
+      note: z.string(),
+    }),
+});
+
 const log = defineCollection({
   loader: file("src/data/log.json"),
   schema: z.object({
@@ -43,4 +54,4 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { projects, log, posts };
+export const collections = { projects, upcoming, log, posts };

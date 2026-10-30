@@ -2,15 +2,20 @@
 import { getCollection } from "astro:content";
 import Plate from "./Plate.astro";
 import ShelfItem from "./ShelfItem.astro";
+import UpcomingItem from "./UpcomingItem.astro";
 
 const projects = (await getCollection("projects")).toSorted(
+  (a, b) => a.data.order - b.data.order,
+);
+const upcoming = (await getCollection("upcoming")).toSorted(
   (a, b) => a.data.order - b.data.order,
 );
 
 const total = projects.length;
 const shown = total > 4 ? projects.slice(0, 3) : projects;
 const more = total > 4 ? total - 3 : 0;
-const next = total < 2 ? total + 1 : 0;
+const soon = more > 0 ? [] : upcoming.slice(0, 4 - total);
+const next = total < 2 && soon.length === 0 ? total + 1 : 0;
 
 const words = ["TwoHour", "Project"].map((word, w, all) => {
   const start = all.slice(0, w).join("").length;
@@ -79,6 +84,9 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
       {shown.map((project) => (
         <ShelfItem project={project} />
       ))}
+      {soon.map((app) => (
+        <UpcomingItem app={app} />
+      ))}
       {more > 0 && (
         <li class="flex flex-col items-start">
           <Plate href="#projects" tone="dashed" bounce>
@@ -86,9 +94,9 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
               {`+${String(more)}`}
             </span>
           </Plate>
-          <h3 class="m-0 mt-5 text-body/heading font-bold tracking-tight">
+          <p class="m-0 mt-5 text-body/heading font-bold tracking-tight">
             {`${String(more)} more`}
-          </h3>
+          </p>
           <a
             class="mt-1 text-small font-semibold decoration-2 underline-offset-4"
             href="#projects"
@@ -104,9 +112,9 @@ const words = ["TwoHour", "Project"].map((word, w, all) => {
               {`#${String(next)}`}
             </span>
           </Plate>
-          <h3 class="m-0 mt-5 text-body/heading font-bold tracking-tight">
+          <p class="m-0 mt-5 text-body/heading font-bold tracking-tight">
             {next === 1 ? "First app" : "Next app"}
-          </h3>
+          </p>
           <p class="m-0 mt-0.5 font-hand text-small/hand font-medium text-annotation">
             {next === 1
               ? "ships soon. Follow along to see it launch."

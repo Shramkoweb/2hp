@@ -1,0 +1,9 @@
+[
+  {
+    "id": "sunrise",
+    "order": 1,
+    "name": "Sunrise Alarm",
+    "logo": "../assets/logos/sunrise.png",
+    "note": "iPhone app, ships soon"
+  }
+]
