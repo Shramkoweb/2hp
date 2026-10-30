@@ -13,10 +13,15 @@ export default defineConfig({
         "img-src 'self'",
         "font-src 'self'",
         "form-action 'self'",
+        "connect-src 'self'",
         "base-uri 'none'",
         "require-trusted-types-for 'script'",
         "trusted-types 'none'",
       ],
+      // Cloudflare injects its Web Analytics beacon into the page at the edge
+      scriptDirective: {
+        resources: ["'self'", "https://static.cloudflareinsights.com"],
+      },
       styleDirective: {
         // the name and the charts set --i and --b in style attributes
         resources: [
