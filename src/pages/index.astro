@@ -9,7 +9,14 @@ import Wins from "../components/Wins.astro";
 import Writing from "../components/Writing.astro";
 import bricolage from "../assets/fonts/bricolage.woff2?url";
 import oi from "../assets/fonts/oi.woff2?url";
+import og from "../assets/og.png";
 import "../styles/global.css";
+
+const title = "TwoHour Project by Serhii Shramko: apps and their real numbers";
+const description =
+  "Serhii Shramko, an indie developer in Boston, builds small apps in public and posts the real numbers: users, weekly installs and ratings.";
+const url = new URL("/", Astro.site).href;
+const image = new URL(og.src, Astro.site).href;
 ---
 
 <!doctype html>
@@ -17,11 +24,25 @@ import "../styles/global.css";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TwoHour Project by Serhii Shramko: apps and their real numbers</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TwoHour Project" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content={String(og.width)} />
+    <meta property="og:image:height" content={String(og.height)} />
     <meta
-      name="description"
-      content="Serhii Shramko, an indie developer in Boston, builds small apps in public and posts the real numbers: users, weekly installs and ratings."
+      property="og:image:alt"
+      content="TwoHour Project. Small apps, built in public: real users, real numbers."
     />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twohourproject" />
     <link rel="preload" href={oi} as="font" type="font/woff2" crossorigin />
     <link
       rel="preload"
