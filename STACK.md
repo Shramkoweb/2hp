@@ -27,6 +27,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 - Install the latest versions. pnpm's release-age gate keeps every package at least 7 days old.
 - `typescript` stays on 6 until `@astrojs/check` and typescript-eslint support TS 7.
 - `@playwright/test` and the Playwright Docker image tag always change together.
+- CI pins the exact pnpm version, because the setup action fetches pnpm outside the release-age gate. It moves with the local pnpm. Node needs no setup: pnpm installs the runtime locked by `devEngines.runtime`.
 - `lefthook` is pinned to 2.2.1, because 2.2.2 was published by hand without provenance. Move to the next release published by trusted publishing.
 - Updates are manual, with npm-check-updates. It reads `minimumReleaseAge` from `pnpm-workspace.yaml` by itself. `.ncurc.json` rejects `typescript`. There is no update bot.
 
