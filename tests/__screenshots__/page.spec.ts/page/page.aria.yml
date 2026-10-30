@@ -1,110 +1,113 @@
 - banner:
-    - link "TwoHour Project":
-        - /url: "#top"
-    - navigation "Main":
-        - list:
-            - listitem:
-                - link "Projects":
-                    - /url: "#projects"
-            - listitem:
-                - link "Writing":
-                    - /url: "#writing"
-    - 'link "X: @twohourproject"':
-        - /url: https://x.com/twohourproject
-    - button "Sound" [pressed]
+  - link "TwoHour Project":
+    - /url: "#top"
+  - navigation "Main":
+    - list:
+      - listitem:
+        - link "Projects":
+          - /url: "#projects"
+      - listitem:
+        - link "Writing":
+          - /url: "#writing"
+  - 'link "X: @twohourproject"':
+    - /url: https://x.com/twohourproject
+  - button "Sound" [pressed]
 - main:
-    - region "TwoHour Project":
-        - heading "TwoHour Project" [level=1]
-        - paragraph: 2 extensions so far, 2 mobile apps next
-        - paragraph: Small apps, built in public.
-        - paragraph: "I'm Serhii Shramko, an indie developer in Boston. For each app I make, I post the real numbers: users, weekly installs, ratings."
-        - link "Follow along on X":
-            - /url: https://x.com/twohourproject
-        - paragraph:
-            - link "or get the newsletter":
-                - /url: "#subscribe"
-        - list "My apps":
-            - listitem:
-                - link "Udemy Reset Progress":
-                    - /url: "#p-udemy-reset-progress"
-                - heading "Udemy Reset Progress" [level=3]
-                - paragraph: /\d+,\d+ users/
-            - listitem:
-                - link "Quizlet QuickList":
-                    - /url: "#p-quizlet-quicklist"
-                - heading "Quizlet QuickList" [level=3]
-                - paragraph: /\d+ users/
-    - region "The numbers":
-        - heading "The numbers" [level=2]
-        - paragraph: "/Users across all stores, counted Oct \\d+, \\d+\\. Next count: Nov 1\\./"
-        - article:
-            - heading "Udemy Reset Progress" [level=3]
-            - paragraph: /Chrome, Edge, Firefox · since Feb \d+/
-            - paragraph: Reset or complete Udemy course progress in one click.
-            - figure /Chrome installs per week, last \d+ weeks/:
-                - 'img /Udemy Reset Progress: Chrome installs per week, Apr \d+ to Oct \d+, \d+, \d+ in total\. Best week \d+ installs, week of May 5\. Last week \d+\./': "/0 \\d+ Apr \\d+ Oct \\d+, \\d+ best week: \\d+ installs/"
-                - text: ""
-            - text: /\d+,\d+ users · 5\.0 from \d+ ratings/
-        - article:
-            - heading "Quizlet QuickList" [level=3]
-            - paragraph: /Chrome, Edge, Firefox · since Oct \d+/
-            - paragraph: Manage Quizlet word lists faster.
-            - figure /Chrome installs per week, last \d+ weeks/:
-                - 'img /Quizlet QuickList: Chrome installs per week, Apr \d+ to Oct \d+, \d+, \d+ in total\. Best week \d+ installs, week of May \d+\. Last week \d+\./': "/0 \\d+ Apr \\d+ Oct \\d+, \\d+ best week: \\d+ installs/"
-                - text: ""
-            - text: /\d+ users · 4\.7 from 6 ratings/
-    - region "Wins & flops":
-        - heading "Wins & flops" [level=2]
-        - list:
-            - listitem: No verdicts yet. The first marks go here with the November numbers.
-    - region "Writing":
-        - heading "Writing" [level=2]
-        - paragraph: I'm writing these now. The first one goes up in November, with the new numbers.
-        - list:
-            - listitem:
-                - text: draft
-                - heading "Shipping one extension to Chrome, Edge and Firefox" [level=3]
-            - listitem:
-                - text: draft
-                - heading "Where the Udemy Reset Progress users came from" [level=3]
-            - listitem:
-                - text: draft
-                - heading "What half a year of install charts looks like" [level=3]
-            - listitem:
-                - text: draft
-                - heading "Going from browser extensions to mobile apps" [level=3]
-    - region "Follow along":
-        - heading "Follow along" [level=2]
-        - link "@twohourproject on X progress and numbers":
-            - /url: https://x.com/twohourproject
-        - text: Get the newsletter
-        - textbox "Get the newsletter":
-            - /placeholder: you@example.com
-        - button "Subscribe"
-        - status: Separate from the posts on this site.
-        - list "Other channels":
-            - listitem:
-                - link "Telegram":
-                    - /url: https://t.me/twohourproject
-                - text: in Ukrainian
-            - listitem:
-                - link "GitHub":
-                    - /url: https://github.com/shramkoweb
-                - text: "@shramkoweb"
-- contentinfo:
-    - paragraph: My DMs on X are open. Tell me what you're building.
-    - link "@twohourproject":
-        - /url: https://x.com/twohourproject
+  - region "TwoHour Project":
+    - heading "TwoHour Project" [level=1]
+    - paragraph: 2 extensions so far, 2 mobile apps next
+    - paragraph: Small apps, built in public.
+    - paragraph: "I'm Serhii Shramko, an indie developer in Boston. For each app I make, I post the real numbers: users, weekly installs, ratings."
+    - link "Follow along on X":
+      - /url: https://x.com/twohourproject
     - paragraph:
-        - text: or email me at
-        - link "serhii@twohourproject.com":
-            - /url: mailto:serhii@twohourproject.com
-    - text: Serhii Shramko · Boston, MA
-    - link "Telegram, in Ukrainian":
-        - /url: https://t.me/twohourproject
-    - link "GitHub":
-        - /url: https://github.com/shramkoweb
-    - text: I write about frontend at
-    - link "shramko.dev":
-        - /url: https://shramko.dev/blog
-    - text: /© \d+ TwoHour Project/
+      - link "or get the newsletter":
+        - /url: "#subscribe"
+    - list "My apps":
+      - listitem:
+        - link "Udemy Reset Progress":
+          - /url: "#p-udemy-reset-progress"
+        - paragraph: Udemy Reset Progress
+        - paragraph: /\d+,\d+ users/
+      - listitem:
+        - link "Quizlet QuickList":
+          - /url: "#p-quizlet-quicklist"
+        - paragraph: Quizlet QuickList
+        - paragraph: /\d+ users/
+      - listitem:
+        - paragraph: Sunrise Alarm
+        - paragraph: iPhone app, ships soon
+  - region "The numbers":
+    - heading "The numbers" [level=2]
+    - paragraph: "/Users across all stores, counted Oct \\d+, \\d+\\. Next count: Nov 1\\./"
+    - article:
+      - heading "Udemy Reset Progress" [level=3]
+      - paragraph: /Chrome, Edge, Firefox · since Feb \d+/
+      - paragraph: Reset or complete Udemy course progress in one click.
+      - figure /Chrome installs per week, last \d+ weeks/:
+        - 'img /Udemy Reset Progress: Chrome installs per week, Apr \d+ to Oct \d+, \d+, \d+ in total\. Best week \d+ installs, week of May 5\. Last week \d+\./': "/0 \\d+ Apr \\d+ Oct \\d+, \\d+ best week: \\d+ installs/"
+        - text: ""
+      - text: /\d+,\d+ users · 5\.0 from \d+ ratings/
+    - article:
+      - heading "Quizlet QuickList" [level=3]
+      - paragraph: /Chrome, Edge, Firefox · since Oct \d+/
+      - paragraph: Manage Quizlet word lists faster.
+      - figure /Chrome installs per week, last \d+ weeks/:
+        - 'img /Quizlet QuickList: Chrome installs per week, Apr \d+ to Oct \d+, \d+, \d+ in total\. Best week \d+ installs, week of May \d+\. Last week \d+\./': "/0 \\d+ Apr \\d+ Oct \\d+, \\d+ best week: \\d+ installs/"
+        - text: ""
+      - text: /\d+ users · 4\.7 from 6 ratings/
+  - region "Wins & flops":
+    - heading "Wins & flops" [level=2]
+    - list:
+      - listitem: No verdicts yet. The first marks go here with the November numbers.
+  - region "Writing":
+    - heading "Writing" [level=2]
+    - paragraph: I'm writing these now. The first one goes up in November, with the new numbers.
+    - list:
+      - listitem:
+        - text: draft
+        - heading "Shipping one extension to Chrome, Edge and Firefox" [level=3]
+      - listitem:
+        - text: draft
+        - heading "Where the Udemy Reset Progress users came from" [level=3]
+      - listitem:
+        - text: draft
+        - heading "What half a year of install charts looks like" [level=3]
+      - listitem:
+        - text: draft
+        - heading "Going from browser extensions to mobile apps" [level=3]
+  - region "Follow along":
+    - heading "Follow along" [level=2]
+    - link "@twohourproject on X progress and numbers":
+      - /url: https://x.com/twohourproject
+    - text: Get the newsletter
+    - textbox "Get the newsletter":
+      - /placeholder: you@example.com
+    - button "Subscribe"
+    - status: Separate from the posts on this site.
+    - list "Other channels":
+      - listitem:
+        - link "Telegram":
+          - /url: https://t.me/twohourproject
+        - text: in Ukrainian
+      - listitem:
+        - link "GitHub":
+          - /url: https://github.com/shramkoweb
+        - text: "@shramkoweb"
+- contentinfo:
+  - paragraph: My DMs on X are open. Tell me what you're building.
+  - link "@twohourproject":
+    - /url: https://x.com/twohourproject
+  - paragraph:
+    - text: or email me at
+    - link "serhii@twohourproject.com":
+      - /url: mailto:serhii@twohourproject.com
+  - text: Serhii Shramko · Boston, MA
+  - link "Telegram, in Ukrainian":
+    - /url: https://t.me/twohourproject
+  - link "GitHub":
+    - /url: https://github.com/shramkoweb
+  - text: I write about frontend at
+  - link "shramko.dev":
+    - /url: https://shramko.dev/blog
+  - text: /© \d+ TwoHour Project/
