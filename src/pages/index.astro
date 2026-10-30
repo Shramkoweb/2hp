@@ -17,6 +17,33 @@ const description =
   "Serhii Shramko, an indie developer in Boston, builds small apps in public and posts the real numbers: users, weekly installs and ratings.";
 const url = new URL("/", Astro.site).href;
 const image = new URL(og.src, Astro.site).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${url}#website`,
+      name: "TwoHour Project",
+      url,
+      description,
+      inLanguage: "en",
+      publisher: { "@id": `${url}#person` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${url}#person`,
+      name: "Serhii Shramko",
+      url,
+      jobTitle: "Indie developer",
+      sameAs: [
+        "https://x.com/twohourproject",
+        "https://t.me/twohourproject",
+        "https://github.com/shramkoweb",
+        "https://shramko.dev",
+      ],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -50,6 +77,10 @@ const image = new URL(og.src, Astro.site).href;
       as="font"
       type="font/woff2"
       crossorigin
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
     />
   </head>
   <body>
