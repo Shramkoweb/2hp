@@ -42,7 +42,7 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 ## 4. Tooling
 
 - **`pnpm check` is the definition of done**, for people, hooks and CI alike.
-  - It is a plain `&&` chain in `package.json`: format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Playwright stays outside it, because Docker cannot run in the agent sandbox; run `pnpm test:e2e` after `pnpm build`.
+  - It is a plain `&&` chain in `package.json`: type generation, format check, lint, CSS lint, token lint, typecheck, knip and build, in that order. It stops at the first failure. Type generation comes first because type-aware ESLint cannot resolve `astro:content` in a fresh clone, which has no `.astro/`. Playwright stays outside it, because Docker cannot run in the agent sandbox; run `pnpm test:e2e` after `pnpm build`.
   - ESLint runs without `--cache`, because type-aware results depend on other files and the cache only watches the linted file.
   - `pnpm test:e2e` runs Playwright in the pinned Docker image, with no network and the repo mounted read-only; only `.playwright/` (results and report) is writable, so `--update-snapshots` fails.
   - `pnpm test:e2e:write` is the same run with the repo writable, for the owner's baseline updates: once with `--update-snapshots`, once without to write the aria snapshot that the update skips.
