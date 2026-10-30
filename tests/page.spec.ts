@@ -118,6 +118,33 @@ test.describe("reduced motion", () => {
   });
 });
 
+test.describe("content security policy", () => {
+  test.use({ bypassCSP: false });
+
+  test("the page and its script run without a violation", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("console", (message) => {
+      if (message.type() === "error") errors.push(message.text());
+    });
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto("/");
+    await page.evaluate(() => document.fonts.ready);
+    await page.getByRole("button", { name: "Sound" }).click();
+    for (const chart of await page.getByRole("figure").all()) {
+      await chart.scrollIntoViewIfNeeded();
+    }
+    const form = page
+      .getByRole("button", { name: "Subscribe" })
+      .locator("xpath=ancestor::form");
+    await form.getByRole("textbox").fill("you@example.com");
+    await form.getByRole("button", { name: "Subscribe" }).click();
+    await expect(page.getByRole("status")).toHaveText(
+      "The newsletter isn't set up yet, so your address wasn't saved. For now, follow on X.",
+    );
+    expect(errors).toEqual([]);
+  });
+});
+
 test("axe finds no WCAG 2.2 AA violations", async ({ page }, testInfo) => {
   await open(page);
   const results = await new AxeBuilder({ page })

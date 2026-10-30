@@ -25,7 +25,8 @@ export default defineConfig({
     },
     toMatchAriaSnapshot: { children: "deep-equal" },
   },
-  use: { baseURL: "https://2hp.test" },
+  // The fixtures and axe inject inline styles that the page's CSP blocks; page.spec.ts turns CSP back on to test it.
+  use: { baseURL: "https://2hp.test", bypassCSP: true },
   projects: [
     ...[320, 390, 768, 1024, 1440].map((width) => ({
       name: `w${String(width)}`,

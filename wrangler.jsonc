@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "twohourproject",
+  "compatibility_date": "2026-10-26",
+  "assets": {
+    "directory": "./dist",
+  },
+  // The custom domain is attached in the dashboard, so the CI token needs no zone permissions.
+  "workers_dev": false,
+  "preview_urls": false,
+}
