@@ -25,11 +25,13 @@ export default defineConfig({
       styleDirective: {
         // the name and the charts set --i and --b in style attributes
         resources: [
-          "'self'",
+          { resource: "'self'", kind: "element" },
           { resource: "'unsafe-inline'", kind: "attribute" },
         ],
       },
     },
   },
+  // the site has no Markdown, and Shiki's inline styles would break the CSP
+  markdown: { syntaxHighlight: false },
   vite: { cacheDir: "./.astro/cache/vite", plugins: [tailwindcss()] },
 });

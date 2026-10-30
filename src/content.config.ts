@@ -34,17 +34,6 @@ const upcoming = defineCollection({
     }),
 });
 
-const log = defineCollection({
-  loader: file("src/data/log.json"),
-  schema: z.object({
-    month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
-    kind: z.enum(["win", "flop"]),
-    lead: z.string(),
-    text: z.string(),
-    lesson: z.string().optional(),
-  }),
-});
-
 const posts = defineCollection({
   loader: file("src/data/posts.json"),
   schema: z.object({
@@ -54,4 +43,4 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { projects, upcoming, log, posts };
+export const collections = { projects, upcoming, posts };

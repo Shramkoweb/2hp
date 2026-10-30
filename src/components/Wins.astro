@@ -1,23 +1,19 @@
 ---
-import { getCollection } from "astro:content";
+import { log } from "../data/log";
 import { formatMonth } from "../lib/format";
 import Section from "./Section.astro";
 
 const labels = { win: "Win: ", flop: "Flop: " };
-
-const entries = (await getCollection("log")).toSorted((a, b) =>
-  b.data.month.localeCompare(a.data.month),
-);
 ---
 
 <Section id="wins" title="Wins & flops">
   <ol class="m-0 list-none border-t-2 border-foreground p-0">
-    {entries.length === 0 ? (
+    {log.length === 0 ? (
       <li class="border-b-dashed border-pencil py-4 font-hand text-small/hand font-medium text-annotation">
         No verdicts yet. The first marks go here with the November numbers.
       </li>
     ) : (
-      entries.map(({ data: entry }) => (
+      log.map((entry) => (
         <li class="grid grid-cols-entry-sm items-start gap-x-4 gap-y-0.5 border-b-2 border-foreground py-4 md:grid-cols-entry md:gap-x-6 md:gap-y-0">
           <time
             class="col-start-2 pt-1 text-meta text-muted-foreground tabular-nums md:col-auto"
