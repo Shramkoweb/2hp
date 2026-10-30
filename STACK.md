@@ -19,6 +19,8 @@ The approved design was a static page in a local sandbox, now outside the repo. 
 | Repo hygiene    | Knip, lefthook, EditorConfig                          |                                                                                                                   |
 | Tests           | Playwright only: pixel diffs, aria snapshots, axe     | No Storybook, no hosted visual service                                                                            |
 | Agent docs      | Context7, Astro Docs MCP                              | Tailwind has no MCP or `llms.txt`                                                                                 |
+| CI              | GitHub Actions                                        | One workflow, so the deploy waits for `pnpm check` and the Playwright suite                                       |
+| Hosting         | Cloudflare, a Worker with static assets only          | The domain is already there; `_headers` sets CSP and security headers without a Worker script                     |
 
 ## 2. Versions
 
@@ -186,10 +188,13 @@ Rules:
 
 **Content:** no `set:html` or `innerHTML` with anything not authored in this repo.
 
-**Later steps:**
+**CI and deploy:**
 
-- **CI:** actions pinned by commit SHA, read-only workflow permissions by default, no `pull_request_target`.
-- **Deploy:** CSP, Trusted Types and security headers.
+- Actions pinned by commit SHA, read-only workflow permissions by default, no `pull_request_target`.
+- The Cloudflare API token can deploy only this Worker. It is a secret of a GitHub environment that only `main` can use, and only the deploy job reads it: the jobs that install and test never see it.
+- A token limited to one Worker cannot create it, so the owner creates the Worker.
+- `wrangler` is a dev dependency, so it comes from the lockfile under the release-age gate, not from an ad-hoc install in CI.
+- CSP, Trusted Types and security headers.
 
 ## 9. Steps
 
@@ -214,6 +219,8 @@ Each step is one commit to `main`, made after the owner's review. No step starts
    - Each value change is one owner-approved commit. Its visual diff must show that change and nothing else. Baselines are updated only after approval.
    - Done when `src/styles/` holds only `theme.css`, `global.css` and the effects file; Stylelint bans `px` and `rem` outside `theme.css`; no `@media (width …)` exists outside `theme.css`; the `utilities` layer holds only classes used on purpose; and the suite is green three times in a row.
 9. **DESIGN.md:** which token to use when, the components and their states. Only token names, never values.
+10. **CI:** one GitHub Actions workflow on pushes and pull requests: an install from the frozen lockfile, `pnpm audit` at high, `pnpm check`, then `pnpm test:e2e` as it runs locally. Done when the push of this step runs green and a deliberately broken commit on a branch runs red.
+11. **Deploy:** `dist/` served on `twohourproject.com` by a Worker with static assets only. A deploy job in the CI workflow runs on `main` only after check and e2e pass. Headers come from `_headers` in `public/`. `wrangler` needs the dependency review and the owner's yes; the owner creates the Worker, the token and the environment secret. Done when the domain serves the build, a red run deploys nothing, and the live page logs no CSP violation.
 
 ## Sources
 
@@ -232,3 +239,5 @@ Each step is one commit to `main`, made after the owner's review. No step starts
 - Claude Code permissions: https://code.claude.com/docs/en/permissions
 - pnpm `pmOnFail`: https://pnpm.io/settings#pmonfail
 - AGENTS.md vs skills: https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals
+- Cloudflare static assets headers: https://developers.cloudflare.com/workers/static-assets/headers/
+- Cloudflare Workers API token scopes: https://developers.cloudflare.com/workers/authorization/
