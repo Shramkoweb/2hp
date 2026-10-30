@@ -26,7 +26,7 @@
     "sync": "astro sync",
     "typecheck": "astro check",
     "knip": "knip --no-progress",
-    "test:e2e": "docker run --rm --platform linux/amd64 --init --ipc=host --network none -v \"$PWD\":/work:ro -v \"$PWD/.playwright\":/work/.playwright -w /work mcr.microsoft.com/playwright:v1.64.1-noble node node_modules/@playwright/test/cli.js test",
+    "test:e2e": "mkdir -p .playwright && docker run --rm --platform linux/amd64 --init --ipc=host --network none -v \"$PWD\":/work:ro -v \"$PWD/.playwright\":/work/.playwright -w /work mcr.microsoft.com/playwright:v1.64.1-noble node node_modules/@playwright/test/cli.js test",
     "test:e2e:write": "docker run --rm --platform linux/amd64 --init --ipc=host --network none -v \"$PWD\":/work -w /work mcr.microsoft.com/playwright:v1.64.1-noble node node_modules/@playwright/test/cli.js test",
     "check": "pnpm sync && pnpm format:check && pnpm lint && pnpm lint:css && pnpm lint:tokens && pnpm typecheck && pnpm knip && pnpm build"
   },
